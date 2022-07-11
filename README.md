@@ -26,7 +26,7 @@ The follower should learn the road and improve through iterating.
   + [X] Batteries 
   + [X] Sensors 
   + [X] Mottors
-  
+- [] Fix on-the-metal testing (STM32 environment)
 ## Coding standars
 We are using [google C++ style guide](https://google.github.io/styleguide/cppguide.html).
 They also have [Google test user guide](https://google.github.io/googletest/) that I would really like to start using.
