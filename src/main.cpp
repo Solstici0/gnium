@@ -1,5 +1,10 @@
+/*
+main.cpp is the main code file that calls all other modules to run 3 laps and learn to improve performance inbetween iterations
+*/
+
 #include <Arduino.h>
 #include <pid.h>
+#include <pwm.h>
 
 // This options needs less memory. Why?
 // /*
