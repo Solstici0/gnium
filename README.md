@@ -2,7 +2,7 @@
 Lets do this motherfucker run as he was scaping from a crazy and evil god (and at the same time needs to shit)
 
 ## Evolution
-Lets record Ñium evolution
+Lets track Ñium's evolution
 
 ### V1
 
