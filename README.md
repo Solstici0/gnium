@@ -45,6 +45,7 @@ They also have [Google test user guide](https://google.github.io/googletest/) th
 - [Odrive](https://github.com/odriverobotics/ODrive)
 We are using Platformio: a cross-platform, cross-architecture software (Python library), specially design for embedding code in different hardwares
 - [What is PlatdormIO?](https://docs.platformio.org/en/latest/what-is-platformio.html)
-
+- [Unit Testing with PlatformIO](https://piolabs.com/blog/insights/unit-testing-part-1.html)
 ## References
 - [The most advanced linefollower robot from the planet](https://hbfsrobotics.com/linefollower)
+- [STM32 Programming Manual](https://www.st.com/resource/en/programming_manual/pm0056-stm32f10xxx20xxx21xxxl1xxxx-cortexm3-programming-manual-stmicroelectronics.pdf) 
