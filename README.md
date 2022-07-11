@@ -7,10 +7,10 @@ Lets do this motherfucker run as he was scaping from a crazy and evil god (and a
 The follower should learn the road and improve through iterating.
 
 ## Questions
-1. How to learn from repetitive runings?
-   1.1 Should we write a config file after each iteration and read from it the next run?
+1. How to learn from repetitive runings?  
+   1.1 Should we write a config file after each iteration and read from it the next run?  
    2.1 Which variables should we "learn"? PID values in between different marks numbers?
-       For example, if we are in a rect (or curve) line, between mark 2 and 3, then we can set PID values *ad hoc** for that curve type. This approach implies that we should learn different types of curve previously. For example, have different PID values for different curvatures. Then we can measure (estimate) curvatures between two types of marks, then match the curvature of that curve for the ones saved in our *curve database*
+       For example, if we are in a rect (or curve) line, between mark 2 and 3, then we can set PID values *ad hoc** for that curve type. This approach implies that we should learn different types of curve previously. For example, have different PID values for different curvatures. Then we can measure (estimate) curvatures between two types of marks, then match the curvature of that curve for the ones saved in our *curve database*  
 2. Car functions?
 
 ## TODO
