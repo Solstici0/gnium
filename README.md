@@ -1,7 +1,13 @@
 # Ñium
 Lets do this motherfucker run as he was scaping from a crazy and evil god (and at the same time needs to shit)
 
-![](img/velocista_v1.png)
+## Evolution
+Lets record Ñium evolution
+
+### V1
+![](img/gnium_v1.png)
+### V2
+![](img/gnium_v2.png)
 
 ## Goal
 The follower should learn the road and improve through iterating.
