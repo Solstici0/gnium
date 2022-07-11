@@ -5,7 +5,9 @@ Lets do this motherfucker run as he was scaping from a crazy and evil god (and a
 Lets record Ñium evolution
 
 ### V1
+
 ![](img/gnium_v1.png)
+
 ### V2
 ![](img/gnium_v2.png)
 
