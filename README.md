@@ -31,6 +31,8 @@ The follower should learn the road and improve through iterating.
 We are using [google C++ style guide](https://google.github.io/styleguide/cppguide.html).
 They also have [Google test user guide](https://google.github.io/googletest/) that I would really like to start using.
 
+We are also using [PlatformIO](https://docs.platformio.org/en/latest/what-is-platformio.html)
+
 ## Relevant Information
 ### Cpp
 - [C++ ook List](https://stackoverflow.com/questions/388242/the-definitive-c-book-guide-and-list)
@@ -42,7 +44,6 @@ They also have [Google test user guide](https://google.github.io/googletest/) th
 - [] [Introduction to integrating C++ on bare metal STM32](https://www.youtube.com/watch?v=7xnUsPo_fG8)
 - [] [Programming STM32 on Linux](https://olayiwolaayinde.medium.com/programming-stm32-on-linux-d6a6ee7a8d8d)
 ### Platformio
-- [Odrive](https://github.com/odriverobotics/ODrive)
 We are using Platformio: a cross-platform, cross-architecture software (Python library), specially design for embedding code in different hardwares
 - [What is PlatdormIO?](https://docs.platformio.org/en/latest/what-is-platformio.html)
 - [Unit Testing with PlatformIO](https://piolabs.com/blog/insights/unit-testing-part-1.html)
