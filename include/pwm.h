@@ -1,5 +1,5 @@
-/*
-pwm.h: defines Pulse Width Modulation namespace
+/* @file pwm.h 
+ * defines Pulse Width Modulation namespace
 */
 
 namespace pwm {

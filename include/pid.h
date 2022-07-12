@@ -1,5 +1,5 @@
-/*
-pid.h: defines pid controller  namespace
+/*! @file pid.h
+ * defines pid controller namespace
 */
 
 namespace pid {
