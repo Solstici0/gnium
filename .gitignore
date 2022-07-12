@@ -36,5 +36,10 @@ obj/
 Ankh.NoLoad
 src/.vscode/
 
+# cache files
+# cache files
+*.pyc
+*.swp
+
 # personal notes
 notes.org
