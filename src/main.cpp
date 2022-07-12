@@ -15,21 +15,21 @@ int main() {
     Serial.begin(115200); // open the serial port at 115200 bps:
     int mode = 0;  // 0 for test, 1 for compite
     int type = 0;  // 0 for 5-wheels, 1 for classic
-    gnium::Gnium gnium = gnium::Gnium(mode, type);
+    int n_lap = 0;  // lap number
+    gnium::Gnium gnium = gnium::Gnium(mode, type, n_lap);
     // TODO (wis) gnium.setup()
 
     while(1) {
         // run repetedly here
         Serial.print("Gniiiium!i \n");
-        // TODO (wis)
-        // if (gnium.mode == 'compite') {
-        //     gnium.run_lap(gnium::lap_n)
-        //     gnium::lap_n += 1
-        // }
-        //
-        // else if (gnium.mode == 'test') {
-        //     gnium.test() // test types?? (as argument)
-        // }
+        if (gnium.Mode == 1) {  // compite
+             gnium.run_lap(gnium.Lap_n);
+             ++gnium.Lap_n; 
+         }
+        
+        else if (gnium.Mode == 0) {  // test
+             gnium.test(); // test types?? (as argument)
+        }
 
     }
 }

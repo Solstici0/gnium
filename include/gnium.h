@@ -18,14 +18,16 @@ class gnium::Gnium {
         // Constructor
         //TODO (wis) in principle, there should be 2 types of gnium
         // with 5 wheels, and the standar 3 wheels version
-        Gnium(int mode, int type) {
+        Gnium(int mode, int type, int lap_n) {
             Mode = mode;  // 0 -> testing, 1-> compite
             Type = type;  // 0 -> 5-wheels, 1 -> classic 
+            Lap_n = lap_n;  // lap number counter
         }
 
     public:
         int Mode;  // compiting or testing mode
         int Type;  // type of car (5-wheels or classic)
+        int Lap_n;  // lap number counter
 
     void run_lap(int lap_n) {
         /*! @fn run 1 lap 
@@ -49,6 +51,9 @@ class gnium::Gnium {
 
     void train() {
         /*! @fn TODO (wis) training protocol for 1st lap
+         * when running this function we should save the lap database.
+         * Where this should be saved? lap class (struct)?
+         * gnium attribute?
          */
     }
 
