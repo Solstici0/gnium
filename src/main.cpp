@@ -23,12 +23,17 @@ int main() {
         // run repetedly here
         Serial.print("Gniiiium!i \n");
         if (gnium.Mode == 1) {  // compite
-             gnium.run_lap(gnium.Lap_n);
-             ++gnium.Lap_n; 
-         }
+            gnium.run_lap(gnium.Lap_n);
+            ++gnium.Lap_n;
+
+            // third lap finished
+            if (gnium.Lap_n == 2) {
+                break;
+            }
+        }
         
         else if (gnium.Mode == 0) {  // test
-             gnium.test(); // test types?? (as argument)
+            gnium.test(); // test types?? (as argument)
         }
 
     }
