@@ -30,18 +30,18 @@ class gnium::Gnium {
         int Type;  // type of car (5-wheels or classic)
         int Lap_n;  // lap number counter
         int Train_pwm;  // pwm train velocity
-        bool Start_detected;  // bool start line detected
-        bool End_detected;  // bool end line detected
+        bool Start_detected = false;  // bool start line detected
+        bool End_detected = false;  // bool end line detected
 
     void reset_start_and_end() {
         /*!< @fn reset_start_and_end
           * reset Start and End detected Booleans
           */
-          gnium::Gnium::Start_detected = 0;
-          gnium::Gnium::End_detected = 0;
+          gnium::Gnium::Start_detected = false;
+          gnium::Gnium::End_detected = false;
         }
 
-    void run_lap(int lap_n) {
+    int run_lap(int lap_n) {
         /*! @fn run 1 lap 
          *
          *  @param lap_n lap number
@@ -50,19 +50,20 @@ class gnium::Gnium {
 
         // reset start and end line detectors booleans
         gnium::Gnium::reset_start_and_end();
-
+        int fail = 0;
         if (lap_n == 0) {
             // first lap --> train
-            gnium::Gnium::train();
+            fail = gnium::Gnium::train();
         }
         else if (lap_n > 0 and lap_n < 3) {
             // second and third lap --> run as a motherfucker
-            gnium::Gnium::run_trained();
+            fail = gnium::Gnium::run_trained();
         }
         else {
             // more than 3 laps?!
             // TODO (wis) include some exception
         }
+        return fail;
     }
 
     int train(int train_pwm = -1) {
@@ -104,10 +105,12 @@ class gnium::Gnium {
          return 1;
     }
 
-    void run_trained() {
+    int run_trained() {
         /*! @fn TODO (wis) run after training protocol 
          */
-    }
+         return 0;
+         }
+
 
     bool follow_trace(int vel_pwm) {
         /*! @fn run following the line
@@ -127,6 +130,7 @@ class gnium::Gnium {
         // and inside that function we should use communication
         // namespace directly
         int start_or_end_is_detected = 0; // just to pass tests
+                                          // should not be like this
         if (start_or_end_is_detected) {
             return true;
         }
