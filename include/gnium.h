@@ -65,7 +65,7 @@ class gnium::Gnium {
         }
     }
 
-    void train(int train_pwm = -1) {
+    int train(int train_pwm = -1) {
         /*! @fn train protocol for first lap
          * @param train_pwm forward velocity for training
          * TODO @param pid should be a vector of 3 elements
@@ -80,8 +80,6 @@ class gnium::Gnium {
              train_pwm = gnium::Gnium::Train_pwm;
          }
 
-         //start_detected = gnium::Gnium::Start_detected;
-         //end_detected = gnium::Gnium::End_detected;
          // run until start line is detected
          while (!gnium::Gnium::Start_detected) {
              gnium::Gnium::Start_detected =
@@ -98,6 +96,9 @@ class gnium::Gnium {
          // end detected routine
          if (gnium::Gnium::End_detected) {
              gnium::Gnium::follow_trace(train_pwm);
+             // here we can stop for some time
+             // and then exit function
+             return 0;
          }
     }
 
