@@ -85,19 +85,19 @@ class gnium::Gnium {
          // run until start line is detected
          while (!gnium::Gnium::Start_detected) {
              gnium::Gnium::Start_detected =
-                 gnium::Gnium::run_until_start_detected(train_pwm);
+                 gnium::Gnium::follow_trace(train_pwm);
          }
 
          // run until end line is detected
          while (gnium::Gnium::Start_detected and
-             gnium::Gnium::End_detected) {
+             !gnium::Gnium::End_detected) {
              gnium::Gnium::End_detected =
                  gnium::Gnium::follow_trace(train_pwm);
          }
 
          // end detected routine
          if (gnium::Gnium::End_detected) {
-             gnium::Gnium::stop_after_end_detected(train_pwm);
+             gnium::Gnium::follow_trace(train_pwm);
          }
     }
 
@@ -113,44 +113,17 @@ class gnium::Gnium {
           * @return true if start or end
           * line is detected
          */
-        // send information to motors
-        // read information from RI sensors
+
+        // read information from IR sensors
+        // and update start_or_end_is_detected
+        // this should be a variable from another namespace
+        // communication.h? ir_sensors.h?
+
+        // write information to motors
+        // here we should use pid::measure_error_and_correct
+        // and inside that function we should use communication
+        // namespace directly
         if (start_or_end_is_detected) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    bool run_until_start_detected(int vel_pwm) {
-        /*! @fn run until start line is detected
-          * @param vel_pwm
-          * TODO @param pid
-          * @return true if starting line is detected
-         */
-        // follow the line
-        gnium::Gnium::follow_trace(vel_pwm);
-        if (start_is_detected) { // start_is_detected should check
-                                 // if IR sensors measure start line
-                                 // (or end line, bc could be the same fuction)
-            return true;
-        }
-        else  {
-            return false;
-        }
-    }
-
-    bool stop_after_end_detected(int vel_pwm) {
-        /*! @fn protocol for stopping when end line is reached
-          * @param vel_pwm
-          * TODO @param pid
-          * @return true if starting line is detected
-         */
-        // follow the line
-        gnium::Gnium::follow_trace(vel_pwm);
-        if (end_is_detected) { // end_is_detectec could be the same function
-                               // that detects start line
             return true;
         }
         else {
