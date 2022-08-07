@@ -25,16 +25,16 @@ The follower should learn the road and improve through iterating.
 - [X] Include picture of the robot
 - [X] define project's structure
   + Namespaces or classes? or both?
-- [] create `communication` namespace
-- [] configuration file:
+- [ ] create `communication` namespace
+- [ ] configuration file:
     + [Possible implementation](https://www.daniweb.com/programming/software-development/threads/185995/how-do-i-make-a-config-file)
-- [] read google style guide
-- [] read google test user guide
+- [ ] read google style guide
+- [ ] read google test user guide
 - Buy materials:
   + [X] Batteries 
   + [X] Sensors 
   + [X] Mottors
-- [] Fix on-the-metal testing (STM32 environment)
+- [ ] Fix on-the-metal testing (STM32 environment)
 ## Coding standars
 We are using [google C++ style guide](https://google.github.io/styleguide/cppguide.html).
 They also have [Google test user guide](https://google.github.io/googletest/) that I would really like to start using.
@@ -48,9 +48,9 @@ We are also using [PlatformIO](https://docs.platformio.org/en/latest/what-is-pla
 - [Failing Successfully: Reporting and Handling Errors - Robert Leahy - CppCon 2021](https://www.youtube.com/watch?v=dQaRLmM7KKk)
 - [Matej Blagšič Youtube channel](https://www.youtube.com/user/4Polha/videos)
 ### STM32
-- [] [Start Developing STM32 on Linux](https://www.instructables.com/Start-Developing-STM32-on-Linux/)
-- [] [Introduction to integrating C++ on bare metal STM32](https://www.youtube.com/watch?v=7xnUsPo_fG8)
-- [] [Programming STM32 on Linux](https://olayiwolaayinde.medium.com/programming-stm32-on-linux-d6a6ee7a8d8d)
+- [ ] [Start Developing STM32 on Linux](https://www.instructables.com/Start-Developing-STM32-on-Linux/)
+- [ ] [Introduction to integrating C++ on bare metal STM32](https://www.youtube.com/watch?v=7xnUsPo_fG8)
+- [ ] [Programming STM32 on Linux](https://olayiwolaayinde.medium.com/programming-stm32-on-linux-d6a6ee7a8d8d)
 ### Platformio
 We are using Platformio: a cross-platform, cross-architecture software (Python library), specially design for embedding code in different hardwares
 - [What is PlatformIO?](https://docs.platformio.org/en/latest/what-is-platformio.html)
