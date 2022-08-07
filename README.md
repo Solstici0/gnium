@@ -53,7 +53,7 @@ We are also using [PlatformIO](https://docs.platformio.org/en/latest/what-is-pla
 - [] [Programming STM32 on Linux](https://olayiwolaayinde.medium.com/programming-stm32-on-linux-d6a6ee7a8d8d)
 ### Platformio
 We are using Platformio: a cross-platform, cross-architecture software (Python library), specially design for embedding code in different hardwares
-- [What is PlatdormIO?](https://docs.platformio.org/en/latest/what-is-platformio.html)
+- [What is PlatformIO?](https://docs.platformio.org/en/latest/what-is-platformio.html)
 - [Unit Testing with PlatformIO](https://piolabs.com/blog/insights/unit-testing-part-1.html)
 #### Testing in PlatformIO
 Now we have a special environment for testing locally. To run test in your machine run:  
