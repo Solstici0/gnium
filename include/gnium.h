@@ -109,14 +109,28 @@ class gnium::Gnium {
     int run_trained() {
         /*! @fn TODO (wis) run after training protocol 
          */
+
+         // TODO: (wis) this routine needs to rewrite/create a
+         // PID instance evertime a new "mark" appears
+
+         // we need a detect_mark() routine
+         // so we can detect marks and create the PID.
+         // Which is the best way to do this?
+         // TODO: (wis) Ask Felipin.
+         // We should only read the IR sensor associated
+         // with a new mark here
+         //if (new_mark_detected) {
+         //    gnium::Gnium::pid = pid::Pid::update_pid(curvature)};
+         //    gnium::Gnium::vel_pwm = gnium::Gnium::update_vel(curvature)};
+         //follow_tracer(gnium::Gnium::vel_pwm, gnium::Gnium::Pid)
          return 0;
          }
 
 
-    bool follow_trace(int vel_pwm) {
+    bool follow_trace(int vel_pwm, pid::Pid pid) {
         /*! @fn run following the line
           * @param vel_pwm
-          * TODO @param pid
+          * TODO (wis) @param pid
           * @return true if start or end
           * line is detected
          */
