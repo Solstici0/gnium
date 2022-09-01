@@ -153,12 +153,24 @@ class gnium::Gnium {
         // namespace directly
         int start_or_end_is_detected = 0; // just to pass tests
                                           // should not be like this
+        //int start_or_end_is_detected = ir::Ir::start_or_end_detected()
+        // or, simpler
+        //int start_or_end_is_detected = ir::start_or_end_detected()
+
         if (start_or_end_is_detected) {
             return true;
         }
         else {
             return false;
         }
+
+        // TODO: all the magic should happen here
+        // We should only read "trace" sensors here
+        // gnium::Gnium::Sensor_array = ir::get_trace() // TODO: which structure?
+        // correction = pid::Pid::correction_signal(gnium::Gnium::Sensor_array)
+        // communication::set_velocity() // Shouldn't be only for new marks?
+        // Maybe not, if we want to change velocity while in the curve
+        // pwm::correct_angle(correction)
     }
 
     // IDEA: TODO
