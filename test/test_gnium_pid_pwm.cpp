@@ -4,8 +4,8 @@ Test gnium creation and methodis, pid and pwd functions
 
 #include <unity.h>
 #include <gnium.h>
-#include <pid.h>
-#include <pwm.h>
+//#include <pid.h>
+//#include <pwm.h>
 //#include <stdio.h>
 
 void setUp(void) {
