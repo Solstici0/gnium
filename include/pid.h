@@ -28,7 +28,7 @@ class pid::Pid {
   // TODO: code correction signal
   //float correction_signal(int* sensor_array) {
   //e_p = sensor_array - pid::Pid::Ta;
-  //e_i += e * dt;  // e_i(0) = 0
+  //e_i += e_p * dt;  // e_i(0) = 0
   //e_d = (e_p - e_prev); / dt
   //float correction_signal = pid::Pid::Kp*e_p + pid::Pid::Ki*e_i +
   // pid::Pid::Kd*e_d;
