@@ -1,6 +1,7 @@
 /*! @file gnium.h
 * @brief gnium.h: defines gnium namespace and class
 */
+#include <pid.h>
 
 namespace gnium {
     class Gnium;
