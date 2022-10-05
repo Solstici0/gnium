@@ -11,23 +11,42 @@
 
 namespace ir_sensor{
     /**
-     * @brief Initialize the necesary registers in order to use the ADCs
+     * @brief Initialize the necesary registers in order to use the ADCs given a threshold
+     * 
+     * @param threshold vallue against the frontSensorRaw
+     */
+    void setup(unsigned int threshold);
+
+    /**
+     * @brief Value that the sensors are compared against in order to apss to binary
      * 
      */
-    void setup(void);
+    unsigned int threshold;
 
     /**
      * @brief array used to store the front sensor measurments  
      * 
      */
-    unsigned int frontSensor[8];
+    unsigned int frontSensorRaw[8];
     
     /**
      * @brief array used to store the side sensors readings
      * 
      */
-    unsigned int sideSensors[2];
+    unsigned int sideSensorsRaw[2];
 
+    /**
+     * @brief binary representation of the frontSensorRaw compared against the threshold
+     * 
+     */
+    unsigned char frontSensor;
+
+    /**
+     * @brief binary representation of the sideSensorRaw compared against the threshold
+     * 
+     */
+    unsigned char sideSensors;
+    
     /**
      * @brief single front reading made from frontSensor array
      * 
@@ -45,4 +64,11 @@ namespace ir_sensor{
      * 
      */
     void readSides(void);
-}
+
+    /**
+     * @brief Use the side sensor information ir order to detect the start or end
+     * 
+     * @return int 0 if no start or end is detected and 1 if start ot end is detected 
+     */
+    int start_or_end_detected(void);
+};
