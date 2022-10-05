@@ -2,6 +2,8 @@
  * defines pid controller namespace
 */
 
+#include <stdint.h>
+
 namespace pid {
   class Pid;
 }
@@ -13,7 +15,7 @@ class pid::Pid {
     public:
         // Constructor
         Pid(float kp = 10., float ki = 0., float kd = 0.,
-            int target_array[3] = {} ) {
+            uint8_t target_array = 0) {
             Kp = kp;
             ki = ki;
             Kd = kd;
@@ -23,10 +25,11 @@ class pid::Pid {
         float Kp; // proportional constant
         float Ki; // integral constant
         float Kd; // derivative constant
-        int* Ta; // target array (perfect position over trace)
+        uint8_t Ta; // target array (perfect position over trace)
 
   // TODO: code correction signal
-  //float correction_signal(int* sensor_array) {
+  //float correction_signal(uint8_t sensor_array) {
+  //e_p = pid::Pid::weighted_error(sensor_array, pid::Pid::Ta);
   //e_p = sensor_array - pid::Pid::Ta;
   //e_i += e_p * dt;  // e_i(0) = 0
   //e_d = (e_p - e_prev); / dt
@@ -40,5 +43,7 @@ class pid::Pid {
   // time_before = time_now
   //}
 
+
+  //float weighted_error(uint8_t sensor_array, uint8_t target) {
   //}
 };
