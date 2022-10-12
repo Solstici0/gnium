@@ -1,7 +1,7 @@
 /*! @file test_gnium_pid_pwm
 Test gnium creation and methodis, pid and pwd functions
 */
-
+#include "test_gnium_pid_pwm.h"
 #include <unity.h>
 #include <gnium.h>
 //#include <pid.h>
@@ -54,12 +54,10 @@ void test_gnium_run_lap_succeed(void) {
     fail = gnium.run_lap(0);  // this will run forever!
     TEST_ASSERT_EQUAL(1, fail);
 }
-int main(void)
+void mainTestGniumPidPwm(void)
 {
-    UNITY_BEGIN(); // IMPORTANT LINE!
     RUN_TEST(test_example);
     RUN_TEST(test_gnium_creation_succeed);
     RUN_TEST(test_gnium_reset_start_and_end_succeed);
     //RUN_TEST(test_gnium_run_lap_succeed);
-    UNITY_END(); // stop unit testing
 }
