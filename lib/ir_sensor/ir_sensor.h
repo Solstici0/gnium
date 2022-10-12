@@ -52,23 +52,27 @@ namespace ir_sensor{
      * 
      */
     long front;
+    
+    /**
+     * @brief Returns a byte having in each bit the corresponding to the 
+     * front sensor array state being the MSB the left side and the LSB the right side.
+     * 
+     * @return unsigned char 
+     */
+    unsigned char read_front(void);
 
     /**
-     * @brief Function that refreshes the frontSensors array
+     * @brief Funtion that returns 2 bits with the MSB the left sensor 
+     * state and the LSB the right sensor array.
      * 
+     * @return unsigned char 
      */
-    void readFront(void);
-
-    /**
-     * @brief Funtion that refreshes the sideSensors array
-     * 
-     */
-    void readSides(void);
+    unsigned char read_sides(void);
 
     /**
      * @brief Use the side sensor information ir order to detect the start or end
      * 
-     * @return int 0 if no start or end is detected and 1 if start ot end is detected 
+     * @return unsigned char 0 if no start or end is detected and 1 if start ot end is detected 
      */
-    int start_or_end_detected(void);
+    unsigned char start_or_end_detected(void);
 };
