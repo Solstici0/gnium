@@ -2,6 +2,7 @@
 * @brief gnium.h: defines gnium namespace and class
 */
 #include <pid.h>
+#include <ir_sensor.h>
 
 namespace gnium {
     class Gnium;
@@ -153,9 +154,7 @@ class gnium::Gnium {
         // namespace directly
         int start_or_end_is_detected = 0; // just to pass tests
                                           // should not be like this
-        //int start_or_end_is_detected = ir::Ir::start_or_end_detected()
-        // or, simpler
-        //int start_or_end_is_detected = ir::start_or_end_detected()
+        //int start_or_end_detected = ir_sensor::start_or_end_detected()
 
         if (start_or_end_is_detected) {
             return true;
@@ -166,18 +165,12 @@ class gnium::Gnium {
 
         // TODO: all the magic should happen here
         // We should only read "trace" sensors here
-        // gnium::Gnium::Sensor_array = ir::get_trace() // TODO: which structure?
-        // correction = pid::Pid::correction_signal(gnium::Gnium::Sensor_array)
+        //gnium::Gnium::Sensor_array = ir_sensor::read_front()
+        // float angle_correction = pid::Pid::correction_signal(gnium::Gnium::Sensor_array)
+        // servo::set_angle(angle_correction) //
         // communication::set_velocity() // Shouldn't be only for new marks?
         // Maybe not, if we want to change velocity while in the curve
-        // pwm::correct_angle(correction)
     }
-
-    // IDEA: TODO
-    // this should be more efficiente if we only have one
-    // function for detecting stop or start line
-    // So the idea is to merger stop_after_end_detected and
-    // run_until_start_detected
 
     void test() {
         /*! TODO (wis) test protocol 
