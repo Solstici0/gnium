@@ -4,7 +4,6 @@
 */
 
 #include <Arduino.h>
-#include <pid.h> // TODO refactor. Should be inside gnium?
 #include <pwm.h> // TODO refactor. Should be inside gnium?
 #include <gnium.h>
 
