@@ -5,6 +5,11 @@
 #include <ir_sensor.h>
 
 namespace gnium {
+    typedef enum mode{
+        gnium,
+        test_ir_sensors,
+        test_servos
+    }mode;
     class Gnium;
 }
 

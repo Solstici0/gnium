@@ -75,4 +75,10 @@ namespace ir_sensor{
      * @return unsigned char 0 if no start or end is detected and 1 if start ot end is detected 
      */
     unsigned char start_or_end_detected(void);
+
+    /**
+     * @brief routine that prints to serial the reading of the sensors
+     * 
+     */
+    void test_routine(void);
 };
