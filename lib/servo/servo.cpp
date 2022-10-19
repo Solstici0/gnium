@@ -1,4 +1,6 @@
 #include "servo.h"
+#include "STM32_ISR_Servo.h"
+
 
 // TODO (wis) check servo's libs for arduino
 namespace servo{
