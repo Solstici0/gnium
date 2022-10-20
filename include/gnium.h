@@ -12,6 +12,7 @@ namespace gnium {
         test_servos
     }mode;
     class Gnium;
+    
 }
 
 // Creates gnium object

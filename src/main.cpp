@@ -6,7 +6,7 @@
 #include <Arduino.h>
 #include <pwm.h> // TODO refactor. Should be inside gnium?
 #include <gnium.h>
-
+// #include <ir_sensor.h>
 gnium::mode mode = gnium::test_ir_sensors;  // 0 for test, 1 for compite
 
 // This options needs less memory. Why?
@@ -33,7 +33,7 @@ int main() {
         }
         
         else if (mode == gnium::test_ir_sensors ) {  // test
-            gnium.test(); // test types?? (as argument)
+            ir_sensor::test_routine();
         }
 
     }
