@@ -1,5 +1,7 @@
 /*! @file pid.h
  * defines pid controller namespace
+ * Arduino PID library
+ * https://github.com/br3ttb/Arduino-PID-Library
 */
 
 // #pragma once  // only load libs once

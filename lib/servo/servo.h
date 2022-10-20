@@ -3,6 +3,8 @@
  * @brief Function to interact with servo motor
  * @version 0.1
  * @date 2022-10-12
+ * STM32 servo library
+ * https://github.com/khoih-prog/STM32_ISR_Servo
  */
 #include "servo.h"
 #include "STM32_ISR_Servo.h"
