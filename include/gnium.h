@@ -11,6 +11,9 @@ namespace gnium {
         test_servos
     }mode;
     class Gnium;
+    void test_routine(void){
+        ir_sensor::read_front();
+    }
 }
 
 // Creates gnium object
