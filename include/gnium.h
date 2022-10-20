@@ -3,6 +3,7 @@
 */
 #include <pid.h>
 #include <ir_sensor.h>
+#include <servo.h>
 
 namespace gnium {
     typedef enum mode{
@@ -34,6 +35,8 @@ class gnium::Gnium {
             // TODO (wis) inject pid object as attribute..
             // check if this could be improve
             Pid = pid; // PID controller
+            // setup servo
+            servo::setup;
         }
 
     public:
@@ -170,9 +173,9 @@ class gnium::Gnium {
 
         // TODO: all the magic should happen here
         // We should only read "trace" sensors here
-        //gnium::Gnium::Sensor_array = ir_sensor::read_front()
-        // float angle_correction = pid::Pid::correction_signal(gnium::Gnium::Sensor_array)
-        // servo::set_angle(angle_correction) //
+        gnium::Gnium::Sensor_array = ir_sensor::read_front()
+        float angle_correction = pid::Pid::correction_signal(gnium::Gnium::Sensor_array)
+        servo::set_angle(angle_correction) //
         // communication::set_velocity() // Shouldn't be only for new marks?
         // Maybe not, if we want to change velocity while in the curve
     }
