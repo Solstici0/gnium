@@ -33,7 +33,7 @@ int main() {
         }
         
         else if (mode == gnium::test_ir_sensors ) {  // test
-            gnium::test_routine();
+            ir_sensor::test_routine();
         }
 
     }

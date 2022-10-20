@@ -128,6 +128,9 @@ void setup(unsigned int threshold){
         }
         return sideSensors;
     }
+    void test_routine(void){
+        read_front();
+    }
     
 
 };
