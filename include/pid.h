@@ -18,7 +18,7 @@ class pid::Pid {
     public:
         // Constructor
         Pid(float kp = 10., float ki = 0., float kd = 0.,
-            int target_array[8] = {} ) {
+            int target_array[8] = {0, 0, 0, 1, 1, 0, 0, 0} ) {
             Kp = kp;
             ki = ki;
             Kd = kd;
@@ -30,6 +30,7 @@ class pid::Pid {
             e_d = 0;
             last_time = 0;
             last_control = 0;
+            e_len = *(&Ta + 1) - Ta;
         }
     public:
         float Kp; // proportional constant
@@ -43,13 +44,20 @@ class pid::Pid {
         float e_d;  // derivative error
         int last_time;
         int last_control;  // last control signal
+        int e_len;  // error length
 
   float correction_signal(int* sensor_array) {
     unsigned long now = millis();
     unsigned long t_change = (pid::Pid::last_time - now);
     if (t_change >=dt){
       // TODO (wis) obtain just one value for e_p
-      pid::Pid::e_p = sensor_array - pid::Pid::Ta;
+      //pid::Pid::e_p = sensor_array - pid::Pid::Ta;
+      for(int i = 0; i < e_len; i++) {
+          // we can ponderate the substraction below 
+          pid::Pid::e_p += pid::Pid::Ta[i] - sensor_array[i];
+      }
+      
+      
       pid::Pid::e_i += pid::Pid::e_p * dt;  // e_i(0) = 0
       pid::Pid::e_d = (pid::Pid::e_p - pid::Pid::e_prev); // dt
       float control_u = pid::Pid::Kp*e_p
