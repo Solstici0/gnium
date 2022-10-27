@@ -6,13 +6,16 @@
 #include <Arduino.h>
 // #include <pwm.h> // TODO refactor. Should be inside gnium?
 #include <gnium.h>
-// #include <ir_sensor.h>
-gnium::mode mode = gnium::test_ir_sensors;  // 0 for test, 1 for compite
+#include <ir_sensor.h>
+//#include <servo.h>
+
+gnium::mode mode = gnium::test_servo;  // 0 for test, 1 for compite
 
 // This options needs less memory. Why?
 // /*
 int main() {
     // setup code here
+    init();
     Serial.begin(115200); // open the serial port at 115200 bps:
     int type = 0;  // 0 for 5-wheels, 1 for classic
     int n_lap = 0;  // lap number
@@ -34,6 +37,9 @@ int main() {
         
         else if (mode == gnium::test_ir_sensors ) {  // test
             ir_sensor::test_routine();
+        }
+        else if (mode == gnium::test_servo ) {  // test
+            servo::test_routine();
         }
     }
 }
