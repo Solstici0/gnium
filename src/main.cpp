@@ -10,7 +10,7 @@
 //#include <servo.h>
 
 //gnium::mode mode = gnium::race;  // 0 for test, 1 for compite
-gnium::mode mode = gnium::test_follow_trace;  // 0 for test, 1 for compite
+gnium::mode mode = gnium::test_ir_sensors;  // 0 for test, 1 for compite
 
 // This options needs less memory. Why?
 // /*
@@ -25,7 +25,7 @@ int main() {
 
     while(1) {
         // run repetedly here
-        Serial.print("Gniiiium!i \n");
+        // Serial.print("Gniiiium!i \n");
         if (mode == gnium::race) {  // compite
             gnium.run_lap(gnium.Lap_n);
             ++gnium.Lap_n;

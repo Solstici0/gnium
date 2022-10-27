@@ -84,7 +84,7 @@ namespace ir_sensor{
 #define BLUE_PILL //which microcontroller is running the code
 
 #ifdef BLUE_PILL
-const int FRONT_SENSORS[] = {PA0,PA1,PA2,PA3,PA3,PA4,PA5,PA6,PA7};
+const int FRONT_SENSORS[] = {PA0,PA1,PA2,PA3,PA4,PA5,PA6,PA7};
 const int SIDE_SENSORS[] = {PB0,PB1};
 const int N_FRONT = 8; //total number of fron sensors
 const int N_EACH_SIDES =1; //total number on each side
@@ -130,10 +130,9 @@ void setup(unsigned int threshold){
     }
     void test_routine(void){
         read_front();
-        Serial.print("front sensor = ");
         for (int i = 0;i<8 ; i++){
             Serial.print(frontSensorRaw[i]);
-            Serial.print(" ");
+            Serial.print(",");
         }
         Serial.println();
     }
