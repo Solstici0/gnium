@@ -17,7 +17,7 @@ namespace ir_sensor{
      * 
      * @param threshold vallue against the frontSensorRaw
      */
-    void setup(unsigned int threshold);
+    void setup(unsigned int threshold = 2<<11);
 
     /**
      * @brief Value that the sensors are compared against in order to apss to binary

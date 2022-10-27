@@ -9,7 +9,7 @@ namespace gnium {
     typedef enum mode{
         gnium,
         test_ir_sensors,
-        test_servos
+        test_servo
     }mode;
     class Gnium;
     
@@ -36,6 +36,9 @@ class gnium::Gnium {
             // TODO (wis) inject pid object as attribute..
             // check if this could be improve
             Pid = pid; // PID controller
+            ir_sensor::setup();
+            servo::setup();
+
         }
 
     public:
