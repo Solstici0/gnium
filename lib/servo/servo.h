@@ -15,7 +15,7 @@
 // Published values for SG90 servos; adjust if needed
 #define MIN_MICROS 800  //544
 #define MAX_MICROS 2450
-#define SERVO_PIN_ANGLE 14
+#define SERVO_PIN_ANGLE 15
 
 int ANGLE_SERVO = -1;
 float MIN_ANGLE = -30;
