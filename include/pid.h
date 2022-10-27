@@ -17,8 +17,7 @@ class pid::Pid {
     */
     public:
         // Constructor
-        Pid(float kp = 100., float ki = 0., float kd = 0.,
-            //int target_array[8] = {0, 0}) {
+        Pid(float kp = .1, float ki = 0.1, float kd = 0.,
             unsigned char target_array = 24) {
             Kp = kp;
             ki = ki;
@@ -34,7 +33,7 @@ class pid::Pid {
             e_d = 0;
             last_time = 0;
             last_control = 0;
-            e_len = *(&Ta + 1) - Ta; // last pointer postion in
+            //e_len = *(&Ta + 1) - Ta; // last pointer postion in
                                      // memory, minus first pointer
                                      // position.
         }
@@ -50,7 +49,7 @@ class pid::Pid {
         float e_d;  // derivative error
         int last_time;
         int last_control;  // last control signal
-        int e_len;  // error length
+        //int e_len;  // error length
 
   float correction_signal(unsigned char sensor_array) {
     unsigned long now = millis();
@@ -60,14 +59,14 @@ class pid::Pid {
     if (t_change >=dt){
       // TODO (wis) obtain just one value for e_p
       //pid::Pid::e_p = sensor_array - pid::Pid::Ta;
-      for(int i = 0; i < e_len; i++) {
+      for(int i = 0; i < 8; i++) {
           // we can ponderate the substraction below 
           //pid::Pid::e_p += pid::Pid::Ta[i] - sensor_array[i];
           if (i < 4){
-            pid::Pid::e_p += (pid::Pid::Ta>>i - sensor_array>>i)*(i-4)*0;
+            pid::Pid::e_p += (pid::Pid::Ta>>i - sensor_array>>i)*(i-4)*1;
           }
           else{
-            pid::Pid::e_p += (pid::Pid::Ta>>i - sensor_array>>i)*(i-3);
+            pid::Pid::e_p += (pid::Pid::Ta>>i - sensor_array>>i)*(i-3)*1;
           }
       }
       
