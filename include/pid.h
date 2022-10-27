@@ -82,10 +82,10 @@ class pid::Pid {
       pid::Pid::last_control = control_u;
 
       //debug messages
-      Serial.print("Sensor measurement = ")
-      Serial.println(sensor_array, BIN)
-      Serial.print("Control signal = ")
-      Serial.println(control_u, BIN)
+      Serial.print("Sensor measurement = ");
+      Serial.println(sensor_array, BIN);
+      Serial.print("Control signal = ");
+      Serial.println(control_u, BIN);
 
       return control_u;
     }
