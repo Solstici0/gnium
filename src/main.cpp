@@ -9,7 +9,8 @@
 #include <ir_sensor.h>
 //#include <servo.h>
 
-gnium::mode mode = gnium::test_servo;  // 0 for test, 1 for compite
+//gnium::mode mode = gnium::test_follow_trace;  // 0 for test, 1 for compite
+gnium::mode mode = gnium::test_follow_trace;  // 0 for test, 1 for compite
 
 // This options needs less memory. Why?
 // /*
@@ -25,7 +26,7 @@ int main() {
     while(1) {
         // run repetedly here
         Serial.print("Gniiiium!i \n");
-        if (mode == gnium::gnium) {  // compite
+        if (mode == gnium::race) {  // compite
             gnium.run_lap(gnium.Lap_n);
             ++gnium.Lap_n;
 
@@ -34,7 +35,10 @@ int main() {
                 break;
             }
         }
-        
+        else if (mode == gnium::test_follow_trace ) {  // test
+            gnium.follow_trace(gnium.Train_pwm,
+                                gnium.Pid);
+       }
         else if (mode == gnium::test_ir_sensors ) {  // test
             ir_sensor::test_routine();
         }

@@ -66,9 +66,19 @@ namespace servo{
     }
   void test_routine(void){
     int angle = 0;
-    for(angle = 0; angle < 30; angle+=2) {
+    while(1){
+    for(angle = 0; angle <= 30; angle+=2) {
       set_angle(angle);
       delay(200);
+    }
+    for(angle = 30; angle >= -30; angle-=2) {
+      set_angle(angle);
+      delay(200);
+    }
+    for(angle = -30; angle <= 0; angle+=2) {
+      set_angle(angle);
+      delay(200);
+    }
     }
   }
 }
