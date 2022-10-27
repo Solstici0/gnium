@@ -52,7 +52,7 @@ class pid::Pid {
         int last_control;  // last control signal
         int e_len;  // error length
 
-  float correction_signal(int sensor_array) {
+  float correction_signal(unsigned char sensor_array) {
     unsigned long now = millis();
     unsigned long t_change = (pid::Pid::last_time - now);
     if (t_change >=dt){
