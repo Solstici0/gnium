@@ -17,7 +17,7 @@ class pid::Pid {
     */
     public:
         // Constructor
-        Pid(float kp = 10., float ki = 0., float kd = 0.,
+        Pid(float kp = 100., float ki = 0., float kd = 0.,
             //int target_array[8] = {0, 0}) {
             unsigned char target_array = 24) {
             Kp = kp;
@@ -55,6 +55,8 @@ class pid::Pid {
   float correction_signal(unsigned char sensor_array) {
     unsigned long now = millis();
     unsigned long t_change = (pid::Pid::last_time - now);
+
+
     if (t_change >=dt){
       // TODO (wis) obtain just one value for e_p
       //pid::Pid::e_p = sensor_array - pid::Pid::Ta;
@@ -78,6 +80,13 @@ class pid::Pid {
       pid::Pid::e_prev = e_p;
       pid::Pid::last_time = now; // last time
       pid::Pid::last_control = control_u;
+
+      //debug messages
+      Serial.print("Sensor measurement = ")
+      Serial.println(sensor_array, BIN)
+      Serial.print("Control signal = ")
+      Serial.println(control_u, BIN)
+
       return control_u;
     }
     else return pid::Pid::last_control;
