@@ -10,7 +10,7 @@
 //#include <servo.h>
 
 //gnium::mode mode = gnium::test_follow_trace;  // 0 for test, 1 for compite
-gnium::mode mode = gnium::test_follow_trace;  // 0 for test, 1 for compite
+gnium::mode mode = gnium::test_ir_sensors;  // 0 for test, 1 for compite
 
 // This options needs less memory. Why?
 // /*

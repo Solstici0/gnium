@@ -129,7 +129,13 @@ void setup(unsigned int threshold){
         return sideSensors;
     }
     void test_routine(void){
-        Serial.println(read_front(),BIN);
+        read_front();
+        Serial.print("front sensor = ");
+        for (int i = 0;i<8 ; i++){
+            Serial.print(frontSensorRaw[i]);
+            Serial.print(" ");
+        }
+        Serial.println();
     }
     
 
