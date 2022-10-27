@@ -6,6 +6,9 @@
  * STM32 servo library
  * https://github.com/khoih-prog/STM32_ISR_Servo
  */
+#define TIMER_INTERRUPT_DEBUG 0
+#define ISR_SERVO_DEBUG 1
+
 #include "STM32_ISR_Servo.h"
 
 #define BLUE_PILL //which microcontroller is running the code
@@ -15,7 +18,7 @@
 // Published values for SG90 servos; adjust if needed
 #define MIN_MICROS 800  //544
 #define MAX_MICROS 2450
-#define SERVO_PIN_ANGLE 15
+#define SERVO_PIN_ANGLE PB15
 
 int ANGLE_SERVO = -1;
 float MIN_ANGLE = -30;
@@ -35,11 +38,14 @@ namespace servo{
     * @params pin numbers
     */
     STM32_ISR_Servos.useTimer(USE_STM32_TIMER_NO);
-    ANGLE_SERVO = 10;
+    Serial.println("Eeeeeeeeeeecsito!");
+    Serial.println(ANGLE_SERVO);
     ANGLE_SERVO = STM32_ISR_Servos.setupServo(
                                   SERVO_PIN_ANGLE,
                                   MIN_MICROS,
                                   MAX_MICROS);
+    Serial.println(ANGLE_SERVO);
+
   }
 
   void set_angle(float angle_correction){
@@ -56,6 +62,13 @@ namespace servo{
       }
       STM32_ISR_Servos.setPosition(ANGLE_SERVO,
                                  angle_correction);
+    }
+    }
+  void test_routine(void){
+    int angle = 0;
+    for(angle = 0; angle < 30; angle+=2) {
+      set_angle(angle);
+      delay(200);
     }
   }
 }
