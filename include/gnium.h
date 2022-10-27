@@ -7,9 +7,10 @@
 
 namespace gnium {
     typedef enum mode{
-        gnium,
+        race,
         test_ir_sensors,
-        test_servo
+        test_servo,
+        test_follow_trace
     }mode;
     class Gnium;
     
@@ -153,6 +154,16 @@ class gnium::Gnium {
           * line is detected
          */
 
+        // TODO: all the magic should happen here
+        // We should only read "trace" sensors here
+
+        unsigned char Sensor_array = ir_sensor::read_front();
+        float angle_correction = pid.correction_signal(Sensor_array);
+        //float angle_correction = pid::Pid::correction_signal(Sensor_array)
+        servo::set_angle(angle_correction); //
+
+        // communication::set_velocity() // Shouldn't be only for new marks?
+        // Maybe not, if we want to change velocity while in the curve
         // read information from IR sensors
         // and update start_or_end_is_detected
         // this should be a variable from another namespace
@@ -173,15 +184,6 @@ class gnium::Gnium {
             return false;
         }
 
-        // TODO: all the magic should happen here
-        // We should only read "trace" sensors here
-
-        unsigned char Sensor_array = ir_sensor::read_front();
-        float angle_correction = pid.correction_signal(Sensor_array);
-        //float angle_correction = pid::Pid::correction_signal(Sensor_array)
-        servo::set_angle(angle_correction); //
-        // communication::set_velocity() // Shouldn't be only for new marks?
-        // Maybe not, if we want to change velocity while in the curve
     }
 
     void test() {
