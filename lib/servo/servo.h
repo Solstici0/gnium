@@ -38,7 +38,7 @@ namespace servo{
     ANGLE_SERVO = 10;
     ANGLE_SERVO = STM32_ISR_Servos.setupServo(
                                   SERVO_PIN_ANGLE,
-                                 MIN_MICROS,
+                                  MIN_MICROS,
                                   MAX_MICROS);
   }
 
