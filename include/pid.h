@@ -64,7 +64,7 @@ class pid::Pid {
           // we can ponderate the substraction below 
           //pid::Pid::e_p += pid::Pid::Ta[i] - sensor_array[i];
           if (i < 4){
-            pid::Pid::e_p += (pid::Pid::Ta>>i - sensor_array>>i)*(i-4);
+            pid::Pid::e_p += (pid::Pid::Ta>>i - sensor_array>>i)*(i-4)*0;
           }
           else{
             pid::Pid::e_p += (pid::Pid::Ta>>i - sensor_array>>i)*(i-3);

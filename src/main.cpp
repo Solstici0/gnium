@@ -9,7 +9,7 @@
 #include <ir_sensor.h>
 //#include <servo.h>
 
-//gnium::mode mode = gnium::test_follow_trace;  // 0 for test, 1 for compite
+//gnium::mode mode = gnium::race;  // 0 for test, 1 for compite
 gnium::mode mode = gnium::test_follow_trace;  // 0 for test, 1 for compite
 
 // This options needs less memory. Why?
