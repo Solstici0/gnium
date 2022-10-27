@@ -46,7 +46,6 @@ class gnium::Gnium {
         bool Start_detected = false;  // bool start line detected
         bool End_detected = false;  // bool end line detected
         pid::Pid Pid;  //PID controller
-        unsigned char Sensor_array;
 
     void reset_start_and_end() {
         /*! @fn reset_start_and_end
@@ -174,8 +173,8 @@ class gnium::Gnium {
         // TODO: all the magic should happen here
         // We should only read "trace" sensors here
 
-        gnium::Gnium::Sensor_array = ir_sensor::read_front();
-        float angle_correction = pid::Pid::correction_signal(gnium::Gnium::Sensor_array);
+        unsigned char Sensor_array = ir_sensor::read_front();
+        float angle_correction = pid::Pid::correction_signal(Sensor_array);
         //float angle_correction = pid::Pid::correction_signal(gnium::Gnium::Sensor_array)
         servo::set_angle(angle_correction); //
         // communication::set_velocity() // Shouldn't be only for new marks?
