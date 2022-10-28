@@ -4,13 +4,11 @@
 */
 
 #include <Arduino.h>
-// #include <pwm.h> // TODO refactor. Should be inside gnium?
 #include <gnium.h>
 #include <ir_sensor.h>
-//#include <servo.h>
 
 //gnium::mode mode = gnium::race;  // 0 for test, 1 for compite
-gnium::mode mode = gnium::test_ir_sensors;  // 0 for test, 1 for compite
+gnium::mode mode = gnium::test_muscle;  // 0 for test, 1 for compite
 
 // This options needs less memory. Why?
 // /*
@@ -44,6 +42,9 @@ int main() {
         }
         else if (mode == gnium::test_servo ) {  // test
             servo::test_routine();
+        }
+        else if (mode == gnium::test_muscle ) {  // test
+            muscle::test_routine();
         }
     }
 }

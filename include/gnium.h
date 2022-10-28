@@ -4,12 +4,14 @@
 #include <pid.h>
 #include <ir_sensor.h>
 #include <servo.h>
+#include <muscle.h>
 
 namespace gnium {
     typedef enum mode{
         race,
         test_ir_sensors,
         test_servo,
+        test_muscle,
         test_follow_trace
     }mode;
     class Gnium;
@@ -29,16 +31,17 @@ class gnium::Gnium {
         //TODO (wis) in principle, there should be 2 types of gnium
         // with 5 wheels, and the standar 3 wheels version
         Gnium(int mode, int type = 0, int lap_n = 0,
-              int train_pwm = 10, pid::Pid pid = pid::Pid()) {
+              int train_pwm = 100, pid::Pid pid = pid::Pid()) {
             Mode = mode;  // 0 -> testing, 1-> compite
             Type = type;  // 0 -> 5-wheels, 1 -> classic 
             Lap_n = lap_n;  // lap number counter
-            Train_pwm = train_pwm;  // pwm train velocity
+            Train_pwm = train_pwm;  // pwm train velocity (in degrees)
             // TODO (wis) inject pid object as attribute..
             // check if this could be improve
             Pid = pid; // PID controller
             ir_sensor::setup();
             servo::setup();
+            muscle::setup();
 
         }
 
@@ -46,7 +49,7 @@ class gnium::Gnium {
         int Mode;  // compiting or testing mode
         int Type;  // type of car (5-wheels or classic)
         int Lap_n;  // lap number counter
-        int Train_pwm;  // pwm train velocity
+        int Train_pwm;  // pwm train velocity in degrees (forward: pwm > 90)
         bool Start_detected = false;  // bool start line detected
         bool End_detected = false;  // bool end line detected
         pid::Pid Pid;  //PID controller
@@ -148,31 +151,20 @@ class gnium::Gnium {
 
     bool follow_trace(int vel_pwm, pid::Pid pid) {
         /*! @fn run following the line
-          * @param vel_pwm
-          * TODO (wis) @param pid
+          * @param vel_pwm (in degrees)
+          * @param pid object
           * @return true if start or end
           * line is detected
          */
 
-        // TODO: all the magic should happen here
-        // We should only read "trace" sensors here
-
+        // read from from ir sensors
         unsigned char Sensor_array = ir_sensor::read_front();
+        // calculate correction using pid
         float angle_correction = pid.correction_signal(Sensor_array);
-        //float angle_correction = pid::Pid::correction_signal(Sensor_array)
+        // set new angle and velocity
         servo::set_angle(angle_correction); //
+        muscel::set_vel(vel_pwm); //
 
-        // communication::set_velocity() // Shouldn't be only for new marks?
-        // Maybe not, if we want to change velocity while in the curve
-        // read information from IR sensors
-        // and update start_or_end_is_detected
-        // this should be a variable from another namespace
-        // communication.h? ir_sensors.h?
-
-        // write information to motors
-        // here we should use pid::measure_error_and_correct
-        // and inside that function we should use communication
-        // namespace directly
         int start_or_end_is_detected = 0; // just to pass tests
                                           // should not be like this
         //int start_or_end_detected = ir_sensor::start_or_end_detected()
