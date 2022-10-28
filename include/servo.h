@@ -7,7 +7,7 @@
  * https://github.com/khoih-prog/STM32_ISR_Servo
  */
 #define TIMER_INTERRUPT_DEBUG 0
-#define ISR_SERVO_DEBUG 1
+#define ISR_SERVO_DEBUG 0
 
 #include "STM32_ISR_Servo.h"
 
@@ -18,6 +18,9 @@
 // Published values for SG90 servos; adjust if needed
 #define MIN_MICROS 800  //544
 #define MAX_MICROS 2450
+// In our case, we know from experiments:
+// - max_width = 1.72 ms = 1720 us (MAX MICROS)
+// - min_width = 1.22 ms = 1220 us (MIN MICROS)
 #define SERVO_PIN_ANGLE PB15
 
 int ANGLE_SERVO = -1;
@@ -38,13 +41,12 @@ namespace servo{
     * @params pin numbers
     */
     STM32_ISR_Servos.useTimer(USE_STM32_TIMER_NO);
-    Serial.println("Eeeeeeeeeeecsito!");
+    Serial.println("Angle's servo initialization succeeds!");
     Serial.println(ANGLE_SERVO);
     ANGLE_SERVO = STM32_ISR_Servos.setupServo(
                                   SERVO_PIN_ANGLE,
                                   MIN_MICROS,
                                   MAX_MICROS);
-    Serial.println(ANGLE_SERVO);
 
   }
 
@@ -54,6 +56,7 @@ namespace servo{
     * @param angle_correction given by pid
     */
     if (ANGLE_SERVO != -1) {
+      // clip angle [MIN_ANGLE, MAX_ANGLE]
       if (angle_correction >= MAX_ANGLE){
         angle_correction = MAX_ANGLE;
       }
