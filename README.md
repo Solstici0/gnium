@@ -25,7 +25,11 @@ The follower should learn the road and improve through iterating.
 - [X] Include picture of the robot
 - [X] define project's structure
   + Namespaces or classes? or both?
-- [ ] create `communication` namespace
+- [X] create `communication` namespace
+  - It was split in three namespaces, namely:
+    + ir_sensors: read ir sensors
+    + servo: write information to servo motor
+    + muscle: write information to muscle motor
 - [ ] configuration file:
     + [Possible implementation](https://www.daniweb.com/programming/software-development/threads/185995/how-do-i-make-a-config-file)
 - [ ] read google style guide
