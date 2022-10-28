@@ -1,0 +1,192 @@
+#+options: ':t *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline author:t
+#+options: broken-links:nil c:nil creator:nil d:(not "LOGBOOK") date:t e:t
+#+options: email:nil f:t inline:t num:t p:nil pri:nil prop:nil stat:t tags:t
+#+options: tasks:t tex:t timestamp:t title:t toc:t todo:t |:t
+#+title: Robotracer: Personal notes
+#+date: <2022-06-28 Di>
+#+author: Ismael Jaras
+#+email: is.jaras@gmail.com
+#+language: en
+#+select_tags: export
+#+exclude_tags: noexport
+#+creator: Emacs 28.1 (Org mode 9.5)
+#+cite_export:
+
+The idea is to create a robotracer that is able to learn a speedway and improves through lap iterations.
+
+Here I will put all relevant ideas, references and discussion
+
+#+CAPTION: Gnium V1
+    [[./img/gnium_v1.png]]
+
+#+CAPTION: Gnium V2
+    [[./img/gnium_v2.png]]
+
+* TODOs:
+** personal [3/6]
+- [X] Include picture of the robot
+- [X] define project's structure
+  + Namespaces or classes? or both?
+- [X] create `communication` namespace:
+  - It was split in three namespaces, namely:
+    + ir_sensors: read ir sensors
+    + servo: write information to servo motor
+    + muscle: write information to muscle motor
+- [ ] configuration file:
+  + [[https://www.daniweb.com/programming/software-development/threads/185995/how-do-i-make-a-config-file][Possible implementation]]
+- [ ] read google style guide
+- [ ] read google test user guide
+** group
+- Buy materials [4/4]:
+  + [X] Batteries
+  + [X] Sensors
+  + [X] Mottors
+  + [X] STM32
+
+* cpp notes
+** cpp on bare metal
+*** [[https://www.youtube.com/watch?v=7xnUsPo_fG8][Introduction to integrating C++ on bare metal STM32]]
+- explains toolchain file for cmake
+- not sure if this tutorial helps us. It is focus on connecting C and Cpp
+** coding standard
+- [ ] [[https://google.github.io/styleguide/cppguide.html][Google C++ style guide]]
+- [ ] [[https://google.github.io/googletest/][Google test user guide]]
+** references
+*** [[https://stackoverflow.com/questions/388242/the-definitive-c-book-guide-and-list][C++ book List]]
+*** [[https://www.reddit.com/r/Python/comments/2xpjg9/whats_the_best_ways_to_learn_c_for_a_professional/][c++ Reddit sources of information]]
+*** [ ] [[https://www.youtube.com/watch?v=dQaRLmM7KKk][Failing Successfully: Reporting and Handling Errors - Robert Leahy - CppCon 2021]]
+*** [[https://www.youtube.com/user/4Polha/videos][Matej Blagšič Youtube channel]]
+
+* platformio
+*** references
+- [X] [[https://docs.platformio.org/en/latest/boards/ststm32/bluepill_f103c8.html][BluePill F103C8]]
+- [X] [[https://www.youtube.com/watch?v=35sNWTjj73o][Howto: STM32 with PlatformIO and Mbed]]
+- [X] [[https://github.com/platformio/platform-ststm32][Very simple blink example with stm32]]
+
+* robotracer
+** references
+- [[https://hbfsrobotics.com/linefollower][The most advanced linefollower robot from the planet]]
+- [[https://github.com/odriverobotics/ODrive][Odrive]]
+** algorithm
+
+* components
+** STM32
+*** references
+- [ ] [[https://www.instructables.com/Start-Developing-STM32-on-Linux/][Start Developing STM32 on Linux]]
+- [ ] [[https://www.youtube.com/watch?v=7xnUsPo_fG8][Introduction to integrating C++ on bare metal STM32]]
+- [ ] [[https://olayiwolaayinde.medium.com/programming-stm32-on-linux-d6a6ee7a8d8d][Programming STM32 on Linux]]
+- [ ] [[https://components101.com/microcontrollers/stm32f103c8t8-blue-pill-development-board][STM32F103C8T6 - Blue Pill Development Board]]
+- [ ] [[https://stm32-base.org/boards/STM32F103C8T6-Blue-Pill.html][STM32-base]]
+** sensors
+*** references
+- [ ] [[https://www.youtube.com/watch?v=xysz2xh69rQ][Line follower sensor's review]]
+- [[https://es.aliexpress.com/item/1752852625.html?spm=a2g0o.productlist.0.0.3d811025Rs0G8p&algo_pvid=be97b286-d66c-4f81-bcfc-fbd4d94df387&algo_exp_id=be97b286-d66c-4f81-bcfc-fbd4d94df387-0&pdp_ext_f=%7B%22sku_id%22%3A%2258978103850%22%7D&pdp_npi=2%40dis%21CLP%21%212030.0%212030.0%21%21%21%21%402101d8f416560395139866456e349e%2158978103850%21sea][IR sensors on aliexpress]]
+**
+** motors
+*** references
+- [[https://es.aliexpress.com/item/1005001430576692.html?albagn=888888&src=google&albch=search&acnt=479-062-3723&isdl=y&aff_short_key=UneMJZVf&albcp=15030837081&albag=128008737559&slnk=&trgt=dsa-42862830006&plac=&crea=555086564362&netw=g&device=c&mtctp=&memo1=&albbt=Google_7_search&aff_platform=google&gclsrc=ds&gatewayAdapt=glo2esp][Surpass Hobby-Motor brushless]]
+- [[https://www.injora.com/products/25kg-35kg-large-torque-metal-gear-digital-servo-for-rc-model?_pos=1&_sid=76e76c1b9&_ss=r&variant=39448954273840][INJORA 25KG/35KG Large Torque Metal Gear Digital Servo for RC Model]]
+
+* meetings
+** initial meeting <2022-07-05 Di>
+- Name?
+  + Goat
+  + Dudegono
+  + Pentadude
+  + Rapsticio
+  + Fasticio
+  + Solstápido
+  + Solstirat
+  + Mausat
+  + Goosat
+  + Skips
+  + RVS
+  + GVS(0.1)
+  + Solstágono
+  + Pentiscio
+  + Gosticio
+  + **Ñiium (code: GNiium)**
+- When do we want to have the vehicle usable?
+  + <2022-08-26 Fr>
+- Who is doing what?
+  + Drés
+    - CAD Fusion
+  + Felipin
+    - CAD kicad
+    - IR namespace
+  + Wis
+    - Code cpp
+    - PID, PWM Namespaces
+    - cpp main
+    - **Do it with platformio!**
+    - **learm how to test cpp code**
+- input-output each of us needs
+  + Felipe needs from Drés
+    - base form?
+    - terminal types/specifications
+- What do we want measure in the vehicle?
+  + accelerometer
+- Important points
+  + Curvature = f(servo_angle, encoder_points) (or servo_angle only?)
+    - We can set constant velocity and use servo_angle to estimate curve length (amount of points)
+  + we need a voltage regulator. Which?
+  + Connection from micro..
+    - encoder?
+      + SPI and
+      + ABI
+    - servo?
+      + PWM
+    - motor's ESC?
+      + PWM
+    - IR?
+      + 1 digital input per sensor
+      + AND 1 analog input per sensor
+  + Plug-and-play libraries
+    - PID (name? Maybe is better idea to code the PID)
+    -
+  + Namespaces
+    - PID (should have a class so we can instanciate a PID for ESC and for the servo)
+      + return error
+    - IR
+      + look-up table
+      + digital read
+      + analog read (digital read is priority)
+    - PWM ESC (#include PID.h)
+    - PWM servo (#include PID.h)
+    - Encoder (can we recycle a library?)
+      + digital read
+      + callback ABI function
+    - utils
+      + learn the lap
+- Questions:
+  + how many IR do we need? 8 front, 2 lateral?
+  + Downsampling ADC
+
+#+attr_html: :width 400px
+#+attr_latex: :width 400px
+#+attr_org: :width 400px
+#+CAPTION: Board first meeting :D
+    [[./img/board_1.jpeg]]
+
+* Progress <2022-07-10 So>
+- What is platformio?
+  + [[https://docs.platformio.org/en/latest/what-is-platformio.html][Platformio]] is a cross-platform, cross-architecture software (Python library), specially designed for embedding code in different hardwares
+  + How to use it?
+    - Allows to create projects for specific boards
+      1. `mkdir project_name && cd project_name`
+         a. `pio project init --ide emacs # for working with emacs`
+         b. `pio project init --ide emacs --board <ID>`
+  + Installation
+    - [[https://docs.platformio.org/en/stable/core/installation/index.html][Platformio Core]] installed
+    - I am using platformio inside emacs (Take a closer look [[https://docs.platformio.org/en/latest/integration/ide/emacs.html][here]]). So I also installed:
+      + [[https://github.com/emacs-lsp/emacs-ccls][emcas-ccls]] (using MELPA)
+      + [[https://github.com/ZachMassia/PlatformIO-Mode][PlatformIO-mode]] (using MELPA also)
+  + [[https://docs.platformio.org/en/latest/advanced/unit-testing/index.html#api][Testing in platformIO]]
+    - So to run unit testing in PlatformIO (an in general in C or C++) you *need* to use [[https://github.com/ThrowTheSwitch/Unity][unity (Unit Test)]]
+    - So far the stm32 environment is not working properly for running tests, so I created the *testing* environmet to run tests locally:
+      + `\gnium$ pio test -e testing`
+** TODO:
+  + Study about mocking STM32
+  + Study Google test framework
+* Progress <2022-09-01 Do>
+- [Felipin] We need to code sensors reading for two options: analog and digital reading

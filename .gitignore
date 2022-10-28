@@ -42,6 +42,6 @@ src/.vscode/
 *.swp
 
 # personal notes
-notes.org
+# notes.org
 
 .vscode
