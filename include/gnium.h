@@ -14,6 +14,32 @@ namespace gnium {
         test_muscle,
         test_follow_trace
     }mode;
+
+    // TODO (wis) create array of struct for lap information
+    // total marks in the lap
+    //TOTAL_MARKS = 30
+    //struct mark {
+    //  int next_idx;
+    //  float mean_angle;
+    //  float max_vel;
+    //  bool end_mark;  // save finish line
+    //  for the future, we can also include encoder steps here
+    //};
+    //
+    //mark lap_info [TOTAL_MARKS];
+    // Training routine
+    //so in lap_info[n] we can save information from the nth to (n+1)th mark
+    //gnium::lap_info[n].next_idx = n + 1
+    //gnium::lap_info[n].mean_angle = tools::mean_angle()
+    //gnium::lap_info[n].max_vel = tools::max_vel_from_angle(lap_info[n].mean_angle)
+    //Trained routine
+    //then we can use this information to define velocity planning.
+    //For example, if lap_info[n+1].max_vel > lap_info[n].max_vel accelerate
+    //OBS.:
+    //mean_angle has to be calculated after reaching the next mark (while training).
+    //so info related to nth mark is saved when we are within mark (n+1) and (n+2)
+    //we need an extra variable for saving last angle measurements
+    //and then calculate mean_angle using it
     class Gnium;
     
 }
