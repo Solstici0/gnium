@@ -22,15 +22,16 @@ namespace gnium {
     //  int next_idx;
     //  float mean_angle;
     //  float max_vel;
-    //  bool end_mark;  // save finish line
+    //  bool end_line;  // save finish line
     //  for the future, we can also include encoder steps here
     //};
     //
     //mark lap_info [TOTAL_MARKS];
     // Training routine
     //so in lap_info[n] we can save information from the nth to (n+1)th mark
-    //gnium::lap_info[n].next_idx = n + 1
-    //gnium::lap_info[n].mean_angle = tools::mean_angle()
+    //in (or a bit after) mark (n + 1)=k do:
+    //gnium::lap_info[n].next_idx = k
+    //gnium::lap_info[n].mean_angle = tools::mean_angle(last_angle_meas)
     //gnium::lap_info[n].max_vel = tools::max_vel_from_angle(lap_info[n].mean_angle)
     //Trained routine
     //then we can use this information to define velocity planning.
@@ -40,6 +41,11 @@ namespace gnium {
     //so info related to nth mark is saved when we are within mark (n+1) and (n+2)
     //we need an extra variable for saving last angle measurements
     //and then calculate mean_angle using it
+    //OBS2.:
+    //if end detected:
+    //lap_info[last + 1].end_line = 1;
+    //else:
+    //lap_info[last + 1].end_line = 0;
     class Gnium;
     
 }
