@@ -64,18 +64,22 @@ namespace muscle{
     int vel = 90;
     while(1){
     // forward
-    for(vel = 90; vel <= 120; vel+=1) {
+    for(vel = 90; vel <= 100; vel+=1) {
       set_vel(vel);
       delay(200);
     }
-    for(vel = 120; vel >= 60; vel-=1) {
+    for(vel = 100; vel >= 80; vel-=1) {
       set_vel(vel);
       delay(200);
     }
-    for(vel = 60; vel <= 90; vel+=1) {
+    for(vel = 80; vel <= 90; vel+=1) {
       set_vel(vel);
       delay(200);
     }
     }
+  }
+  void test_vel(float vel){
+      set_vel(vel);
+      delay(200);
   }
 }
