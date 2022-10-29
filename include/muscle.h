@@ -21,7 +21,7 @@
 // In our case, we know from experiments:
 // - max_width = 2.12 ms = 2120 us (MAX MICROS)
 // - min_width = 0.88 ms = 880 us (MIN MICROS)
-#define SERVO_PIN_ANGLE //PB14  // TODO: check!
+#define SERVO_PIN_ANGLE PB14  // TODO: check!
 
 int MUSCLE_MOTOR = -1;
 
@@ -62,16 +62,16 @@ namespace muscle{
     int vel = 90;
     while(1){
     // forward
-    for(vel = 90; vel <= 120; angle+=1) {
+    for(vel = 90; vel <= 120; vel+=1) {
       set_vel(vel);
       delay(200);
     }
-    for(vel = 120; vel >= 60; angle-=1) {
-      set_vel(angle);
+    for(vel = 120; vel >= 60; vel-=1) {
+      set_vel(vel);
       delay(200);
     }
-    for(angle = 60; angle <= 90; angle+=1) {
-      set_vel(angle);
+    for(vel = 60; vel <= 90; vel+=1) {
+      set_vel(vel);
       delay(200);
     }
     }
