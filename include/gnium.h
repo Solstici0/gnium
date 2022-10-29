@@ -11,6 +11,7 @@ namespace gnium {
         race,
         test_ir_sensors,
         test_servo,
+        test_servo_offset,
         test_muscle,
         test_follow_trace
     }mode;

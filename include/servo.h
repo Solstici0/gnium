@@ -75,23 +75,27 @@ namespace servo{
     }
   void test_routine(void){
     int angle = 0;
-    int new_angle = 0;
-    while(1){
-    set_angle(angle);
-    delay(1000);
+   while(1){
+   set_angle(angle);
+   delay(1000);
 
-    for(angle = 0; angle <= 30; angle+=2) {
-      set_angle(angle);
-      delay(200);
-    }
-    for(angle = 30; angle >= -30; angle-=2) {
-      set_angle(angle);
-      delay(200);
-    }
-    for(angle = -30; angle <= 0; angle+=2) {
-      set_angle(angle);
-      delay(200);
-    }
-    }
+   for(angle = 0; angle <= 30; angle+=2) {
+     set_angle(angle);
+     delay(200);
+   }
+   for(angle = 30; angle >= -30; angle-=2) {
+     set_angle(angle);
+     delay(200);
+   }
+   for(angle = -30; angle <= 0; angle+=2) {
+     set_angle(angle);
+     delay(200);
+   }
+   }
   }
+  void test_offset(void){
+    int angle = 0;
+    // set offset degrees
+    set_angle(angle);
+    }
 }
