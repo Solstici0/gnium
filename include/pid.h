@@ -17,7 +17,7 @@ class pid::Pid {
     */
     public:
         // Constructor
-        Pid(float kp = 1., float ki = 0., float kd = 0.,
+        Pid(float kp = 3., float ki = 0., float kd = 0.,
             unsigned char target_array = 24) {
             Kp = kp;
             ki = ki;
@@ -27,7 +27,7 @@ class pid::Pid {
             //}
             Ta = target_array;
             e_prev = 0; // TODO: in the future this variables should be injected
-            dt = 5; // sample time for changing controlled vars
+            dt = 20; // sample time for changing controlled vars
             e_p = 0;
             e_i = 0;
             e_d = 0;
@@ -53,10 +53,11 @@ class pid::Pid {
 
   float correction_signal(unsigned char sensor_array) {
     unsigned long now = millis();
-    unsigned long t_change = (pid::Pid::last_time - now);
+    unsigned long t_change = (last_time - now);
 
 
-    if (t_change >=dt){
+    if (t_change >= dt){
+      Serial.write(0x69);
       // TODO (wis) obtain just one value for e_p
       //pid::Pid::e_p = sensor_array - pid::Pid::Ta;
       e_p = 0;
@@ -89,6 +90,6 @@ class pid::Pid {
 
       return control_u;
     }
-    else return pid::Pid::last_control;
+    else return last_control;
   }
 };
