@@ -13,6 +13,7 @@ namespace gnium {
         test_servo,
         test_servo_offset,
         test_muscle,
+        test_vel,
         test_follow_trace
     }mode;
 
