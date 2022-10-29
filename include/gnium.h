@@ -63,15 +63,17 @@ class gnium::Gnium {
         //TODO (wis) in principle, there should be 2 types of gnium
         // with 5 wheels, and the standar 3 wheels version
         Gnium(int mode, int type = 0, int lap_n = 0,
-              int train_pwm = 100, pid::Pid pid = pid::Pid()) {
+              int train_pwm = 100, pid::Pid pid = pid::Pid(),
+              int threshold = 100) {
             Mode = mode;  // 0 -> testing, 1-> compite
             Type = type;  // 0 -> 5-wheels, 1 -> classic 
             Lap_n = lap_n;  // lap number counter
             Train_pwm = train_pwm;  // pwm train velocity (in degrees)
+            Threshold = threshold;
             // TODO (wis) inject pid object as attribute..
             // check if this could be improve
             Pid = pid; // PID controller
-            ir_sensor::setup();
+            ir_sensor::setup(Threshold);
             servo::setup();
             muscle::setup();
 
@@ -84,6 +86,7 @@ class gnium::Gnium {
         int Train_pwm;  // pwm train velocity in degrees (forward: pwm > 90)
         bool Start_detected = false;  // bool start line detected
         bool End_detected = false;  // bool end line detected
+        int Threshold;
         pid::Pid Pid;  //PID controller
 
     void reset_start_and_end() {
