@@ -24,6 +24,7 @@
 #define SERVO_PIN_ANGLE PB15
 
 int ANGLE_SERVO = -1;
+float OFFSET_ANGLE = 90;
 float MIN_ANGLE = -30;
 float MAX_ANGLE = 30;
 
@@ -70,16 +71,18 @@ namespace servo{
   void test_routine(void){
     int angle = 0;
     while(1){
+    set_angle(angle + OFFSET_ANGLE);
+    delay(1000);
     for(angle = 0; angle <= 30; angle+=2) {
-      set_angle(angle);
+      set_angle(angle + OFFSET_ANGLE);
       delay(200);
     }
     for(angle = 30; angle >= -30; angle-=2) {
-      set_angle(angle);
+      set_angle(angle + OFFSET_ANGLE);
       delay(200);
     }
-    for(angle = -30; angle <= 0; angle+=2) {
-      set_angle(angle);
+    for(angle = -30; angle <= 30; angle+=2) {
+      set_angle(angle + OFFSET_ANGLE);
       delay(200);
     }
     }
