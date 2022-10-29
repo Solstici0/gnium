@@ -24,9 +24,9 @@
 #define SERVO_PIN_ANGLE PB15
 
 int ANGLE_SERVO = -1;
-float OFFSET_ANGLE = 90;  // angle when moving straight
-float MIN_ANGLE = -20;
-float MAX_ANGLE = 20;
+float OFFSET_ANGLE = 88;  // angle when moving straight
+float MIN_ANGLE = -30;
+float MAX_ANGLE = 30;
 
 #elif TEENSY35
 #endif
@@ -48,6 +48,8 @@ namespace servo{
                                   MAX_MICROS_SERVO);
     if (ANGLE_SERVO != -1) {
     Serial.println("Angle's servo initialization succeeds!");
+    STM32_ISR_Servos.setPosition(ANGLE_SERVO,
+                                 OFFSET_ANGLE);
     Serial.println(ANGLE_SERVO);
     }
 
@@ -70,7 +72,7 @@ namespace servo{
       angle_correction += OFFSET_ANGLE;
       STM32_ISR_Servos.setPosition(ANGLE_SERVO,
                                  angle_correction);
-      Serial.println(angle_correction);
+      // Serial.println(angle_correction);
     }
     }
   void test_routine(void){
