@@ -39,12 +39,14 @@ namespace muscle{
     * @params pin numbers
     */
     STM32_ISR_Servos.useTimer(USE_STM32_TIMER_NO);
-    Serial.println("Muscle motor initialization succeeds!");
-    Serial.println(MUSCLE_MOTOR);
     MUSCLE_MOTOR = STM32_ISR_Servos.setupServo(
                                   MUSCLE_PIN_ANGLE,
                                   MIN_MICROS,
                                   MAX_MICROS);
+    if (MUSCLE_MOTOR != -1) {
+    Serial.println("Muscle motor initialization succeeds!");
+    Serial.println(MUSCLE_MOTOR);
+    }
   }
 
   void set_vel(float vel_in_deg){

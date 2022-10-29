@@ -42,12 +42,14 @@ namespace servo{
     * @params pin numbers
     */
     STM32_ISR_Servos.useTimer(USE_STM32_TIMER_NO);
-    Serial.println("Angle's servo initialization succeeds!");
-    Serial.println(ANGLE_SERVO);
     ANGLE_SERVO = STM32_ISR_Servos.setupServo(
                                   SERVO_PIN_ANGLE,
                                   MIN_MICROS,
                                   MAX_MICROS);
+    if (ANGLE_SERVO != -1) {
+    Serial.println("Angle's servo initialization succeeds!");
+    Serial.println(ANGLE_SERVO);
+    }
 
   }
 
