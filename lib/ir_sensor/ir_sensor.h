@@ -102,7 +102,7 @@ void setup(unsigned int threshold_value){
             frontSensorRaw[i] = analogRead(FRONT_SENSORS[i]); 
         }
         for (int i = 0; i < N_FRONT; i++){
-            if (frontSensorRaw[i] > threshold) 
+            if (frontSensorRaw[i] < threshold) 
             {
                 frontSensor |= _BV(i);
             }
@@ -118,12 +118,12 @@ void setup(unsigned int threshold_value){
             sideSensorsRaw[i] = analogRead(SIDE_SENSORS[i]);
         }
         for (int i = 0; i < N_EACH_SIDES; i++){
-            if (sideSensorsRaw[i] > threshold){
+            if (sideSensorsRaw[i] < threshold){
                 sideSensors |= _BV(i);
             }
         }
         for (int i = N_EACH_SIDES; i < 2*N_EACH_SIDES; i++){
-            if (sideSensorsRaw[i] > threshold){
+            if (sideSensorsRaw[i] < threshold){
                 sideSensors |= _BV(i);
             }
         }
