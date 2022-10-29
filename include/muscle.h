@@ -21,7 +21,7 @@
 // In our case, we know from experiments:
 // - max_width = 2.12 ms = 2120 us (MAX MICROS)
 // - min_width = 0.88 ms = 880 us (MIN MICROS)
-#define SERVO_PIN_ANGLE PB14  // TODO: check!
+#define MUSCLE_PIN_ANGLE PB14  // TODO: check!
 
 int MUSCLE_MOTOR = -1;
 
@@ -42,7 +42,7 @@ namespace muscle{
     Serial.println("Muscle motor initialization succeeds!");
     Serial.println(MUSCLE_MOTOR);
     MUSCLE_MOTOR = STM32_ISR_Servos.setupServo(
-                                  SERVO_PIN_ANGLE,
+                                  MUSCLE_PIN_ANGLE,
                                   MIN_MICROS,
                                   MAX_MICROS);
   }
