@@ -70,33 +70,26 @@ namespace servo{
       angle_correction += OFFSET_ANGLE;
       STM32_ISR_Servos.setPosition(ANGLE_SERVO,
                                  angle_correction);
+      Serial.println(angle_correction);
     }
     }
   void test_routine(void){
     int angle = 0;
     int new_angle = 0;
     while(1){
-    new_angle = angle + OFFSET_ANGLE;
-    set_angle(new_angle);
-    Serial.println(new_angle);
+    set_angle(angle);
     delay(1000);
 
     for(angle = 0; angle <= 30; angle+=2) {
-      new_angle = angle + OFFSET_ANGLE;
-      set_angle(new_angle);
-      Serial.println(new_angle);
+      set_angle(angle);
       delay(200);
     }
     for(angle = 30; angle >= -30; angle-=2) {
-      new_angle = angle + OFFSET_ANGLE;
-      set_angle(new_angle);
-      Serial.println(new_angle);
+      set_angle(angle);
       delay(200);
     }
-    for(angle = -30; angle <= 30; angle+=2) {
-      new_angle = angle + OFFSET_ANGLE;
-      set_angle(new_angle);
-      Serial.println(new_angle);
+    for(angle = -30; angle <= 0; angle+=2) {
+      set_angle(angle);
       delay(200);
     }
     }
