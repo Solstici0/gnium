@@ -16,8 +16,8 @@
 // Default is TIMER_SERVO (TIM7 for many boards)
 #define USE_STM32_TIMER_NO TIMER_SERVO
 // Published values for SG90 servos; adjust if needed
-#define MIN_MICROS 800  //544
-#define MAX_MICROS 2450
+#define MIN_MICROS_SERVO 800  //544
+#define MAX_MICROS_SERVO 2450
 // In our case, we know from experiments:
 // - max_width = 1.72 ms = 1720 us (MAX MICROS)
 // - min_width = 1.22 ms = 1220 us (MIN MICROS)
@@ -44,8 +44,8 @@ namespace servo{
     STM32_ISR_Servos.useTimer(USE_STM32_TIMER_NO);
     ANGLE_SERVO = STM32_ISR_Servos.setupServo(
                                   SERVO_PIN_ANGLE,
-                                  MIN_MICROS,
-                                  MAX_MICROS);
+                                  MIN_MICROS_SERVO,
+                                  MAX_MICROS_SERVO);
     if (ANGLE_SERVO != -1) {
     Serial.println("Angle's servo initialization succeeds!");
     Serial.println(ANGLE_SERVO);

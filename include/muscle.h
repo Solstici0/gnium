@@ -16,8 +16,8 @@
 // Default is TIMER_SERVO (TIM7 for many boards)
 #define USE_STM32_TIMER_NO TIMER_SERVO
 // Published values for SG90 servos; adjust if needed
-#define MIN_MICROS 880  //544
-#define MAX_MICROS 2120
+#define MIN_MICROS_MUSCLE 880  //544
+#define MAX_MICROS_MUSCLE 2120
 // In our case, we know from experiments:
 // - max_width = 2.12 ms = 2120 us (MAX MICROS)
 // - min_width = 0.88 ms = 880 us (MIN MICROS)
@@ -41,8 +41,8 @@ namespace muscle{
     STM32_ISR_Servos.useTimer(USE_STM32_TIMER_NO);
     MUSCLE_MOTOR = STM32_ISR_Servos.setupServo(
                                   MUSCLE_PIN_ANGLE,
-                                  MIN_MICROS,
-                                  MAX_MICROS);
+                                  MIN_MICROS_MUSCLE,
+                                  MAX_MICROS_MUSCLE);
     if (MUSCLE_MOTOR != -1) {
     Serial.println("Muscle motor initialization succeeds!");
     Serial.println(MUSCLE_MOTOR);
