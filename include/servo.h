@@ -76,7 +76,7 @@ namespace servo{
     int angle = 0;
     int new_angle = 0;
     while(1){
-    new_angle = angle + OFFSET_ANGLE
+    new_angle = angle + OFFSET_ANGLE;
     set_angle(new_angle);
     Serial.println(new_angle);
     delay(1000);
