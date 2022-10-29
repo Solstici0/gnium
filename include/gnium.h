@@ -195,7 +195,7 @@ class gnium::Gnium {
         float angle_correction = pid.correction_signal(Sensor_array);
         // set new angle and velocity
         servo::set_angle(angle_correction); //
-        muscel::set_vel(vel_pwm); //
+        muscle::set_vel(vel_pwm); //
 
         int start_or_end_is_detected = 0; // just to pass tests
                                           // should not be like this
