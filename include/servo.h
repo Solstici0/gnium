@@ -24,9 +24,9 @@
 #define SERVO_PIN_ANGLE PB15
 
 int ANGLE_SERVO = -1;
-float OFFSET_ANGLE = 90;
-float MIN_ANGLE = -30;
-float MAX_ANGLE = 30;
+float OFFSET_ANGLE = 90;  // angle when moving straight
+float MIN_ANGLE = -20;
+float MAX_ANGLE = 20;
 
 #elif TEENSY35
 #endif
