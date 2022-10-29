@@ -17,7 +17,7 @@ namespace ir_sensor{
      * 
      * @param threshold vallue against the frontSensorRaw
      */
-    void setup(unsigned int threshold = 2<<11);
+    void setup(unsigned int threshold = 100);
 
     /**
      * @brief Value that the sensors are compared against in order to apss to binary
@@ -92,8 +92,8 @@ const int N_EACH_SIDES =1; //total number on each side
 #endif
 
 
-void setup(unsigned int threshold){
-        threshold = threshold;
+void setup(unsigned int threshold_value){
+        threshold = threshold_value;
         frontSensor=0;
     }
     unsigned char read_front(void){
@@ -102,7 +102,8 @@ void setup(unsigned int threshold){
             frontSensorRaw[i] = analogRead(FRONT_SENSORS[i]); 
         }
         for (int i = 0; i < N_FRONT; i++){
-            if (frontSensorRaw[i] > threshold) {
+            if (frontSensorRaw[i] > threshold) 
+            {
                 frontSensor |= _BV(i);
             }
         }
@@ -129,12 +130,20 @@ void setup(unsigned int threshold){
         return sideSensors;
     }
     void test_routine(void){
+        Serial.print("threshold = ");
+        Serial.println(threshold);
         read_front();
         for (int i = 0;i<8 ; i++){
             Serial.print(frontSensorRaw[i]);
             Serial.print(",");
         }
         Serial.println();
+        for (int i = 0;i<8 ; i++){
+            Serial.print((frontSensor>>i)&1,BIN);
+            Serial.print(",  ");
+        }
+        Serial.println();
+        Serial.println("--------------------------------");
     }
     
 
