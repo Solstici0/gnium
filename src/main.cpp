@@ -19,10 +19,9 @@ int main() {
     int type = 0;  // 0 for 5-wheels, 1 for classic
     int n_lap = 0;  // lap number
     unsigned int threshold = 100;
-    gnium::Gnium gnium = gnium::Gnium(mode=mode,
-                                      type=type,
-                                      n_lap=n_lap,
-                                      threshold=threshold);
+    gnium::Gnium gnium = gnium::Gnium(mode,
+                                      type,
+                                      n_lap);
     // TODO (wis) gnium.setup()
 
     while(1) {
@@ -38,8 +37,10 @@ int main() {
             }
         }
         else if (mode == gnium::test_follow_trace ) {  // test follow_trace
-            gnium.follow_trace(gnium.Train_pwm,
-                                gnium.Pid);
+            int test_vel = 75;
+            pid::Pid test_pid = pid::Pid();
+            gnium.follow_trace(test_vel,
+                                test_pid);
        }
         else if (mode == gnium::test_ir_sensors ) {  // test ir_sensors reading
             ir_sensor::test_routine();
