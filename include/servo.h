@@ -16,17 +16,17 @@
 // Default is TIMER_SERVO (TIM7 for many boards)
 #define USE_STM32_TIMER_NO TIMER_SERVO
 // Published values for SG90 servos; adjust if needed
-#define MIN_MICROS_SERVO 800  //544
-#define MAX_MICROS_SERVO 2450
+#define MIN_MICROS_SERVO 1010  //544
+#define MAX_MICROS_SERVO 2420
 // In our case, we know from experiments:
 // - max_width = 1.72 ms = 1720 us (MAX MICROS)
 // - min_width = 1.22 ms = 1220 us (MIN MICROS)
 #define SERVO_PIN_ANGLE PB15
 
 int ANGLE_SERVO = -1;
-float OFFSET_ANGLE = 88;  // angle when moving straight
-float MIN_ANGLE = -30;
-float MAX_ANGLE = 30;
+float OFFSET_ANGLE = 90; //87;  // angle when moving straight
+float MIN_ANGLE = -34;
+float MAX_ANGLE = 32;
 
 #elif TEENSY35
 #endif
@@ -76,20 +76,21 @@ namespace servo{
     }
     }
   void test_routine(void){
-    int angle = 0;
+    int init_angle = 0;
+    int angle = init_angle;
    while(1){
    set_angle(angle);
    delay(1000);
 
-   for(angle = 0; angle <= 30; angle+=2) {
+   for(angle = init_angle; angle <= MAX_ANGLE; angle+=2) {
      set_angle(angle);
      delay(200);
    }
-   for(angle = 30; angle >= -30; angle-=2) {
+   for(angle = MAX_ANGLE; angle >= MIN_ANGLE; angle-=2) {
      set_angle(angle);
      delay(200);
    }
-   for(angle = -30; angle <= 0; angle+=2) {
+   for(angle = MIN_ANGLE; angle <= init_angle; angle+=2) {
      set_angle(angle);
      delay(200);
    }

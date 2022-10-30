@@ -17,7 +17,7 @@
 #define USE_STM32_TIMER_NO TIMER_SERVO
 // Published values for SG90 servos; adjust if needed
 #define MIN_MICROS_MUSCLE 880  //544
-#define MAX_MICROS_MUSCLE 2120
+#define MAX_MICROS_MUSCLE 2080
 // In our case, we know from experiments:
 // - max_width = 2.12 ms = 2120 us (MAX MICROS)
 // - min_width = 0.88 ms = 880 us (MIN MICROS)
@@ -61,25 +61,80 @@ namespace muscle{
     }
     }
   void test_routine(void){
-    int vel = 90;
+    int init_vel = 90;
+    int vel = init_vel;
+    int max_vel = 110;
+    int min_vel = 70;
     while(1){
     // forward
-    for(vel = 90; vel <= 100; vel+=1) {
+    for(vel = init_vel; vel <= max_vel; vel+=1) {
       set_vel(vel);
       delay(200);
     }
-    for(vel = 100; vel >= 80; vel-=1) {
+    for(vel = max_vel; vel >= min_vel; vel-=1) {
       set_vel(vel);
       delay(200);
     }
-    for(vel = 80; vel <= 90; vel+=1) {
+    for(vel = min_vel; vel <= init_vel; vel+=1) {
       set_vel(vel);
       delay(200);
     }
     }
   }
-  void test_vel(float vel){
+  void test_vel(float testing_vel){
+    int init_vel = 90;
+    while(1){
+    int vel = init_vel;
+    int n = 0;
+    if(testing_vel > init_vel){
+      for(vel=init_vel; vel<=testing_vel; vel+=1){
+        if(vel==testing_vel){
+          for(n=0; n<=200; ++n){
+          set_vel(vel);
+          delay(50);
+          }
+        }
+        else{
+          set_vel(vel);
+          delay(50);
+        }
+      }
+    }
+    else if(testing_vel <= init_vel){
+      for(vel=init_vel; vel>=testing_vel; vel-=1){
+        if(vel==testing_vel){
+          for(n=0; n<=200; ++n){
+          set_vel(vel);
+          delay(50);
+          }
+        }
+        else{
+          set_vel(vel);
+          delay(50);
+        }
+      }
+    }
+    delay(2000);
+    }
+  }
+  void test_forward_vel(float steady_vel) {
+    float init_vel = 90;
+    float max_vel = 65;
+    int n = 0;
+    while(1){
+      float vel = init_vel;
+      for(vel=init_vel; vel>=max_vel; vel-=1) {
       set_vel(vel);
-      delay(200);
+      delay(50);
+      }
+      for(vel=max_vel; vel<=steady_vel; vel+=1) {
+      set_vel(vel);
+      delay(50);
+      }
+      for(n=0; n<=40; ++n){
+      set_vel(vel);
+      delay(50);
+      }
+    }
   }
 }
