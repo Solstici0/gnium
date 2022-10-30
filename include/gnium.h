@@ -12,6 +12,7 @@ namespace gnium {
         test_ir_sensors,
         test_servo,
         test_servo_offset,
+        test_servo_angle,
         test_muscle,
         test_vel,
         test_forward_vel,

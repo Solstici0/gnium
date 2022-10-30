@@ -51,6 +51,11 @@ int main() {
         else if (mode == gnium::test_servo_offset ) {  // test servo offset
             servo::test_offset();
         }
+        else if (mode == gnium::test_servo_angle ) {  // test servo angle
+            // test_anngle in [-30, 30]
+            float test_angle = 2;
+            servo::set_angle(test_angle);
+        }
         else if (mode == gnium::test_muscle ) {  // test muscle
             muscle::test_routine();
         }
