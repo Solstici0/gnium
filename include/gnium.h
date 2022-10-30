@@ -14,6 +14,7 @@ namespace gnium {
         test_servo_offset,
         test_muscle,
         test_vel,
+        test_forward_vel,
         test_follow_trace
     }mode;
 
@@ -65,7 +66,7 @@ class gnium::Gnium {
         //TODO (wis) in principle, there should be 2 types of gnium
         // with 5 wheels, and the standar 3 wheels version
         Gnium(int mode, int type = 0, int lap_n = 0,
-              int train_pwm = 100, pid::Pid pid = pid::Pid(),
+              int train_pwm = 75, pid::Pid pid = pid::Pid(),
               int threshold = 100) {
             Mode = mode;  // 0 -> testing, 1-> compite
             Type = type;  // 0 -> 5-wheels, 1 -> classic 
