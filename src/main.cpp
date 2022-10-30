@@ -6,12 +6,28 @@
 #include <Arduino.h>
 #include <gnium.h>
 #include <ir_sensor.h>
-
+#include <events.h>
 //gnium::mode mode = gnium::race;  // 0 for test, 1 for compite
-gnium::mode mode = gnium::test_follow_trace;  // 0 for test, 1 for compite
+gnium::mode mode = gnium::test_events;  // 0 for test, 1 for compite
 
 // This options needs less memory. Why?
-// /*
+
+void events::midle_routine(){
+    delay(5);
+    Serial.println("midle");
+}
+void events::sensor_routine(){
+    unsigned long t_init = micros();
+    ir_sensor::read_front();
+    unsigned long t_end =micros();
+    Serial.print("read_front took ");
+    Serial.print(t_end-t_init);
+    Serial.println(" us");
+}
+void events::controller_routine(){
+    delay(5);
+    Serial.println("control_routine");
+}
 int main() {
     // setup code here
     init();
@@ -19,6 +35,9 @@ int main() {
     int type = 0;  // 0 for 5-wheels, 1 for classic
     int n_lap = 0;  // lap number
     unsigned int threshold = 100;
+    events::init();
+
+
     // gnium::Gnium gnium = gnium::Gnium(mode=mode,
     //                                   type=type,
     //                                   n_lap=n_lap,
@@ -60,6 +79,10 @@ int main() {
         else if (mode == gnium::test_forward_vel ) {  // test muscle
             float steady_vel = 75;  // velocity in dregree
             muscle::test_forward_vel(steady_vel);
+        }
+        else if (mode == gnium::test_events){
+            events::run();
+
         }
     }
 }

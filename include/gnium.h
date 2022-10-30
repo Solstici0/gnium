@@ -15,7 +15,8 @@ namespace gnium {
         test_muscle,
         test_vel,
         test_forward_vel,
-        test_follow_trace
+        test_follow_trace,
+        test_events
     }mode;
 
     // TODO (wis) create array of struct for lap information
