@@ -8,16 +8,36 @@
 #include <Arduino.h>
 
 #define ENABLE_HC 1 // enable hardcoded rules
-float MIN_ERROR = 1;            // 00001100
-float MEDIUM_ERROR = 5;         // 00000110
-float MAX_ERROR = 7;            // 00000011
-float EXTREME_ERROR = 4;        // 00000001
-float THREE_EXTREME_ERROR = 9;  // 00000111
-float MIN_CORRECTION = 2;
-float MEDIUM_CORRECTION = 7;
-float MAX_CORRECTION = 32;
-float EXTREME_CORRECTION = 32;
-float THREE_EXTREME_CORRECTION = 32;
+// ERRORS AND RELATED SENSOR ARRAYS VALUES
+float SOFT_ERROR = 1;              // 00011100
+float SOFT_POS_SR = 28;            // 00011100
+float SOFT_NEG_SR = 56;            // 00111000
+float MIN_ERROR = 3;               // 00001100
+float MIN_POS_SR = 12;             // 00001100
+float MIN_NEG_SR = 48;             // 00110000
+float THREE_MEDIUM_ERROR = 6;      // 00001110
+float THREE_MEDIUM_POS_SR = 14;    // 01110000
+float THREE_MEDIUM_NEG_SR = 112;   // 00001110
+float MEDIUM_ERROR = 5;            // 00000110
+float MEDIUM_POS_SR = 6;           // 00000110
+float MEDIUM_NEG_SR = 96;          // 01100000
+float THREE_EXTREME_ERROR = 9;     // 00000111
+float THREE_EXTREME_POS_SR = 7;    // 00000111
+float THREE_EXTREME_NEG_SR = 224;  // 11100000
+float MAX_ERROR = 7;               // 00000011
+float MAX_POS_SR = 3;              // 00000011
+float MAX_NEG_SR = 192;            // 11000000
+float EXTREME_ERROR = 4;           // 00000001
+float EXTREME_POS_SR = 1;          // 00000001
+float EXTREME_NEG_SR = 128;        // 10000000
+// CORRECTIONS
+float SOFT_CORRECTION = 2;            // 00011100
+float MIN_CORRECTION = 5;             // 00001100
+float THREE_MEDIUM_CORRECTION = 9;    // 00001110
+float MEDIUM_CORRECTION = 17;         // 00000110
+float THREE_EXTREME_CORRECTION = 30;  // 00000111
+float MAX_CORRECTION = 32;            // 00000011
+float EXTREME_CORRECTION = 32;        // 00000001
 
 namespace pid {
   class Pid;
@@ -80,38 +100,64 @@ class pid::Pid {
           e_prev = e_p;
           // some hardcoding :P
           // disable very soft correction
-          if(sensor_array == 56 or sensor_array == 28) {
-            //  00111000 or 00011100
-            e_p = 0;
+          if(sensor_array == SOFT_POS_SR){
+             // 00011100
+            e_p = SOFT_CORRECTION;
+          }
+          else if(sensor_array == SOFT_NEG_SR) {
+            //  00111000
+            e_p = -SOFT_CORRECTION;
           }
           // remember from where extreme we scape
-          if(last_control >= 30 and e_p == 0) {
+          if(last_control >= 30 and abs(e_p) <= MIN_ERROR) {
             e_p = last_control;
           }
-          else if(last_control <= -30 and e_p == 0){
+          else if(last_control <= -30 and abs(e_p) <= MIN_ERROR){
             e_p = last_control;
           }
           // enable hardcoding
           if(ENABLE_HC == 1){
-            if(e_p == MIN_ERROR) {
+            // 00001100
+            if(sensor_array == MIN_POS_SR) {
               e_p = MIN_CORRECTION;
             }
-            else if(e_p == -MIN_ERROR) {
+            else if(sensor_array == MIN_NEG_SR) {
               e_p = -MIN_CORRECTION;
             }
-            else if(e_p == MEDIUM_ERROR) {
+            // 00001110
+            else if(sensor_array == THREE_MEDIUM_POS_SR) {
+              e_p = THREE_MEDIUM_CORRECTION;
+            }
+            else if(sensor_array == THREE_MEDIUM_NEG_SR) {
+              e_p = -THREE_MEDIUM_CORRECTION;
+            }
+            // 00000110
+            else if(sensor_array == MEDIUM_POS_SR) {
               e_p = MEDIUM_CORRECTION;
             }
-            else if(e_p == -MEDIUM_ERROR) {
+            else if(sensor_array == MEDIUM_NEG_SR) {
               e_p = -MEDIUM_CORRECTION;
             }
-            else if(e_p == MAX_ERROR or e_p == EXTREME_ERROR
-               or e_p == THREE_EXTREME_ERROR) {
+            // 00000111
+            else if(sensor_array == THREE_EXTREME_POS_SR){
+              e_p = THREE_EXTREME_CORRECTION;
+            }
+            else if(sensor_array == THREE_EXTREME_NEG_SR){
+              e_p = -THREE_EXTREME_CORRECTION;
+            }
+            // 00000011
+            else if(sensor_array == MAX_POS_SR){
               e_p = MAX_CORRECTION;
             }
-            else if(e_p == -MAX_ERROR or e_p == -EXTREME_ERROR
-                    or e_p == THREE_EXTREME_ERROR) {
+            else if(sensor_array == MAX_NEG_SR){
               e_p = -MAX_CORRECTION;
+            }
+            // 00000001
+            else if(sensor_array == EXTREME_POS_SR){
+              e_p = EXTREME_CORRECTION;
+            }
+            else if(sensor_array == EXTREME_NEG_SR){
+              e_p = -EXTREME_CORRECTION;
             }
           }
       
