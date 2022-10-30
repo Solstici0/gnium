@@ -104,6 +104,11 @@ class pid::Pid {
             e_p += (((Ta>>i)&1) - ((sensor_array>>i)&1))*(3-i);
           }
         }
+
+          if(debug){
+            Serial.print("Current e_p (after basic measu.) = ");
+            Serial.println(e_p);
+          }
           // save previous error signal
           e_prev = e_p;
           // some hardcoding :P
@@ -118,11 +123,15 @@ class pid::Pid {
           }
           // remember from where extreme we scape
           if(last_control >= 30 and abs(e_p) <= MIN_ERROR) {
-            e_p = last_control;
+            e_p = EXTREME_CORRECTION;
           }
           else if(last_control <= -30 and abs(e_p) <= MIN_ERROR){
-            e_p = last_control;
+            e_p = -EXTREME_CORRECTION;
           }
+          if(debug){
+            Serial.print("Current e_p (after minor mods.) = ");
+            Serial.println(e_p);
+            }
           // enable hardcoding
           if(ENABLE_HC == 1){
             // 00001100
