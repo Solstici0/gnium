@@ -19,27 +19,27 @@ int main() {
     int type = 0;  // 0 for 5-wheels, 1 for classic
     int n_lap = 0;  // lap number
     unsigned int threshold = 100;
-    gnium::Gnium gnium = gnium::Gnium(mode=mode,
-                                      type=type,
-                                      n_lap=n_lap,
-                                      threshold=threshold);
+    // gnium::Gnium gnium = gnium::Gnium(mode=mode,
+    //                                   type=type,
+    //                                   n_lap=n_lap,
+    //                                   threshold=threshold);
     // TODO (wis) gnium.setup()
 
     while(1) {
         // run repetedly here
         // Serial.print("Gniiiium!i \n");
         if (mode == gnium::race) {  // compite
-            gnium.run_lap(gnium.Lap_n);
-            ++gnium.Lap_n;
+            // gnium.run_lap(gnium.Lap_n);
+            // ++gnium.Lap_n;
 
-            // third lap finished
-            if (gnium.Lap_n == 2) {
-                break;
-            }
+            // // third lap finished
+            // if (gnium.Lap_n == 2) {
+            //     break;
+            // }
         }
         else if (mode == gnium::test_follow_trace ) {  // test follow_trace
-            gnium.follow_trace(gnium.Train_pwm,
-                                gnium.Pid);
+            // gnium.follow_trace(gnium.Train_pwm,
+            //                     gnium.Pid);
        }
         else if (mode == gnium::test_ir_sensors ) {  // test ir_sensors reading
             ir_sensor::test_routine();
