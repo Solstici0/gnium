@@ -69,7 +69,7 @@ class pid::Pid {
             e_i = 0.;
             e_d = 0.;
             last_time = 0;
-            last_control = 0.;
+            //last_control = 0.;
             control_u = 0.;
         }
     public:
@@ -83,7 +83,7 @@ class pid::Pid {
         float e_i;  // integral error
         float e_d;  // derivative error
         int last_time;
-        float last_control;  // last control signal
+        //float last_control;  // last control signal
         float control_u;  // initial control signal
 
   float correction_signal(unsigned char sensor_array) {
