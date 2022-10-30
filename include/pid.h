@@ -167,29 +167,56 @@ class pid::Pid {
             else if(sensor_array == EXTREME_NEG_SR){
               e_p = -EXTREME_CORRECTION;
             }
+            // 00001111
+            else if(sensor_array == COMPLETE_POS_SR){
+              e_p = COMPLETE_CORRECTION;
+            }
+            else if(sensor_array == COMPLETE_NEG_SR){
+              e_p = -COMPLETE_CORRECTION;
+            }
           }
-      
+
+      float control_u = e_p;
+      if(debug){
+        Serial.print("Current control_u (outside if) = ");
+        Serial.println(control_u);
+      }
       if(ENABLE_HC == 1){
         // when ENABLE_HC last_control = e_p
         float control_u = e_p;
+        if(debug){
+          Serial.print("Current control_u (inside if) = ");
+          Serial.println(control_u);
+        }
       }
       else{
-        e_i += (e_p * dt) * K_i;  // e_i(0) = 0
+        e_i += (e_p * dt) * K_i * 0;  // e_i(0) = 0
         e_d = (e_p - e_prev) * K_d; // dt
         float control_u = K_p*e_p
         + e_i
         + e_d;
+        if(debug){
+          Serial.print("Current control_u (inside else) = ");
+          Serial.println(control_u);
+        }
       }
 
       last_time = now; // last time
       last_control = control_u;
       //debug messages
-      // Serial.print("Sensor measurement = ");
-      // Serial.println(sensor_array, BIN);
-      // Serial.print("Control signal = ");
-      // Serial.println(control_u);
+      if(debug){
+        Serial.print("Current e_p = ");
+        Serial.println(e_p);
+        Serial.print("Sensor measurement (final) = ");
+        Serial.println(sensor_array, BIN);
+        Serial.print("Control signal = ");
+        Serial.println(control_u);
+        Serial.print("Last control signal = ");
+        Serial.println(last_control);
+      }
       return control_u;
     }
     else return last_control;
+      last_control = last_control;
   }
 };
