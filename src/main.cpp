@@ -18,7 +18,7 @@ int main() {
     Serial.begin(115200); // open the serial port at 115200 bps:
     int type = 0;  // 0 for 5-wheels, 1 for classic
     int n_lap = 0;  // lap number
-    unsigned int threshold = 100;
+    //unsigned int threshold = 100;
     gnium::Gnium gnium = gnium::Gnium(mode,
                                       type,
                                       n_lap);
