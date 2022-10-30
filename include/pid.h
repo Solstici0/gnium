@@ -7,37 +7,45 @@
 // #pragma once  // only load libs once
 #include <Arduino.h>
 
+#define debug 0 // enable debug
 #define ENABLE_HC 1 // enable hardcoded rules
 // ERRORS AND RELATED SENSOR ARRAYS VALUES
 float SOFT_ERROR = 1;              // 00011100
-float SOFT_POS_SR = 28;            // 00011100
-float SOFT_NEG_SR = 56;            // 00111000
+float SOFT_NEG_SR = 28;            // 00011100
+float SOFT_POS_SR = 56;            // 00111000
 float MIN_ERROR = 3;               // 00001100
-float MIN_POS_SR = 12;             // 00001100
-float MIN_NEG_SR = 48;             // 00110000
+float MIN_NEG_SR = 12;             // 00001100
+float MIN_POS_SR = 48;             // 00110000
 float THREE_MEDIUM_ERROR = 6;      // 00001110
-float THREE_MEDIUM_POS_SR = 14;    // 00001110
-float THREE_MEDIUM_NEG_SR = 112;   // 01110000
+float THREE_MEDIUM_NEG_SR = 14;    // 00001110
+float THREE_MEDIUM_POS_SR = 112;   // 01110000
 float MEDIUM_ERROR = 5;            // 00000110
-float MEDIUM_POS_SR = 6;           // 00000110
-float MEDIUM_NEG_SR = 96;          // 01100000
+float MEDIUM_NEG_SR = 6;           // 00000110
+float MEDIUM_POS_SR = 96;          // 01100000
 float THREE_EXTREME_ERROR = 9;     // 00000111
-float THREE_EXTREME_POS_SR = 7;    // 00000111
-float THREE_EXTREME_NEG_SR = 224;  // 11100000
+float THREE_EXTREME_NEG_SR = 7;    // 00000111
+float THREE_EXTREME_POS_SR = 224;  // 11100000
 float MAX_ERROR = 7;               // 00000011
-float MAX_POS_SR = 3;              // 00000011
-float MAX_NEG_SR = 192;            // 11000000
+float MAX_NEG_SR = 3;              // 00000011
+float MAX_POS_SR = 192;            // 11000000
 float EXTREME_ERROR = 4;           // 00000001
-float EXTREME_POS_SR = 1;          // 00000001
-float EXTREME_NEG_SR = 128;        // 10000000
+float EXTREME_NEG_SR = 1;          // 00000001
+float EXTREME_POS_SR = 128;        // 10000000
+float COMPLETE_ERROR = 10;         // 00001111
+float COMPLETE_NEG_SR = 15;        // 00001111
+float COMPLETE_POS_SR = 240;       // 11110000
 // CORRECTIONS
 float SOFT_CORRECTION = 2;            // 00011100
 float MIN_CORRECTION = 5;             // 00001100
 float THREE_MEDIUM_CORRECTION = 9;    // 00001110
-float MEDIUM_CORRECTION = 17;         // 00000110
+float MEDIUM_CORRECTION = 19;         // 00000110
 float THREE_EXTREME_CORRECTION = 30;  // 00000111
 float MAX_CORRECTION = 32;            // 00000011
 float EXTREME_CORRECTION = 32;        // 00000001
+float COMPLETE_CORRECTION = 14;       // 00001111
+// previous error
+float e_prev = 0;
+float last_control = 0;
 
 namespace pid {
   class Pid;
