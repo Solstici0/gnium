@@ -23,7 +23,6 @@ int main() {
                                       type,
                                       n_lap);
     // TODO (wis) gnium.setup()
-
     while(1) {
         // run repetedly here
         // Serial.print("Gniiiium!i \n");
@@ -38,7 +37,7 @@ int main() {
         }
         else if (mode == gnium::test_follow_trace ) {  // test follow_trace
             int test_vel = 75;
-            pid::Pid test_pid = pid::Pid();
+            pid::Pid test_pid = gnium.Pid;
             gnium.follow_trace(test_vel,
                                 test_pid);
        }
