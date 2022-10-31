@@ -23,6 +23,7 @@
 // - min_width = 0.88 ms = 880 us (MIN MICROS)
 #define MUSCLE_PIN_ANGLE PB14  // TODO: check!
 
+#define debug 1 // enable debug
 int MUSCLE_MOTOR = -1;
 
 #elif TEENSY35
@@ -44,8 +45,10 @@ namespace muscle{
                                   MIN_MICROS_MUSCLE,
                                   MAX_MICROS_MUSCLE);
     if (MUSCLE_MOTOR != -1) {
-    Serial.println("Muscle motor initialization succeeds!");
-    Serial.println(MUSCLE_MOTOR);
+      if(debug){
+        Serial.println("Muscle motor initialization succeeds!");
+        Serial.println(MUSCLE_MOTOR);
+      }
     }
   }
 
@@ -58,6 +61,10 @@ namespace muscle{
     if (MUSCLE_MOTOR != -1) {
       STM32_ISR_Servos.setPosition(MUSCLE_MOTOR,
                                  vel_in_deg);
+      if(debug){
+        Serial.println("Muscle velocity = ");
+        Serial.println(vel_in_deg);
+      }
     }
     }
   void test_routine(void){
@@ -119,15 +126,15 @@ namespace muscle{
   }
   void test_forward_vel(float steady_vel) {
     float init_vel = 90;
-    float max_vel = 65;
+    float max_vel = 100;
     int n = 0;
     while(1){
       float vel = init_vel;
-      for(vel=init_vel; vel>=max_vel; vel-=1) {
+      for(vel=init_vel; vel<=max_vel; vel+=1) {
       set_vel(vel);
       delay(50);
       }
-      for(vel=max_vel; vel<=steady_vel; vel+=1) {
+      for(vel=max_vel; vel>=steady_vel; vel-=1) {
       set_vel(vel);
       delay(50);
       }
