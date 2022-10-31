@@ -8,7 +8,8 @@
 #include <Arduino.h>
 
 #define debug 0 // enable debug
-#define ENABLE_HC 1 // enable hardcoded rules
+#define ENABLE_HC 0 // enable hardcoded rules
+int straight = 0;
 // ERRORS AND RELATED SENSOR ARRAYS VALUES
 float SOFT_ERROR = 1;              // 00011100
 float SOFT_NEG_SR = 28;            // 00011100
@@ -38,11 +39,11 @@ float COMPLETE_POS_SR = 240;       // 11110000
 float SOFT_CORRECTION = 2;            // 00011100
 float MIN_CORRECTION = 5;             // 00001100
 float THREE_MEDIUM_CORRECTION = 9;    // 00001110
-float MEDIUM_CORRECTION = 19;         // 00000110
-float THREE_EXTREME_CORRECTION = 30;  // 00000111
-float MAX_CORRECTION = 32;            // 00000011
+float MEDIUM_CORRECTION = 17;         // 00000110
+float THREE_EXTREME_CORRECTION = 25;  // 00000111
+float MAX_CORRECTION = 30;            // 00000011
 float EXTREME_CORRECTION = 32;        // 00000001
-float COMPLETE_CORRECTION = 14;       // 00001111
+float COMPLETE_CORRECTION = 13;       // 00001111
 // previous error
 float e_prev = 0;
 float last_control = 0;
