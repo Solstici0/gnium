@@ -223,7 +223,12 @@ class pid::Pid {
         Serial.print("Last control signal = ");
         Serial.println(last_control);
       }
+      if(straight == 1 and ENABLE_HC){
+      return control_u/2.5;
+      }
+      else{
       return control_u;
+      }
     }
     else return last_control;
       last_control = last_control;
