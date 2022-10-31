@@ -52,18 +52,18 @@ int main() {
         }
         else if (mode == gnium::test_servo_angle ) {  // test servo angle
             // test_anngle in [-30, 30]
-            float test_angle = 2;
+            float test_angle = 10;
             servo::set_angle(test_angle);
         }
         else if (mode == gnium::test_muscle ) {  // test muscle
             muscle::test_routine();
         }
         else if (mode == gnium::test_vel ) {  // test muscle
-            float testing_vel = 75;  // velocity in dregree
-            muscle::test_vel(testing_vel);
+            float testing_vel = 122;  // velocity in dregree
+            muscle::set_vel(testing_vel);
         }
         else if (mode == gnium::test_forward_vel ) {  // test muscle
-            float steady_vel = 75;  // velocity in dregree
+            float steady_vel = 95;  // velocity in dregree
             muscle::test_forward_vel(steady_vel);
         }
     }
