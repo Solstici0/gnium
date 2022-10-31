@@ -57,7 +57,7 @@ class pid::Pid {
     */
     public:
         // Constructor
-        Pid(float k_p = 2, float k_i = 0.0, float k_d = 0.,
+        Pid(float k_p = 0., float k_i = 4, float k_d = 0.,
             unsigned char target_array = 24) {
             K_p = k_p;
             k_i = k_i;
@@ -199,7 +199,7 @@ class pid::Pid {
         }
       }
       else{
-        e_i += (e_p * dt) * K_i * 0;  // e_i(0) = 0
+        e_i += (e_p * dt) * K_i;  // e_i(0) = 0
         e_d = (e_p - e_prev) * K_d; // dt
         float control_u = K_p*e_p
         + e_i
