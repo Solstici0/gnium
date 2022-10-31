@@ -41,6 +41,8 @@ namespace events{
         pinMode(SERVO_PIN,OUTPUT);
         pinMode(MOTOR_PIN,OUTPUT);
         global_timer = micros();
+        motor_period = 50;
+        servo_period = 50;
     }
 
     /**
@@ -76,13 +78,17 @@ namespace events{
             //duration of the pulse is sensitive so this part stalls the code
             while (duty_state){
                 this_time = micros();
-                if ((this_time-global_timer)> motor_period){
-                    digitalWrite(MOTOR_PIN,LOW);
-                    duty_state &= ~MOTOR_BIT;
+                if (duty_state & MOTOR_BIT){
+                    if ((this_time-global_timer)> motor_period){
+                        digitalWrite(MOTOR_PIN,LOW);
+                        duty_state &= ~MOTOR_BIT;
+                    }
                 }
-                if ((this_time-global_timer)> servo_period){
-                    digitalWrite(MOTOR_PIN,LOW);
-                    duty_state &= ~SERVO_BIT;
+                if (duty_state & SERVO_BIT){
+                    if ((this_time-global_timer)> servo_period){
+                        digitalWrite(SERVO_PIN,LOW);
+                        duty_state &= ~SERVO_BIT;
+                    }
                 }
             }
             // signal that the 

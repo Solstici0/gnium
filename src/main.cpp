@@ -26,6 +26,16 @@ void events::sensor_routine(){
 }
 void events::controller_routine(){
     delay(5);
+    //whis routine should set the new values of motor_period and servo_period in us
+    events::motor_period +=2;
+    events::servo_period -=1;
+    if (events::motor_period >= 180){
+        events::motor_period = 10;
+
+    }
+    if (events::servo_period < 10){
+        events::servo_period = 180;
+    }
     Serial.println("control_routine");
 }
 int main() {
