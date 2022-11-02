@@ -36,14 +36,16 @@ int main() {
             }
         }
         else if (mode == gnium::test_follow_trace ) {  // test follow_trace
-            int test_vel = 75;
+            int test_vel = 115;
             pid::Pid test_pid = gnium.Pid;
             gnium.follow_trace(test_vel,
                                 test_pid);
        }
+        // IR_SENSORS TEST
         else if (mode == gnium::test_ir_sensors ) {  // test ir_sensors reading
             ir_sensor::test_routine();
         }
+        // MUSCLE TESTS
         else if (mode == gnium::test_servo ) {  // test servo (demo)
             servo::test_routine();
         }
@@ -55,15 +57,16 @@ int main() {
             float test_angle = 10;
             servo::set_angle(test_angle);
         }
+        // MUSCLE TESTS
         else if (mode == gnium::test_muscle ) {  // test muscle
             muscle::test_routine();
         }
         else if (mode == gnium::test_vel ) {  // test muscle
-            float testing_vel = 122;  // velocity in dregree
+            float testing_vel = 115;  // velocity in dregree
             muscle::set_vel(testing_vel);
         }
         else if (mode == gnium::test_forward_vel ) {  // test muscle
-            float steady_vel = 95;  // velocity in dregree
+            float steady_vel = 115;  // velocity in dregree
             muscle::test_forward_vel(steady_vel);
         }
     }
