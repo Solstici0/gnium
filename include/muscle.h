@@ -72,76 +72,54 @@ namespace muscle{
     int vel = init_vel;
     int max_vel = 110;
     int min_vel = 70;
-    while(1){
     // forward
     for(vel = init_vel; vel <= max_vel; vel+=1) {
       set_vel(vel);
-      delay(200);
+      delay(50);
     }
     for(vel = max_vel; vel >= min_vel; vel-=1) {
       set_vel(vel);
-      delay(200);
+      delay(50);
     }
     for(vel = min_vel; vel <= init_vel; vel+=1) {
       set_vel(vel);
-      delay(200);
-    }
+      delay(50);
     }
   }
   void test_vel(float testing_vel){
     int init_vel = 90;
-    while(1){
     int vel = init_vel;
     int n = 0;
     if(testing_vel > init_vel){
       for(vel=init_vel; vel<=testing_vel; vel+=1){
-        if(vel==testing_vel){
-          for(n=0; n<=200; ++n){
-          set_vel(vel);
-          delay(50);
-          }
-        }
-        else{
-          set_vel(vel);
-          delay(50);
+        set_vel(vel);
+        delay(50);
         }
       }
-    }
     else if(testing_vel <= init_vel){
       for(vel=init_vel; vel>=testing_vel; vel-=1){
-        if(vel==testing_vel){
-          for(n=0; n<=200; ++n){
           set_vel(vel);
           delay(50);
-          }
         }
-        else{
-          set_vel(vel);
-          delay(50);
         }
       }
-    }
-    delay(2000);
-    }
-  }
   void test_forward_vel(float steady_vel) {
     float init_vel = 90;
-    float max_vel = 100;
+    float max_vel = 115;
     int n = 0;
-    while(1){
-      float vel = init_vel;
-      for(vel=init_vel; vel<=max_vel; vel+=1) {
-      set_vel(vel);
-      delay(50);
-      }
-      for(vel=max_vel; vel>=steady_vel; vel-=1) {
-      set_vel(vel);
-      delay(50);
-      }
-      for(n=0; n<=40; ++n){
-      set_vel(vel);
-      delay(50);
-      }
+
+    float vel = init_vel;
+    for(vel=init_vel; vel<=max_vel; vel+=1) {
+    set_vel(vel);
+    delay(50);
+    }
+    for(vel=max_vel; vel>=steady_vel; vel-=1) {
+    set_vel(vel);
+    delay(50);
+    }
+    for(n=0; n<=40; ++n){
+    set_vel(vel);
+    delay(50);
     }
   }
 }
