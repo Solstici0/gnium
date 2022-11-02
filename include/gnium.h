@@ -10,6 +10,7 @@ namespace gnium {
     typedef enum mode{
         race,
         test_ir_sensors,
+        test_side_sensors,
         test_servo,
         test_servo_offset,
         test_servo_angle,
