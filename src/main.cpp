@@ -18,13 +18,11 @@ int main() {
     Serial.begin(115200); // open the serial port at 115200 bps:
     int type = 0;  // 0 for 5-wheels, 1 for classic
     int n_lap = 0;  // lap number
-    unsigned int threshold = 100;
-    gnium::Gnium gnium = gnium::Gnium(mode=mode,
-                                      type=type,
-                                      n_lap=n_lap,
-                                      threshold=threshold);
+    //unsigned int threshold = 100;
+    gnium::Gnium gnium = gnium::Gnium(mode,
+                                      type,
+                                      n_lap);
     // TODO (wis) gnium.setup()
-
     while(1) {
         // run repetedly here
         // Serial.print("Gniiiium!i \n");
@@ -38,8 +36,10 @@ int main() {
             }
         }
         else if (mode == gnium::test_follow_trace ) {  // test follow_trace
-            gnium.follow_trace(gnium.Train_pwm,
-                                gnium.Pid);
+            int test_vel = 75;
+            pid::Pid test_pid = gnium.Pid;
+            gnium.follow_trace(test_vel,
+                                test_pid);
        }
         else if (mode == gnium::test_ir_sensors ) {  // test ir_sensors reading
             ir_sensor::test_routine();
@@ -50,15 +50,20 @@ int main() {
         else if (mode == gnium::test_servo_offset ) {  // test servo offset
             servo::test_offset();
         }
+        else if (mode == gnium::test_servo_angle ) {  // test servo angle
+            // test_anngle in [-30, 30]
+            float test_angle = 10;
+            servo::set_angle(test_angle);
+        }
         else if (mode == gnium::test_muscle ) {  // test muscle
             muscle::test_routine();
         }
         else if (mode == gnium::test_vel ) {  // test muscle
-            float testing_vel = 75;  // velocity in dregree
-            muscle::test_vel(testing_vel);
+            float testing_vel = 122;  // velocity in dregree
+            muscle::set_vel(testing_vel);
         }
         else if (mode == gnium::test_forward_vel ) {  // test muscle
-            float steady_vel = 75;  // velocity in dregree
+            float steady_vel = 95;  // velocity in dregree
             muscle::test_forward_vel(steady_vel);
         }
     }

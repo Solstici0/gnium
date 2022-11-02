@@ -12,6 +12,7 @@ namespace gnium {
         test_ir_sensors,
         test_servo,
         test_servo_offset,
+        test_servo_angle,
         test_muscle,
         test_vel,
         test_forward_vel,
@@ -138,8 +139,7 @@ class gnium::Gnium {
 
          // use default Train_pwm velocity and PID values
          if (train_pwm == -1) {
-             train_pwm = gnium::Gnium::Train_pwm;
-             pid = gnium::Gnium::Pid;
+             train_pwm = Train_pwm;
          }
 
          // run until start line is detected
