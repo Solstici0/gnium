@@ -22,6 +22,9 @@ Here I will put all relevant ideas, references and discussion
 #+CAPTION: Gnium V2
     [[./img/gnium_v2.png]]
 
+#+CAPTION: Gnium V3
+    [[./img/gnium_v3.png]]
+
 * TODOs:
 ** personal [3/6]
 - [X] Include picture of the robot

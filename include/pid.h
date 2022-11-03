@@ -7,17 +7,47 @@
 // #pragma once  // only load libs once
 #include <Arduino.h>
 
-#define ENABLE_HC 1 // enable hardcoded rules
-float MIN_ERROR = 1;            // 00001100
-float MEDIUM_ERROR = 5;         // 00000110
-float MAX_ERROR = 7;            // 00000011
-float EXTREME_ERROR = 4;        // 00000001
-float THREE_EXTREME_ERROR = 9;  // 00000111
-float MIN_CORRECTION = 2;
-float MEDIUM_CORRECTION = 7;
-float MAX_CORRECTION = 32;
-float EXTREME_CORRECTION = 32;
-float THREE_EXTREME_CORRECTION = 32;
+#define debug 1 // enable debug
+#define ENABLE_HC 0 // enable hardcoded rules
+
+int straight = 0;
+// ERRORS AND RELATED SENSOR ARRAYS VALUES
+float SOFT_ERROR = 1;              // 00011100
+float SOFT_NEG_SR = 28;            // 00011100
+float SOFT_POS_SR = 56;            // 00111000
+float MIN_ERROR = 3;               // 00001100
+float MIN_NEG_SR = 12;             // 00001100
+float MIN_POS_SR = 48;             // 00110000
+float THREE_MEDIUM_ERROR = 6;      // 00001110
+float THREE_MEDIUM_NEG_SR = 14;    // 00001110
+float THREE_MEDIUM_POS_SR = 112;   // 01110000
+float MEDIUM_ERROR = 5;            // 00000110
+float MEDIUM_NEG_SR = 6;           // 00000110
+float MEDIUM_POS_SR = 96;          // 01100000
+float THREE_EXTREME_ERROR = 9;     // 00000111
+float THREE_EXTREME_NEG_SR = 7;    // 00000111
+float THREE_EXTREME_POS_SR = 224;  // 11100000
+float MAX_ERROR = 7;               // 00000011
+float MAX_NEG_SR = 3;              // 00000011
+float MAX_POS_SR = 192;            // 11000000
+float EXTREME_ERROR = 4;           // 00000001
+float EXTREME_NEG_SR = 1;          // 00000001
+float EXTREME_POS_SR = 128;        // 10000000
+float COMPLETE_ERROR = 10;         // 00001111
+float COMPLETE_NEG_SR = 15;        // 00001111
+float COMPLETE_POS_SR = 240;       // 11110000
+// CORRECTIONS
+float SOFT_CORRECTION = 2;            // 00011100
+float MIN_CORRECTION = 5;             // 00001100
+float THREE_MEDIUM_CORRECTION = 9;    // 00001110
+float MEDIUM_CORRECTION = 17;         // 00000110
+float THREE_EXTREME_CORRECTION = 25;  // 00000111
+float MAX_CORRECTION = 30;            // 00000011
+float EXTREME_CORRECTION = 32;        // 00000001
+float COMPLETE_CORRECTION = 13;       // 00001111
+// previous error
+float e_prev = 0;
+float last_control = 0;
 
 namespace pid {
   class Pid;
@@ -29,8 +59,10 @@ class pid::Pid {
     */
     public:
         // Constructor
-        Pid(float k_p = 2, float k_i = 0.0, float k_d = 0.,
+        Pid(float k_p = 1., float k_i = 4, float k_d = 20.,
             unsigned char target_array = 24) {
+            // good constant for straight lines
+            // Kp = 0, Ki = 4, Kd = 0
             K_p = k_p;
             k_i = k_i;
             K_d = k_d;
@@ -41,7 +73,7 @@ class pid::Pid {
             e_i = 0.;
             e_d = 0.;
             last_time = 0;
-            last_control = 0.;
+            //last_control = 0.;
             control_u = 0.;
         }
     public:
@@ -55,7 +87,7 @@ class pid::Pid {
         float e_i;  // integral error
         float e_d;  // derivative error
         int last_time;
-        float last_control;  // last control signal
+        //float last_control;  // last control signal
         float control_u;  // initial control signal
 
   float correction_signal(unsigned char sensor_array) {
@@ -76,48 +108,99 @@ class pid::Pid {
             e_p += (((Ta>>i)&1) - ((sensor_array>>i)&1))*(3-i);
           }
         }
+
+          if(debug){
+            Serial.print("Current e_p (after basic measu.) = ");
+            Serial.println(e_p);
+          }
           // save previous error signal
           e_prev = e_p;
           // some hardcoding :P
           // disable very soft correction
-          if(sensor_array == 56 or sensor_array == 28) {
-            //  00111000 or 00011100
-            e_p = 0;
+          if(sensor_array == SOFT_POS_SR){
+             // 00011100
+            e_p = SOFT_CORRECTION;
+          }
+          else if(sensor_array == SOFT_NEG_SR) {
+            //  00111000
+            e_p = -SOFT_CORRECTION;
           }
           // remember from where extreme we scape
-          if(last_control >= 30 and e_p == 0) {
-            e_p = last_control;
+          if(last_control >= 30 and abs(e_p) <= MIN_ERROR) {
+            e_p = EXTREME_CORRECTION;
           }
-          else if(last_control <= -30 and e_p == 0){
-            e_p = last_control;
+          else if(last_control <= -30 and abs(e_p) <= MIN_ERROR){
+            e_p = -EXTREME_CORRECTION;
           }
+          if(debug){
+            Serial.print("Current e_p (after minor mods.) = ");
+            Serial.println(e_p);
+            }
           // enable hardcoding
           if(ENABLE_HC == 1){
-            if(e_p == MIN_ERROR) {
+            // 00001100
+            if(sensor_array == MIN_POS_SR) {
               e_p = MIN_CORRECTION;
             }
-            else if(e_p == -MIN_ERROR) {
+            else if(sensor_array == MIN_NEG_SR) {
               e_p = -MIN_CORRECTION;
             }
-            else if(e_p == MEDIUM_ERROR) {
+            // 00001110
+            else if(sensor_array == THREE_MEDIUM_POS_SR) {
+              e_p = THREE_MEDIUM_CORRECTION;
+            }
+            else if(sensor_array == THREE_MEDIUM_NEG_SR) {
+              e_p = -THREE_MEDIUM_CORRECTION;
+            }
+            // 00000110
+            else if(sensor_array == MEDIUM_POS_SR) {
               e_p = MEDIUM_CORRECTION;
             }
-            else if(e_p == -MEDIUM_ERROR) {
+            else if(sensor_array == MEDIUM_NEG_SR) {
               e_p = -MEDIUM_CORRECTION;
             }
-            else if(e_p == MAX_ERROR or e_p == EXTREME_ERROR
-               or e_p == THREE_EXTREME_ERROR) {
+            // 00000111
+            else if(sensor_array == THREE_EXTREME_POS_SR){
+              e_p = THREE_EXTREME_CORRECTION;
+            }
+            else if(sensor_array == THREE_EXTREME_NEG_SR){
+              e_p = -THREE_EXTREME_CORRECTION;
+            }
+            // 00000011
+            else if(sensor_array == MAX_POS_SR){
               e_p = MAX_CORRECTION;
             }
-            else if(e_p == -MAX_ERROR or e_p == -EXTREME_ERROR
-                    or e_p == THREE_EXTREME_ERROR) {
+            else if(sensor_array == MAX_NEG_SR){
               e_p = -MAX_CORRECTION;
             }
+            // 00000001
+            else if(sensor_array == EXTREME_POS_SR){
+              e_p = EXTREME_CORRECTION;
+            }
+            else if(sensor_array == EXTREME_NEG_SR){
+              e_p = -EXTREME_CORRECTION;
+            }
+            // 00001111
+            else if(sensor_array == COMPLETE_POS_SR){
+              e_p = COMPLETE_CORRECTION;
+            }
+            else if(sensor_array == COMPLETE_NEG_SR){
+              e_p = -COMPLETE_CORRECTION;
+            }
           }
-      
+
+      float control_u = e_p;
+      if(debug){
+        Serial.print("Current control_u (outside if) = ");
+        Serial.println(control_u);
+      }
       if(ENABLE_HC == 1){
         // when ENABLE_HC last_control = e_p
         float control_u = e_p;
+        if(debug){
+          Serial.print("Current control_u (inside if) = ");
+          Serial.println(control_u);
+        }
       }
       else{
         e_i += (e_p * dt) * K_i;  // e_i(0) = 0
@@ -125,17 +208,33 @@ class pid::Pid {
         float control_u = K_p*e_p
         + e_i
         + e_d;
+        if(debug){
+          Serial.print("Current control_u (inside else) = ");
+          Serial.println(control_u);
+        }
       }
 
       last_time = now; // last time
       last_control = control_u;
       //debug messages
-      // Serial.print("Sensor measurement = ");
-      // Serial.println(sensor_array, BIN);
-      // Serial.print("Control signal = ");
-      // Serial.println(control_u);
+      if(debug){
+        Serial.print("Current e_p = ");
+        Serial.println(e_p);
+        Serial.print("Sensor measurement (final) = ");
+        Serial.println(sensor_array, BIN);
+        Serial.print("Control signal = ");
+        Serial.println(control_u);
+        Serial.print("Last control signal = ");
+        Serial.println(last_control);
+      }
+      if(straight == 1 and ENABLE_HC){
+      return control_u/2.5;
+      }
+      else{
       return control_u;
+      }
     }
     else return last_control;
+      last_control = last_control;
   }
 };

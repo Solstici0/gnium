@@ -23,6 +23,7 @@
 // - min_width = 0.88 ms = 880 us (MIN MICROS)
 #define MUSCLE_PIN_ANGLE PB14  // TODO: check!
 
+#define debug 1 // enable debug
 int MUSCLE_MOTOR = -1;
 
 #elif TEENSY35
@@ -44,8 +45,21 @@ namespace muscle{
                                   MIN_MICROS_MUSCLE,
                                   MAX_MICROS_MUSCLE);
     if (MUSCLE_MOTOR != -1) {
-    Serial.println("Muscle motor initialization succeeds!");
-    Serial.println(MUSCLE_MOTOR);
+      float one_ms_in_deg = 70;
+      uint16_t one_ms_in_us = 1000;
+      int n = 1;
+      for(n = 70; n<=90; n+=1) {
+      STM32_ISR_Servos.setPosition(MUSCLE_MOTOR,
+                                 n);
+                                 //one_ms_in_deg);
+      //STM32_ISR_Servos.setPulseWidth(MUSCLE_MOTOR,
+      //                          one_ms_in_us);
+      delay(200);
+      }
+      if(debug){
+        Serial.println("Muscle motor initialization succeeds!");
+        Serial.println(MUSCLE_MOTOR);
+      }
     }
   }
 
@@ -58,6 +72,10 @@ namespace muscle{
     if (MUSCLE_MOTOR != -1) {
       STM32_ISR_Servos.setPosition(MUSCLE_MOTOR,
                                  vel_in_deg);
+      if(debug){
+        Serial.println("Muscle velocity = ");
+        Serial.println(vel_in_deg);
+      }
     }
     }
   void test_routine(void){
@@ -65,76 +83,54 @@ namespace muscle{
     int vel = init_vel;
     int max_vel = 110;
     int min_vel = 70;
-    while(1){
     // forward
     for(vel = init_vel; vel <= max_vel; vel+=1) {
       set_vel(vel);
-      delay(200);
+      delay(50);
     }
     for(vel = max_vel; vel >= min_vel; vel-=1) {
       set_vel(vel);
-      delay(200);
+      delay(50);
     }
     for(vel = min_vel; vel <= init_vel; vel+=1) {
       set_vel(vel);
-      delay(200);
-    }
+      delay(50);
     }
   }
   void test_vel(float testing_vel){
     int init_vel = 90;
-    while(1){
     int vel = init_vel;
     int n = 0;
     if(testing_vel > init_vel){
       for(vel=init_vel; vel<=testing_vel; vel+=1){
-        if(vel==testing_vel){
-          for(n=0; n<=200; ++n){
-          set_vel(vel);
-          delay(50);
-          }
-        }
-        else{
-          set_vel(vel);
-          delay(50);
+        set_vel(vel);
+        delay(50);
         }
       }
-    }
     else if(testing_vel <= init_vel){
       for(vel=init_vel; vel>=testing_vel; vel-=1){
-        if(vel==testing_vel){
-          for(n=0; n<=200; ++n){
           set_vel(vel);
           delay(50);
-          }
         }
-        else{
-          set_vel(vel);
-          delay(50);
         }
       }
-    }
-    delay(2000);
-    }
-  }
   void test_forward_vel(float steady_vel) {
     float init_vel = 90;
-    float max_vel = 65;
+    float max_vel = 115;
     int n = 0;
-    while(1){
-      float vel = init_vel;
-      for(vel=init_vel; vel>=max_vel; vel-=1) {
-      set_vel(vel);
-      delay(50);
-      }
-      for(vel=max_vel; vel<=steady_vel; vel+=1) {
-      set_vel(vel);
-      delay(50);
-      }
-      for(n=0; n<=40; ++n){
-      set_vel(vel);
-      delay(50);
-      }
+
+    float vel = init_vel;
+    for(vel=init_vel; vel<=max_vel; vel+=1) {
+    set_vel(vel);
+    delay(50);
+    }
+    for(vel=max_vel; vel>=steady_vel; vel-=1) {
+    set_vel(vel);
+    delay(50);
+    }
+    for(n=0; n<=40; ++n){
+    set_vel(vel);
+    delay(50);
     }
   }
 }
