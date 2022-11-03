@@ -98,48 +98,68 @@ class pid::Pid {
     if (t_change >= dt){
       //Serial.write(0x69);
       e_p = 0;
+      mean_dist = 0;
+      active_sensors = 0;
       for(int i = 0; i < 8; i++) {
           // we can ponderate the substraction below 
           //pid::Pid::e_p += pid::Pid::Ta[i] - sensor_array[i];
+          active_sensors += 1*((sensor_array>>i)&1);
           if (i < 4){
-            e_p += (((Ta>>i)&1) - ((sensor_array>>i)&1))*(4-i);
+            mean_dist += (((Ta>>i)&1) - ((sensor_array>>i)&1))*(4-i);
           }
           else{
-            e_p += (((Ta>>i)&1) - ((sensor_array>>i)&1))*(3-i);
+            mean_dist += (((Ta>>i)&1) - ((sensor_array>>i)&1))*(3-i);
           }
         }
-
+        mean_dist = mean_dist/active_sensors;
+        if (mean_dist == 0) {
+          OFFSET_DIST_WSIGN = 0;
+        }
+        else if(signbit(mean_dist) == 1) {
+          // negative offset if mean_dist is negative
+          OFFSET_DIST_WSIGN = -1*OFFSET_DIST;
+        }
+        else {
+          OFFSET_DIST_WSIGN = OFFSET_DIST;
+        }
+        e_p = atan((mean_dist*BETWEEN_SENSOR_DIST + OFFSET_DIST_WSIGN)/
+                   MUSCLE_TO_SENSOR_DIST);
+        e_p = e_p*180/PI;  // convert to angle
           if(debug){
-            Serial.print("Current e_p (after basic measu.) = ");
+            Serial.print("Current e_p (mm) = ");
             Serial.println(e_p);
+            Serial.print("Active sensors (#) = ");
+            Serial.println(active_sensors);
           }
           // save previous error signal
           e_prev = e_p;
           // some hardcoding :P
-          // disable very soft correction
-          if(sensor_array == SOFT_POS_SR){
-             // 00011100
-            e_p = SOFT_CORRECTION;
-          }
-          else if(sensor_array == SOFT_NEG_SR) {
-            //  00111000
-            e_p = -SOFT_CORRECTION;
-          }
           // remember from where extreme we scape
-          if(last_control >= 30 and abs(e_p) <= MIN_ERROR) {
+          if(last_control >= 30 and (abs(e_p) <= MIN_ERROR
+                                     or abs(e_p) <= MINIMUM_ANGLE)) {
             e_p = EXTREME_CORRECTION;
           }
-          else if(last_control <= -30 and abs(e_p) <= MIN_ERROR){
+          else if(last_control <= -30 and (abs(e_p) <= MIN_ERROR
+                                           or abs(e_p) <= MINIMUM_ANGLE)){
             e_p = -EXTREME_CORRECTION;
           }
-          if(debug){
-            Serial.print("Current e_p (after minor mods.) = ");
-            Serial.println(e_p);
-            }
           // enable hardcoding
           if(ENABLE_HC == 1){
+            if(debug){
+              Serial.print("Current e_p (in angle) = ");
+              Serial.println(e_p);
+              }
+            // disable very soft correction
+            if(sensor_array == SOFT_POS_SR){
+                // 00011100
+              e_p = SOFT_CORRECTION;
+            }
+            else if(sensor_array == SOFT_NEG_SR) {
+              //  00111000
+              e_p = -SOFT_CORRECTION;
+            }
             // 00001100
-            if(sensor_array == MIN_POS_SR) {
+            else if(sensor_array == MIN_POS_SR) {
               e_p = MIN_CORRECTION;
             }
             else if(sensor_array == MIN_NEG_SR) {
