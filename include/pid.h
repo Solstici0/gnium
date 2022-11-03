@@ -7,8 +7,9 @@
 // #pragma once  // only load libs once
 #include <Arduino.h>
 
-#define debug 0 // enable debug
-#define ENABLE_HC 1 // enable hardcoded rules
+#define debug 1 // enable debug
+#define ENABLE_HC 0 // enable hardcoded rules
+
 int straight = 0;
 // ERRORS AND RELATED SENSOR ARRAYS VALUES
 float SOFT_ERROR = 1;              // 00011100
@@ -58,8 +59,10 @@ class pid::Pid {
     */
     public:
         // Constructor
-        Pid(float k_p = 0., float k_i = 4, float k_d = 0.,
+        Pid(float k_p = 1., float k_i = 4, float k_d = 20.,
             unsigned char target_array = 24) {
+            // good constant for straight lines
+            // Kp = 0, Ki = 4, Kd = 0
             K_p = k_p;
             k_i = k_i;
             K_d = k_d;
