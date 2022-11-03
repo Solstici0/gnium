@@ -8,7 +8,7 @@
 #include <ir_sensor.h>
 
 //gnium::mode mode = gnium::race;  // 0 for test, 1 for compite
-gnium::mode mode = gnium::test_side_sensors;  // 0 for test, 1 for compite
+gnium::mode mode = gnium::test_follow_trace;  // 0 for test, 1 for compite
 
 // This options needs less memory. Why?
 // /*
@@ -36,7 +36,7 @@ int main() {
             }
         }
         else if (mode == gnium::test_follow_trace ) {  // test follow_trace
-            int test_vel = 90;
+            int test_vel = 65;  // 64 works in degree!
             pid::Pid test_pid = gnium.Pid;
             gnium.follow_trace(test_vel,
                                 test_pid);

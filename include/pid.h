@@ -8,7 +8,7 @@
 #include <Arduino.h>
 
 #define debug 1 // enable debug
-#define ENABLE_HC 0 // enable hardcoded rules
+#define ENABLE_HC 1 // enable hardcoded rules
 
 int straight = 0;
 // ERRORS AND RELATED SENSOR ARRAYS VALUES

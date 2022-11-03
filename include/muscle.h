@@ -72,6 +72,10 @@ namespace muscle{
     if (MUSCLE_MOTOR != -1) {
       STM32_ISR_Servos.setPosition(MUSCLE_MOTOR,
                                  vel_in_deg);
+      //uint16_t pulse_width = (2080-880)/180 * vel_in_deg +
+      //                    880;
+      //STM32_ISR_Servos.setPulseWidth(MUSCLE_MOTOR,
+      //                               pulse_width);
       if(debug){
         Serial.println("Muscle velocity = ");
         Serial.println(vel_in_deg);
