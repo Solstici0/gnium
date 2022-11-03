@@ -136,11 +136,11 @@ class gnium::Gnium {
          * Where this should be saved? lap class (struct)?
          * gnium attribute?
          */
-
          // use default Train_pwm velocity and PID values
          if (train_pwm == -1) {
              train_pwm = Train_pwm;
          }
+         //n = 0; // mark counter
 
          // run until start line is detected
          while (!gnium::Gnium::Start_detected) {
@@ -151,6 +151,13 @@ class gnium::Gnium {
          // run until end line is detected
          while (gnium::Gnium::Start_detected and
              !gnium::Gnium::End_detected) {
+             // Save lap information after each new mark
+             // is detected
+             //if (ir_sensors::mark_detected()) {
+             //n += 1;
+             //}
+             
+             // update End_detected flag
              gnium::Gnium::End_detected =
                  gnium::Gnium::follow_trace(train_pwm, pid);
          }
@@ -203,11 +210,11 @@ class gnium::Gnium {
         servo::set_angle(angle_correction); //
         muscle::set_vel(vel_pwm); //
 
-        int start_or_end_is_detected = 0; // just to pass tests
+        int start_or_end_detected = 0; // just to pass tests
                                           // should not be like this
-        //int start_or_end_detected = ir_sensor::start_or_end_detected()
+        //int start_or_end_detected = ir_sensor::start_or_end_detected();
 
-        if (start_or_end_is_detected) {
+        if (start_or_end_detected) {
             return true;
         }
         else {
