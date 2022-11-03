@@ -8,7 +8,7 @@
 #include <ir_sensor.h>
 
 //gnium::mode mode = gnium::race;  // 0 for test, 1 for compite
-gnium::mode mode = gnium::test_follow_trace;  // 0 for test, 1 for compite
+gnium::mode mode = gnium::test_side_sensors;  // 0 for test, 1 for compite
 
 // This options needs less memory. Why?
 // /*
@@ -44,6 +44,9 @@ int main() {
         // IR_SENSORS TEST
         else if (mode == gnium::test_ir_sensors ) {  // test ir_sensors reading
             ir_sensor::test_routine();
+        }
+        else if (mode == gnium::test_side_sensors ) {  // test ir_sensors reading
+            ir_sensor::test_sides();
         }
         // MUSCLE TESTS
         else if (mode == gnium::test_servo ) {  // test servo (demo)

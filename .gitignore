@@ -1,4 +1,5 @@
 .pio
+!.pio/libdeps/bluepill/STM32_ISR_Servo/src/STM32_ISR_Servo.hpp
 .clang_complete
 .ccls
 
