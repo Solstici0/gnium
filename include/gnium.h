@@ -6,7 +6,7 @@
 #include <servo.h>
 #include <muscle.h>
 
-#define control_vel 0
+#define control_vel 1
 
 namespace gnium {
     typedef enum mode{

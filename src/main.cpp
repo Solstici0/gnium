@@ -36,7 +36,7 @@ int main() {
             }
         }
         else if (mode == gnium::test_follow_trace ) {  // test follow_trace
-            int test_vel = 65;  // 64 works in degree!
+            int test_vel = 90;//64;  // 64 works in degree!
             pid::Pid test_pid = gnium.Pid;
             gnium.follow_trace(test_vel,
                                 test_pid);

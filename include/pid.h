@@ -9,7 +9,7 @@
 //#include <cmath>
 #include <math.h>
 
-#define debug 1 // enable debug
+#define debug 0 // enable debug
 #define ENABLE_HC 0 // enable hardcoded rules
 //#define PI 3.141592654
 
@@ -52,13 +52,16 @@ float COMPLETE_CORRECTION = 13;       // 00001111
 float e_prev = 0;
 float last_control = 0;
 float last_control_v = 0;
+float control_u = 0;
+//float last_time = 0;
 // relevant distances
 float OFFSET_DIST = -1.875;
 float BETWEEN_SENSOR_DIST = 8.75;
 float MUSCLE_TO_SENSOR_DIST = 70;
 float MINIMUM_ANGLE = 5; //
-float MAX_VEL_IN_DEG = 60;
-float MIN_VEL_IN_DEG = 65;
+float MAX_VEL_IN_DEG = 62;
+float MIN_VEL_IN_DEG = 64;
+float MEM_TRIGER_DEG = 24;
 
 struct Control
 {
@@ -73,12 +76,13 @@ namespace pid {
 
 class pid::Pid {
     /*! @class Pid
+        eloat e_p;  // proportional error
     * creates pid object
     */
     public:
         // Constructor
-        Pid(float k_p = 1., float k_i = 0, float k_d = 5.,
-            float k_d_vel = 1.,
+        Pid(float k_p = 1.1, float k_i = 0., float k_d = .03,
+            float k_p_vel = 1., float k_d_vel = 1.,
             unsigned char target_array = 24) {
             // good constant for straight lines
             // Kp = 0, Ki = 4, Kd = 0
@@ -86,24 +90,27 @@ class pid::Pid {
             k_i = k_i;
             K_d = k_d;
             K_d_vel = k_d_vel;
+            K_p_vel = k_p_vel;
             Ta = target_array;
             e_prev = 0.; // TODO: in the future this variables should be injected
             dt = 20; // sample time for changing controlled vars
             e_p = 0.;
             e_i = 0.;
             e_d = 0.;
-            last_time = 0;
+            //e_prev = 0.;
+            //last_time = 0;
             //last_control = 0.;
-            control_u = 0.;
+            //control_u = 0.;
             control_v = 90.;
-            control.theta = control_u;
-            control.vel = control_v;
+            //control.theta = control_u;
+            //control.vel = control_v;
         }
     public:
         float K_p; // proportional constant
         float K_i; // integral constant
         float K_d; // derivative constant
         float K_d_vel; // derivative constant for vel
+        float K_p_vel; // derivative constant for vel
         unsigned char Ta; // target array (perfect position over trace)
         float e_prev; // previous error
         int dt;  // delta t
@@ -112,12 +119,14 @@ class pid::Pid {
         float e_d;  // derivative error
         int last_time;
         //float last_control;  // last control signal
+        //float last_control_v;  // last control signal
         float control_u;  // initial control signal for angle
         float control_v;  // initial control signal for vel
         int active_sensors;
         float mean_dist;
         float OFFSET_DIST_WSIGN;
         Control control;
+        int memory;
 
   Control correction_signal(unsigned char sensor_array) {
     // time counter
@@ -140,7 +149,13 @@ class pid::Pid {
             mean_dist += (((Ta>>i)&1) - ((sensor_array>>i)&1))*(3-i);
           }
         }
-        mean_dist = mean_dist/active_sensors;
+
+        if (mean_dist != 0) {
+          mean_dist = mean_dist/active_sensors;
+        }
+        //else {
+        //  e_p = e_prev;
+        //}
         if (mean_dist == 0) {
           OFFSET_DIST_WSIGN = 0;
         }
@@ -154,89 +169,97 @@ class pid::Pid {
         e_p = atan((mean_dist*BETWEEN_SENSOR_DIST + OFFSET_DIST_WSIGN)/
                    MUSCLE_TO_SENSOR_DIST);
         e_p = e_p*180/PI;  // convert to angle
+        // save previous error signal
+        // some hardcoding :P
+        // remember from where extreme we scape
+        // enable hardcoding
+        if(ENABLE_HC == 1){
           if(debug){
-            Serial.print("Current e_p (mm) = ");
+            Serial.print("Current e_p (in angle) = ");
             Serial.println(e_p);
-            Serial.print("Active sensors (#) = ");
-            Serial.println(active_sensors);
+            }
+          // disable very soft correction
+          if(sensor_array == SOFT_POS_SR){
+              // 00011100
+            e_p = SOFT_CORRECTION;
           }
-          // save previous error signal
-          e_prev = e_p;
-          // some hardcoding :P
-          // remember from where extreme we scape
-          if(last_control >= 30 and (abs(e_p) <= MIN_ERROR
-                                     or abs(e_p) <= MINIMUM_ANGLE)) {
+          else if(sensor_array == SOFT_NEG_SR) {
+            //  00111000
+            e_p = -SOFT_CORRECTION;
+          }
+          // 00001100
+          else if(sensor_array == MIN_POS_SR) {
+            e_p = MIN_CORRECTION;
+          }
+          else if(sensor_array == MIN_NEG_SR) {
+            e_p = -MIN_CORRECTION;
+          }
+          // 00001110
+          else if(sensor_array == THREE_MEDIUM_POS_SR) {
+            e_p = THREE_MEDIUM_CORRECTION;
+          }
+          else if(sensor_array == THREE_MEDIUM_NEG_SR) {
+            e_p = -THREE_MEDIUM_CORRECTION;
+          }
+          // 00000110
+          else if(sensor_array == MEDIUM_POS_SR) {
+            e_p = MEDIUM_CORRECTION;
+          }
+          else if(sensor_array == MEDIUM_NEG_SR) {
+            e_p = -MEDIUM_CORRECTION;
+          }
+          // 00000111
+          else if(sensor_array == THREE_EXTREME_POS_SR){
+            e_p = THREE_EXTREME_CORRECTION;
+          }
+          else if(sensor_array == THREE_EXTREME_NEG_SR){
+            e_p = -THREE_EXTREME_CORRECTION;
+          }
+          // 00000011
+          else if(sensor_array == MAX_POS_SR){
+            e_p = MAX_CORRECTION;
+          }
+          else if(sensor_array == MAX_NEG_SR){
+            e_p = -MAX_CORRECTION;
+          }
+          // 00000001
+          else if(sensor_array == EXTREME_POS_SR){
             e_p = EXTREME_CORRECTION;
           }
-          else if(last_control <= -30 and (abs(e_p) <= MIN_ERROR
-                                           or abs(e_p) <= MINIMUM_ANGLE)){
+          else if(sensor_array == EXTREME_NEG_SR){
             e_p = -EXTREME_CORRECTION;
           }
-          // enable hardcoding
-          if(ENABLE_HC == 1){
-            if(debug){
-              Serial.print("Current e_p (in angle) = ");
-              Serial.println(e_p);
-              }
-            // disable very soft correction
-            if(sensor_array == SOFT_POS_SR){
-                // 00011100
-              e_p = SOFT_CORRECTION;
-            }
-            else if(sensor_array == SOFT_NEG_SR) {
-              //  00111000
-              e_p = -SOFT_CORRECTION;
-            }
-            // 00001100
-            else if(sensor_array == MIN_POS_SR) {
-              e_p = MIN_CORRECTION;
-            }
-            else if(sensor_array == MIN_NEG_SR) {
-              e_p = -MIN_CORRECTION;
-            }
-            // 00001110
-            else if(sensor_array == THREE_MEDIUM_POS_SR) {
-              e_p = THREE_MEDIUM_CORRECTION;
-            }
-            else if(sensor_array == THREE_MEDIUM_NEG_SR) {
-              e_p = -THREE_MEDIUM_CORRECTION;
-            }
-            // 00000110
-            else if(sensor_array == MEDIUM_POS_SR) {
-              e_p = MEDIUM_CORRECTION;
-            }
-            else if(sensor_array == MEDIUM_NEG_SR) {
-              e_p = -MEDIUM_CORRECTION;
-            }
-            // 00000111
-            else if(sensor_array == THREE_EXTREME_POS_SR){
-              e_p = THREE_EXTREME_CORRECTION;
-            }
-            else if(sensor_array == THREE_EXTREME_NEG_SR){
-              e_p = -THREE_EXTREME_CORRECTION;
-            }
-            // 00000011
-            else if(sensor_array == MAX_POS_SR){
-              e_p = MAX_CORRECTION;
-            }
-            else if(sensor_array == MAX_NEG_SR){
-              e_p = -MAX_CORRECTION;
-            }
-            // 00000001
-            else if(sensor_array == EXTREME_POS_SR){
-              e_p = EXTREME_CORRECTION;
-            }
-            else if(sensor_array == EXTREME_NEG_SR){
-              e_p = -EXTREME_CORRECTION;
-            }
-            // 00001111
-            else if(sensor_array == COMPLETE_POS_SR){
-              e_p = COMPLETE_CORRECTION;
-            }
-            else if(sensor_array == COMPLETE_NEG_SR){
-              e_p = -COMPLETE_CORRECTION;
-            }
+          // 00001111
+          else if(sensor_array == COMPLETE_POS_SR){
+            e_p = COMPLETE_CORRECTION;
           }
+          else if(sensor_array == COMPLETE_NEG_SR){
+            e_p = -COMPLETE_CORRECTION;
+          }
+          }
+        if(last_control >= MEM_TRIGER_DEG and
+                                (abs(e_p) <= MIN_ERROR
+                                or active_sensors == 0)) {
+          control_u = EXTREME_CORRECTION;
+          control_v = MIN_VEL_IN_DEG;
+          memory = 1;
+        }
+        else if(last_control <= -MEM_TRIGER_DEG and
+                                (abs(e_p) <= MIN_ERROR
+                                or active_sensors == 0)){
+          control_u = -EXTREME_CORRECTION;
+          control_v = MIN_VEL_IN_DEG;
+          memory = 1;
+        }
+        else {
+          memory = 0;
+        }
+        if(debug){
+          Serial.print("Current e_p (mm) = ");
+          Serial.println(e_p);
+          Serial.print("Active sensors (#) = ");
+          Serial.println(active_sensors);
+        }
 
       //float control_u = e_p;
       //if(debug){
@@ -245,8 +268,10 @@ class pid::Pid {
       //}
       if(ENABLE_HC == 1){
         // when ENABLE_HC last_control = e_p
-        float control_u = e_p;
-        float control_v = 90;
+        if (memory != 1) {
+          control_u = e_p;
+          control_v = 64;
+        }
         control.theta = control_u;
         control.vel = control_v;
         if(debug){
@@ -255,27 +280,21 @@ class pid::Pid {
         }
       }
       else{
-        e_i += (e_p * dt) * K_i;  // e_i(0) = 0
-        e_d = (e_p - e_prev); // dt
-        float control_u = K_p*e_p
-        + e_i
-        + K_d*e_d;
-        float control_v = (MIN_VEL_IN_DEG-MAX_VEL_IN_DEG)/EXTREME_CORRECTION *
-                          abs(e_d)*K_d_vel + MAX_VEL_IN_DEG;
-        control_v = fmin(MAX_VEL_IN_DEG, fmax(MIN_VEL_IN_DEG, control_v));
+        if (memory != 1) {
+          e_i += (e_p * dt) * K_i ;  // e_i(0) = 0
+          e_d = (e_p - e_prev); // dt
+          control_u = K_p*e_p
+          + e_i
+          + K_d*e_d;
+          control_v = (MIN_VEL_IN_DEG-MAX_VEL_IN_DEG)/EXTREME_CORRECTION *
+                            (abs(e_p) * K_p_vel + abs(e_d) * K_d_vel)
+                          + MAX_VEL_IN_DEG;
+          control_v = fmax(MAX_VEL_IN_DEG, fmin(MIN_VEL_IN_DEG, control_v));
+        }
         control.theta = control_u;
         control.vel = control_v;
-        if(debug){
-          Serial.print("Current control_u (NO HC) = ");
-          Serial.println(control_u);
-          Serial.print("Current control_v (NO HC) = ");
-          Serial.println(control_v);
-        }
       }
 
-      last_time = now; // last time
-      last_control = control_u;
-      last_control_v = control_v;
       //debug messages
       if(debug){
         Serial.print("Current e_p = ");
@@ -287,6 +306,10 @@ class pid::Pid {
         Serial.print("Last control signal = ");
         Serial.println(last_control);
       }
+      last_time = now; // last time
+      last_control = control_u;
+      last_control_v = control_v;
+      e_prev = e_p;
       if(straight == 1 and ENABLE_HC){
       return control;
       }
@@ -298,5 +321,16 @@ class pid::Pid {
     else return control;
       last_control = last_control;
       last_control_v = last_control_v;
+      e_prev = e_prev;
+     // if(debug){
+     //   Serial.println("inside dead update");
+     //   Serial.print("e_prev");
+     //   Serial.println(e_prev);
+     //   Serial.print("Last control signal theta = ");
+     //   Serial.println(last_control);
+     //   Serial.print("Last control signal vel = ");
+     //   Serial.println(last_control_v);
+     // }
+
   }
 };
