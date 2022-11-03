@@ -44,21 +44,10 @@ int main() {
     Serial.begin(115200); // open the serial port at 115200 bps:
     int type = 0;  // 0 for 5-wheels, 1 for classic
     int n_lap = 0;  // lap number
-<<<<<<< HEAD
-    unsigned int threshold = 100;
-    events::init();
-
-
-    // gnium::Gnium gnium = gnium::Gnium(mode=mode,
-    //                                   type=type,
-    //                                   n_lap=n_lap,
-    //                                   threshold=threshold);
-=======
     //unsigned int threshold = 100;
     gnium::Gnium gnium = gnium::Gnium(mode,
                                       type,
                                       n_lap);
->>>>>>> ir_sensor
     // TODO (wis) gnium.setup()
     while(1) {
         // run repetedly here
@@ -73,15 +62,10 @@ int main() {
             // }
         }
         else if (mode == gnium::test_follow_trace ) {  // test follow_trace
-<<<<<<< HEAD
-            // gnium.follow_trace(gnium.Train_pwm,
-            //                     gnium.Pid);
-=======
             int test_vel = 90;
             pid::Pid test_pid = gnium.Pid;
             gnium.follow_trace(test_vel,
                                 test_pid);
->>>>>>> ir_sensor
        }
         // IR_SENSORS TEST
         else if (mode == gnium::test_ir_sensors ) {  // test ir_sensors reading
