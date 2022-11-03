@@ -177,7 +177,7 @@ namespace ir_sensor
         Serial.print(sideSensorsRaw[0]);
         Serial.print(" right = ");
         Serial.println(sideSensorsRaw[1]);
-        Serial.print('took = ');
+        Serial.print("took = ");
         Serial.println(timer_test_sides);
         Serial.print("start_or_end_detected = ");
         Serial.print(start_or_end_detected());
