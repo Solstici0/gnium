@@ -36,7 +36,7 @@ int main() {
             }
         }
         else if (mode == gnium::test_follow_trace ) {  // test follow_trace
-            int test_vel = 115;
+            int test_vel = 90;
             pid::Pid test_pid = gnium.Pid;
             gnium.follow_trace(test_vel,
                                 test_pid);
@@ -62,11 +62,11 @@ int main() {
             muscle::test_routine();
         }
         else if (mode == gnium::test_vel ) {  // test muscle
-            float testing_vel = 115;  // velocity in dregree
+            float testing_vel = 65;  // velocity in dregree
             muscle::set_vel(testing_vel);
         }
         else if (mode == gnium::test_forward_vel ) {  // test muscle
-            float steady_vel = 115;  // velocity in dregree
+            float steady_vel = 70;  // velocity in dregree
             muscle::test_forward_vel(steady_vel);
         }
     }

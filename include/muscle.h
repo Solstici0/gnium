@@ -45,6 +45,17 @@ namespace muscle{
                                   MIN_MICROS_MUSCLE,
                                   MAX_MICROS_MUSCLE);
     if (MUSCLE_MOTOR != -1) {
+      float one_ms_in_deg = 70;
+      uint16_t one_ms_in_us = 1000;
+      int n = 1;
+      for(n = 70; n<=90; n+=1) {
+      STM32_ISR_Servos.setPosition(MUSCLE_MOTOR,
+                                 n);
+                                 //one_ms_in_deg);
+      //STM32_ISR_Servos.setPulseWidth(MUSCLE_MOTOR,
+      //                          one_ms_in_us);
+      delay(200);
+      }
       if(debug){
         Serial.println("Muscle motor initialization succeeds!");
         Serial.println(MUSCLE_MOTOR);
