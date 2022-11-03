@@ -49,7 +49,7 @@ namespace muscle{
       for(angle = 70; angle<=90; angle+=1) {
         // Sweep for initialization
         STM32_ISR_Servos.setPosition(MUSCLE_MOTOR,
-                                    n);
+                                    angle);
       //STM32_ISR_Servos.setPulseWidth(MUSCLE_MOTOR,
       //                          one_ms_in_us);
       delay(200);
