@@ -6,9 +6,12 @@
 
 // #pragma once  // only load libs once
 #include <Arduino.h>
+//#include <cmath>
+#include <math.h>
 
 #define debug 1 // enable debug
-#define ENABLE_HC 1 // enable hardcoded rules
+#define ENABLE_HC 0 // enable hardcoded rules
+//#define PI 3.141592654
 
 int straight = 0;
 // ERRORS AND RELATED SENSOR ARRAYS VALUES
@@ -34,7 +37,7 @@ float EXTREME_ERROR = 4;           // 00000001
 float EXTREME_NEG_SR = 1;          // 00000001
 float EXTREME_POS_SR = 128;        // 10000000
 float COMPLETE_ERROR = 10;         // 00001111
-float COMPLETE_NEG_SR = 15;        // 00001111
+float COMPLETE_NEG_SR = 15;        // 0000111
 float COMPLETE_POS_SR = 240;       // 11110000
 // CORRECTIONS
 float SOFT_CORRECTION = 2;            // 00011100
@@ -48,6 +51,21 @@ float COMPLETE_CORRECTION = 13;       // 00001111
 // previous error
 float e_prev = 0;
 float last_control = 0;
+float last_control_v = 0;
+// relevant distances
+float OFFSET_DIST = -1.875;
+float BETWEEN_SENSOR_DIST = 8.75;
+float MUSCLE_TO_SENSOR_DIST = 70;
+float MINIMUM_ANGLE = 5; //
+float MAX_VEL_IN_DEG = 60;
+float MIN_VEL_IN_DEG = 65;
+
+struct Control
+{
+     float theta;
+     float vel;
+};
+//Control control;
 
 namespace pid {
   class Pid;
@@ -59,13 +77,15 @@ class pid::Pid {
     */
     public:
         // Constructor
-        Pid(float k_p = 1., float k_i = 4, float k_d = 20.,
+        Pid(float k_p = 1., float k_i = 0, float k_d = 5.,
+            float k_d_vel = 1.,
             unsigned char target_array = 24) {
             // good constant for straight lines
             // Kp = 0, Ki = 4, Kd = 0
             K_p = k_p;
             k_i = k_i;
             K_d = k_d;
+            K_d_vel = k_d_vel;
             Ta = target_array;
             e_prev = 0.; // TODO: in the future this variables should be injected
             dt = 20; // sample time for changing controlled vars
@@ -75,11 +95,15 @@ class pid::Pid {
             last_time = 0;
             //last_control = 0.;
             control_u = 0.;
+            control_v = 90.;
+            control.theta = control_u;
+            control.vel = control_v;
         }
     public:
         float K_p; // proportional constant
         float K_i; // integral constant
         float K_d; // derivative constant
+        float K_d_vel; // derivative constant for vel
         unsigned char Ta; // target array (perfect position over trace)
         float e_prev; // previous error
         int dt;  // delta t
@@ -88,9 +112,14 @@ class pid::Pid {
         float e_d;  // derivative error
         int last_time;
         //float last_control;  // last control signal
-        float control_u;  // initial control signal
+        float control_u;  // initial control signal for angle
+        float control_v;  // initial control signal for vel
+        int active_sensors;
+        float mean_dist;
+        float OFFSET_DIST_WSIGN;
+        Control control;
 
-  float correction_signal(unsigned char sensor_array) {
+  Control correction_signal(unsigned char sensor_array) {
     // time counter
     unsigned long now = millis();
     unsigned long t_change = (last_time - now);
@@ -209,33 +238,44 @@ class pid::Pid {
             }
           }
 
-      float control_u = e_p;
-      if(debug){
-        Serial.print("Current control_u (outside if) = ");
-        Serial.println(control_u);
-      }
+      //float control_u = e_p;
+      //if(debug){
+      //  Serial.print("Current control_u (NO HC) = ");
+      //  Serial.println(control_u);
+      //}
       if(ENABLE_HC == 1){
         // when ENABLE_HC last_control = e_p
         float control_u = e_p;
+        float control_v = 90;
+        control.theta = control_u;
+        control.vel = control_v;
         if(debug){
-          Serial.print("Current control_u (inside if) = ");
+          Serial.print("Current control_u (HC) = ");
           Serial.println(control_u);
         }
       }
       else{
         e_i += (e_p * dt) * K_i;  // e_i(0) = 0
-        e_d = (e_p - e_prev) * K_d; // dt
+        e_d = (e_p - e_prev); // dt
         float control_u = K_p*e_p
         + e_i
-        + e_d;
+        + K_d*e_d;
+        float control_v = (MIN_VEL_IN_DEG-MAX_VEL_IN_DEG)/EXTREME_CORRECTION *
+                          abs(e_d)*K_d_vel + MAX_VEL_IN_DEG;
+        control_v = fmin(MAX_VEL_IN_DEG, fmax(MIN_VEL_IN_DEG, control_v));
+        control.theta = control_u;
+        control.vel = control_v;
         if(debug){
-          Serial.print("Current control_u (inside else) = ");
+          Serial.print("Current control_u (NO HC) = ");
           Serial.println(control_u);
+          Serial.print("Current control_v (NO HC) = ");
+          Serial.println(control_v);
         }
       }
 
       last_time = now; // last time
       last_control = control_u;
+      last_control_v = control_v;
       //debug messages
       if(debug){
         Serial.print("Current e_p = ");
@@ -248,13 +288,15 @@ class pid::Pid {
         Serial.println(last_control);
       }
       if(straight == 1 and ENABLE_HC){
-      return control_u/2.5;
+      return control;
       }
       else{
-      return control_u;
+      return control;
       }
     }
-    else return last_control;
+    //else return last_control;
+    else return control;
       last_control = last_control;
+      last_control_v = last_control_v;
   }
 };

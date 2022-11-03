@@ -6,6 +6,8 @@
 #include <servo.h>
 #include <muscle.h>
 
+#define control_vel 0
+
 namespace gnium {
     typedef enum mode{
         race,
@@ -206,10 +208,16 @@ class gnium::Gnium {
         // read from from ir sensors
         unsigned char Sensor_array = ir_sensor::read_front();
         // calculate correction using pid
-        float angle_correction = pid.correction_signal(Sensor_array);
+        //float angle_correction = pid.correction_signal(Sensor_array);
+        Control correction = pid.correction_signal(Sensor_array);
         // set new angle and velocity
-        servo::set_angle(angle_correction); //
-        muscle::set_vel(vel_pwm); //
+        servo::set_angle(correction.theta); //
+        if(control_vel) {
+          muscle::set_vel(correction.vel);
+        }
+        else {
+          muscle::set_vel(vel_pwm); //
+        }
 
         int start_or_end_detected = 0; // just to pass tests
                                           // should not be like this
