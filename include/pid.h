@@ -59,8 +59,8 @@ float OFFSET_DIST = -1.875;
 float BETWEEN_SENSOR_DIST = 8.75;
 float MUSCLE_TO_SENSOR_DIST = 70;
 float MINIMUM_ANGLE = 5; //
-float MAX_VEL_IN_DEG = 62;
-float MIN_VEL_IN_DEG = 64;
+float MAX_VEL_IN_DEG = 59;
+float MIN_VEL_IN_DEG = 65.4;
 float MEM_TRIGER_DEG = 24;
 
 struct Control
@@ -81,7 +81,7 @@ class pid::Pid {
     */
     public:
         // Constructor
-        Pid(float k_p = 1.1, float k_i = 0., float k_d = .03,
+        Pid(float k_p = 0.09, float k_i = 1., float k_d = 1.65,
             float k_p_vel = 1., float k_d_vel = 1.,
             unsigned char target_array = 24) {
             // good constant for straight lines
@@ -281,7 +281,8 @@ class pid::Pid {
       }
       else{
         if (memory != 1) {
-          e_i += (e_p * dt) * K_i ;  // e_i(0) = 0
+          //e_i += (e_p * dt) * K_i ;  // e_i(0) = 0
+          e_i += e_p * K_i ;  // e_i(0) = 0
           e_d = (e_p - e_prev); // dt
           control_u = K_p*e_p
           + e_i
