@@ -8,7 +8,7 @@
 #include <ir_sensor.h>
 
 //gnium::mode mode = gnium::race;  // 0 for test, 1 for compite
-gnium::mode mode = gnium::test_follow_trace;  // 0 for test, 1 for compite
+gnium::mode mode = gnium::test_vel;  // 0 for test, 1 for compite
 
 // This options needs less memory. Why?
 // /*
@@ -65,7 +65,7 @@ int main() {
             muscle::test_routine();
         }
         else if (mode == gnium::test_vel ) {  // test muscle
-            float testing_vel = 65;  // velocity in dregree
+            float testing_vel = 85;  // velocity in dregree
             muscle::set_vel(testing_vel);
         }
         else if (mode == gnium::test_forward_vel ) {  // test muscle

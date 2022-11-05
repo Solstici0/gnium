@@ -59,8 +59,8 @@ float OFFSET_DIST = -1.875;
 float BETWEEN_SENSOR_DIST = 8.75;
 float MUSCLE_TO_SENSOR_DIST = 70;
 float MINIMUM_ANGLE = 5; //
-float MAX_VEL_IN_DEG = 59;
-float MIN_VEL_IN_DEG = 65.4;
+float MAX_VEL_IN_DEG = 78;
+float MIN_VEL_IN_DEG = 85;
 float MEM_TRIGER_DEG = 24;
 
 struct Control
@@ -296,7 +296,7 @@ class pid::Pid {
         control.vel = control_v;
       }
 
-      //debug messages
+      //debug messages   
       if(debug){
         Serial.print("Current e_p = ");
         Serial.println(e_p);

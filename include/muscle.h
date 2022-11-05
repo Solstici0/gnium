@@ -48,7 +48,7 @@ namespace muscle{
       float one_ms_in_deg = 70;
       uint16_t one_ms_in_us = 1000;
       int n = 1;
-      for(n = 70; n<=90; n+=1) {
+      for(n = 90; n<=100; n+=1) {
       STM32_ISR_Servos.setPosition(MUSCLE_MOTOR,
                                  n);
                                  //one_ms_in_deg);
