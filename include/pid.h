@@ -76,7 +76,6 @@ namespace pid {
 
 class pid::Pid {
     /*! @class Pid
-        eloat e_p;  // proportional error
     * creates pid object
     */
    /**
