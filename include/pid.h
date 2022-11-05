@@ -270,7 +270,10 @@ class pid::Pid {
         // when ENABLE_HC last_control = e_p
         if (memory != 1) {
           control_u = e_p;
-          control_v = 64;
+          control_v = (MIN_VEL_IN_DEG-MAX_VEL_IN_DEG)/EXTREME_CORRECTION *
+                            (abs(e_p) * K_p_vel + abs(e_d) * K_d_vel)
+                          + MAX_VEL_IN_DEG;
+          control_v = fmax(MAX_VEL_IN_DEG, fmin(MIN_VEL_IN_DEG, control_v));
         }
         control.theta = control_u;
         control.vel = control_v;
