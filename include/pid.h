@@ -10,10 +10,10 @@
 #include <math.h>
 
 #define debug 0 // enable debug
-#define ENABLE_HC 0 // enable hardcoded rules
+#define ENABLE_HC 1 // enable hardcoded rules
 //#define PI 3.141592654
 
-int straight = 0;
+int straight = 1;
 // ERRORS AND RELATED SENSOR ARRAYS VALUES
 float SOFT_ERROR = 1;              // 00011100
 float SOFT_NEG_SR = 28;            // 00011100
@@ -312,6 +312,7 @@ class pid::Pid {
       last_control_v = control_v;
       e_prev = e_p;
       if(straight == 1 and ENABLE_HC){
+        control.theta = control.theta/2.5;
       return control;
       }
       else{
