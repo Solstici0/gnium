@@ -159,12 +159,12 @@ namespace ir_sensor
     }
 
     unsigned char start_or_end_detected(void){
-        read_sides()
+        read_sides();
         return (sideSensors == 2);
     }
 
     unsigned char mark_detected(void){
-        read_sides()
+        read_sides();
         return(sideSensors == 1);
     }
     
