@@ -78,35 +78,11 @@ class pid::Pid {
     /*! @class Pid
     * creates pid object
     */
-   /**
-    * Pruebas 5 nov
-    * K_p    K_i    K_d  K_p_vel K_d_vel RoC Max_vel Min_vel Comentario
-    * 0.09   1      1.     1        1      C    74     81.5   Curvas amplias buen desempeño, curvas cerradas las tomaba muy abiertas
-    * 0.09   1      1.42   1        1      C    74     81.5   Falta reactividad
-    * 0.09   1      1.65   1        1      C    74     81.5   Bueno para curvas cerradas, sobreoscilación curva amplia
-    * 0.075  1      1.65   1        1      C    74     81.5   Mejor en entrada y salida de curvas
-    * 0.075  1      1.65   1        1      C    74     81.5   Cambio de batería. Desempeño similar
-    * 0.075  1      1.65   1        1      C    74     81     Mejor desempeño en r=13cm. Se sale en curva mas cerrada R=10cm
-    * 0.075  1      1.65   1.5      1      C    74     81.5   Cambios muy abruptos de velocidad. Se marea en salidas a recta.
-    * 0.075  1      1.65   0.5      1      C    74     81.5   Se salió una vez, 
-    * 0.12   1      1.     1        1      C    74     81.5   Desempeño similar a primera prueba. se salio en curva cerrada
-    * 1      1      1.     1        1      C    74     81.5   Overshoot muy grande, incontrolable.
-    * 0      1.     1.65   0.5      1      C    74     81.5   Estable, motor se queda pegado en las curvas cerradas.
-    * 0      1.     1.65   0.5      1      C    74     80.5   Malo, no hace el recorrido
-    * 0      1.     1.65   0.5      1      C    74     81     Se queda pegado. Esc caliente.
-    * 0      1.     1.65   0.5      1      C    74     81     Esc frio, no se queda pegado
-    * 0      1.     1.65   0.5      1      C    74     80.8   Buena velocidad, oscila mucho. Muy buena velocidad
-    * 0      0.1    1.65   0.5      1      C    74     80.8   Sobreoscila
-    * 0      1.3    1.65   0.5      1      C    74     80.8   Sobreoscila, se sale en las curvas
-    * 0      1.3    1.3    0.5      1      C    74     80.8   Mejora en corvas abiertas, en curvas cerradas sigue siendo poco reactivo. Se sale
-    * 0      1.3    1.45   0.5      1      C    74     80.8   Buen desempeño pero se salió 2 veces.
-    * 0      1.3    1.45   0.5      1.2    C    74     80.8   Best so far
-    * 0      1.3    1.45   0.5      1.2    C    74     80.8   Similar al anterior.
     */
     public:
         // Constructor
-        Pid(float k_p = 0., float k_i = 1.3, float k_d = 1.45,
-            float k_p_vel = 0.5, float k_d_vel = 1.4,
+        Pid(float k_p = 0.15, float k_i = 1.3, float k_d = 1.6,
+            float k_p_vel = 0.666, float k_d_vel = 1.2,
             unsigned char target_array = 24) {
             // good constant for straight lines
             // Kp = 0, Ki = 4, Kd = 0
