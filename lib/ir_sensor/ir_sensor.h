@@ -22,9 +22,26 @@ namespace ir_sensor
 
     /**
      * @brief Value that the sensors are compared against in order to apss to binary
-     *
+     * 
      */
     unsigned int threshold;
+
+    /**
+     * @brief time that it has to pass without detecting the other side to assume it as
+     * a valid measurement
+     * 
+     */
+    unsigned long side_time_threshold = 50;
+
+    /**
+     * @brief state of the side_sensor measurements.
+     * 0: no mark is waiting confirmation
+     * 1: left mark is waiting confirmation
+     * 2: right mark is waiting confirmation
+     * 
+     */
+    unsigned char side_sensor_state = 0;
+
 
     /**
      * @brief array used to store the front sensor measurments
@@ -140,12 +157,13 @@ namespace ir_sensor
         }
         return sideSensors;
     }
+
     unsigned char start_or_end_detected(void){
-        return (sideSensors==2);
+        return (sideSensors == 2);
     }
 
     unsigned char mark_detected(void){
-        return(sideSensors==1);
+        return(sideSensors == 1);
     }
     
     void test_routine(void)
