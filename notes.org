@@ -193,3 +193,174 @@ Here I will put all relevant ideas, references and discussion
   + Study Google test framework
 * Progress <2022-09-01 Do>
 - [Felipin] We need to code sensors reading for two options: analog and digital reading
+
+* Parameter testing
+   /**
+    * Pruebas 5 nov
+    * K_p    K_i    K_d  K_p_vel K_d_vel RoC Max_vel Min_vel Comentario
+    * 0.09   1      1.     1        1      C    74     81.5   Curvas amplias buen desempeño, curvas cerradas las tomaba muy abiertas
+    * 0.09   1      1.42   1        1      C    74     81.5   Falta reactividad
+    * 0.09   1      1.65   1        1      C    74     81.5   Bueno para curvas cerradas, sobreoscilación curva amplia
+    * 0.075  1      1.65   1        1      C    74     81.5   Mejor en entrada y salida de curvas
+    * 0.075  1      1.65   1        1      C    74     81.5   Cambio de batería. Desempeño similar
+    * 0.075  1      1.65   1        1      C    74     81     Mejor desempeño en r=13cm. Se sale en curva mas cerrada R=10cm
+    * 0.075  1      1.65   1.5      1      C    74     81.5   Cambios muy abruptos de velocidad. Se marea en salidas a recta.
+    * 0.075  1      1.65   0.5      1      C    74     81.5   Se salió una vez,
+    * 0.12   1      1.     1        1      C    74     81.5   Desempeño similar a primera prueba. se salio en curva cerrada
+    * 1      1      1.     1        1      C    74     81.5   Overshoot muy grande, incontrolable.
+    * 0      1.     1.65   0.5      1      C    74     81.5   Estable, motor se queda pegado en las curvas cerradas.
+    * 0      1.     1.65   0.5      1      C    74     80.5   Malo, no hace el recorrido
+    * 0      1.     1.65   0.5      1      C    74     81     Se queda pegado. Esc caliente.
+    * 0      1.     1.65   0.5      1      C    74     81     Esc frio, no se queda pegado
+    * 0      1.     1.65   0.5      1      C    74     80.8   Buena velocidad, oscila mucho. Muy buena velocidad
+    * 0      0.1    1.65   0.5      1      C    74     80.8   Sobreoscila
+    * 0      1.3    1.65   0.5      1      C    74     80.8   Sobreoscila, se sale en las curvas
+    * 0      1.3    1.3    0.5      1      C    74     80.8   Mejora en corvas abiertas, en curvas cerradas sigue siendo poco reactivo. Se sale
+    * 0      1.3    1.45   0.5      1      C    74     80.8   Buen desempeño pero se salió 2 veces.
+    * 0      1.3    1.45   0.5      1.2    C    74     80.8   Best so far
+    * 0      1.3    1.45   0.5      1.4    C    74     80.8   Similar al anterior.
+    *
+    * Pruebas 7 nov.
+    * Curvas de 100 mm a 130 mm de radio, rectas cortas
+    * K_p    K_i    K_d  K_p_vel K_d_vel RoC Max_vel Min_vel Comentario
+    * 0      1      1.5   0.3      1.5     C    75     80.7   Se sale.
+    * 0      1.3    1.6   0.2      1.6     C    76     80.8   Se sale.
+    * 0      1.3    1.6   0.5      1.6     C    77     80.8   Se sale.
+    * 0      1.3    1.6   0.5      1.6     C    78     80.8   Se sale.
+    * 0      1.3    1.6   0.5      1.6     C    78     80.9   Se sale, velocidad muy lenta
+    * 0      1.3    1.6   0.5      1.2     C    77.5   80.8   Oscila saliendo a recta, se sale viniendo de 100 mm
+    * 0.4    1.3    1.6   0.5      1.2     C    77.6   80.8   Bueno, oscila saliendo a recta. Se prueba en rectas, oscila con baja amplitud
+    * 0.3    1.3    1.6   0.5      1.2     C    77.6   80.8   Bueno, oscila menos saliendo a recta, se prueba en rectas, oscila con menor frecuencia
+    * 0.2    1.3    1.6   0.5      1.2     C    77.6   80.8   Bueno, oscila menos saliendo a recta, se prueba en rectas, oscila con menor frecuencia
+    * 0.15   1.3    1.6   0.5      1.2     C    77.6   80.8   **Best so far** (7.7V)
+    * 0.15   1.3    1.6   0.5      1.2     C    77     80.8   Batería nueva (se saca con 7.7V y se pone con 8.3V), se sale
+    * 0.15   1.3    1.6   0.5      1.2     C    77.6   80.8   Se sale a veces, para batería recien puesta debe limitarse la velocidad
+    * 0.15   1.3    1.6   0.5      1.2     C    78.6   80.8   Mejor a anterior, se sale a veces
+    * 0.15   1.3    1.6   0.5      1.2     C    78.6   81.8   Mejor a anterior, curvas muy lentas
+    * 0.15   1.3    1.6   0.5      1.2     C    78.6   81     (8.2V) Mejor que anterior, curvas lentas aún
+    * 0.15   1.3    1.6   0.5      1.2     C    78.6   80.8   (8.15V) Funciona bien, falta velocidad máxima
+    * 0.15   1.3    1.6   0.5      1.2     C    77.6   80.8   (8.14V) Muy bueno, funciona en rectas
+    * 0.15   1.3    1.6   0.5      1.2     C    77.6   80.8   Se cambia batería a (8,4V) Se sale una vez y luego funciona bien.
+    * 0.15   1.3    1.6   0.5      1.2     C    77.2   80.8   MAL, se sale
+    * 0.15   1.3    1.6   0.5      1.2     C    77.5   80.8   (8.24V) Buen desempeño, pero se salió una vez
+    * 0.15   1.3    1.6   0.8      1.2     C    77.6   80.8   (8.18V) Bien, toma recta post curva de 100 mm con un poco de overshoot
+    * 0.15   1.3    1.6   0.666    1.2     C    77.6   80.8   **BEST SO FAR**(8.15V) Candidatos a parámetros de curva cerrada y primera vuelta, funciona en rectas oscilando poco.
+    * 0.15   1      1.6   0.666    1.2     C    77.6   80.8   Similar a anterior. Oscila en rectas
+    * 0.15   0.5    1.6   0.666    1.2     C    77.6   80.8   Similar a anterior.
+    * 0.15   1.5    1.6   0.666    1.2     C    77.6   80.8   (8.05V) Similar a anterior. Ocila menos en rectas
+    *
+    *Rectas largas
+    * K_p    K_i    K_d  K_p_vel K_d_vel RoC Max_vel Min_vel Comentario
+    * 0.05   1.5    0.8   1.2      1.2     R    72     80      Lento, oscila mucho
+    * 0.09   1.5    1     1.2      1       R    70     80      Mejor, lento, oscila mucho
+    * 0.5    2      2     2        0.5     R    70     80      Oscila más
+    * 0.1    2      0.1   0.666    1.2     R    70     80      Muy poco reactivo, sirve para recta con condiciones iniciales perfectas
+    * 0.15   5      0.2   0.666    1.2     R    68     76      ***Mejor, oscila con muy baja frecuencia
+    * 0.15   5      0.2   0.666    0.8     R    68     76      Se sale
+    * 0.15   2      0.2   0.666    0.8     R    68     76      Se sale
+    * 0.15   2      0.5   0.666    0.8     R    68     76      Oscila y se sale
+    * 0.15   2      0.35  0.666    0.8     R    68     76      Oscila y se sale
+    * 0.15   2      0.3   0.666    2       R    68     76      Oscila mucho
+    * 0.15   2      0.3   0.666    2       R    70     74      Oscila y se sale
+    * 0.15   1.5    1.42  0.666    2       R    70     76      Muy mal, oscila mucho
+    * 0.15   4.2    1.42  0.666    2       R    72     74      Oscila mucho
+    * 0.1    4.2    1     0.666    1.2     R    74     78      Oscila mucho
+    *
+    * Pruebas 8 nov
+    * K_p    K_i    K_d  K_p_vel K_d_vel RoC Max_vel Min_vel Comentario
+    * 0.15   1.3    1.6   0.666    1.2     R    77.6   80.8    Parámetros de curva, muy buen seguimiento de línea, bajas oscilaciones
+    * 0.15   4      1.65  0.666    1.2     R    77.6   80.8    Mejor, oscila menos aun
+    * 0.15   4      1.65  0.666    1.2     R    72.6   80.8    Oscila mucho
+    * 0.15   4      1.65  0.666    3       R    72.6   80.8    Oscila mucho
+    * 0.15   4      3     0.666    3       R    72.6   80.8    Oscila mucho más
+    * 0.15   4      0.5   0.666    3       R    72.6   80.8    Oscila poco, no sirve para curvas
+    * 0.15   4      0.666 0.666    3       R    72.6   80.8    Oscila un poco más que anterior, sirve para curvas amplias
+    * 0.15   4      0.6   0.666    3       R    72.6   80.8    **Mejor que dos casos anteriores, sensible a condiciones iniciales
+    * 0.08   4      0.6   0.666    3       R    72.6   80.8    Oscilaciones de muy baja frecuencia
+    * 0.1    4      0.6   0.666    3       R    72.6   80.8    Similar a anterior, sirve para curvas amplias
+    * 0.1    4      0.6   0.8      3       R    72.6   80.8    Similar a anterior
+    * 0.1    4      0.6   0.8      2       R    72.6   80.8    Similar a anterior, acelera más
+    * 0.1    4      0.6   0.8      2.5     R    72.6   80.8    Similar a anterior
+    * 0      4      0.6   0.8      2.5     R    72.6   80.8    Similar a anterior, oscilaciones levemente más amplias
+    * 0.05   4      0.6   0.8      2.5     R    72.6   80.8    Similar a anterior, sirve para curvas MUY amplias
+    * 0.05   10     0.6   0.8      2.5     R    72.6   80.8    Similar a anterior
+    * 0.05   4      0.1   0.8      2.5     R    72.6   80.8    No reacciona, se sale
+    * 0.05   4      0.4   0.8      2.5     R    72.6   80.8    **Buen resultado, sigue oscilando tough
+    * 0.05   4      0.5   0.8      2.5     R    72.6   80.8    Similar a anterior
+    * 0.05   4      0.5   0.8      2.5     R    74     78      (7.8V) comportamiento similar a anterior
+    * 0.05   4      0.5   0.8      2.5     R    74     77      Similar a anterior
+    * 0.05   4      0.5   0.8      2.5     R    70     77      Oscila un poco más
+    * 0.05   4      0.5   0.8      2.5     R    70     74      Se sale con malas condiciones iniciales
+    * 0.05   4      0.5   0.8      2.5     R    70     75      Similar a anterior
+    * 0.1    4      0.5   0.8      2.5     R    70     75      Oscila mucho
+    * 0.05   4      0.5   0.8      2.5     R    70     75      Similar
+    * 0.05   4      0.3   0.8      2.5     R    70     75      Similar
+    * 0.05   4      0.3   0.8      2.5     R    68     72      Muy rápido, se sale
+    * 0.05   4      0.3   0.8      2.5     R    70     74      Buena velocidad, inestable aún
+    * 0.08   4      0.3   0.8      2.5     R    70     74      Similar a anterior (se saca batería con 7.78V)
+    * 0.08   4      0.3   0.8      2.5     R    70     73      (8.39V) muy rápido
+    * 0.08   4      0.3   0.8      2.5     R    72     74      (8.38V) rápido
+    * 0.08   4      0.3   0.8      2.5     R    72     76      **Best so far
+    * 0.08   4      0.15  0.8      2.5     R    65     76      Bueno para condiciones iniciales perfectas
+    * 0.08   4      0.18  0.8      2.5     R    65     76      Similar a anterior
+    * 0.08   4      0.18  0.8      2.5     R    65     76      Similar a anterior
+    * 0.08   4      0.18  0.8      3.5     R    65     76      Menor desempeño
+    * 0.08   4      0.18  0.8      3       R    65     76      Similar a anterior
+    * 0.08   4      0.18  0.8      2       R    65     76      Similar a anterior, poco reactivo
+    * 0.1    4      0.2   0.8      2.5     R    65     76      Bueno para condiciones iniciales perfectas
+    * 0.1    4      0.2   0        2.5     R    65     76      Similar a anterior
+    * 0.1    4      0.2   1        2.5     R    65     76      Similar a anterior (SE CORRIGE CENTRO DE SERVO en 2,5°)
+    * 0.1    4      0.2   1        2.5     R    65     72      Muy rápido, se sale
+    * 0.1    4      0.2   1        2.5     R    66     74      Se sale
+    * 0.1    4      0.1   1        2.5     R    66     74      Inestable pero logra mantenerse dentro de recta en un largo de aproximadamente 1,5m
+    * 0.2    4      0.1   1        2.5     R    66     74      Un poco más estable
+    * 0.3    4      0.1   1        2.5     R    66     74      Oscila más
+    * 0.4    4      0.1   1        2.5     R    66     74      Oscila
+    * 0.4    4      0.4   1        2.5     R    66     74      Inestable, se sale
+    * 0.1    4      0.4   1        2.5     R    72     74      (8.12V) Oscila hacia el final, inestable
+    * 0.1    4      0.4   1        2.5     R    74     77      **(8.1V)Bueno
+    * 0.1    4      0.4   1        2.5     R    73     77      Similar
+    * 0.1    4      0.4   1        2.5     R    72     76      *Buena velocidad (es baja)
+    * 0.1    4      0.4   1.4      2.5     R    72     76      Similar
+    * 0.1    4      0.4   2        2.5     R    72     76      Similar
+    * 0      4      0.4   2        2.5     R    72     76      Similar
+    * 0      4      0.4   2        2.5     R    75     77.6    lento
+    * 0      4      0.4   2        2.5     R    74.5   77.5    *Bueno, funciona solo en rectas con muy buenas condiciones iniciales
+    * 0      4      0     2        2.5     R    74.5   77.5    No reacciona
+    * 0      4      0.9   2        2.5     R    74.5   77.5    **Bueno
+    * 0      4      1.1   2        2.5     R    74.5   77.5    (7.96V) oscila con baja amplitud
+    * 0      4      1.4   2        2.5     R    74.5   77.5    Oscila más
+    * 0      4      0.8   2        2.5     R    74.5   77.5    Similar
+    * 0.05   4      0.7   2        2.5     R    74.5   77.5    *(8.3V) Similar, bueno, oscila poco
+    * 0.05   4      0.8   2        2.5     R    74.5   77.5    Similar
+    * 0.1    4      0.8   2        2.5     R    74.5   77.5    Similar
+    * 0.1    4      0.9   2        2.5     R    74.5   77.5    Funciona en curvas de 180 mm de radio
+    * 0.08   4      0.9   2        2.5     R    74.5   77.5    Similar
+    * 0.06   4      0.9   2        2.5     R    74.5   77.5    Similar, oscila
+    * 0.2    4      0.9   2        2.5     R    74.5   77.5    Bueno
+    * 0.2    4      0.75  2        2.5     R    74.5   77.5    *Bueno
+    * 0.2    4      0.666 2        2.5     R    74.5   77.5    No sirve para curvas
+    * 0.2    4      0.7   2        2.5     R    74.5   77.5    Similar
+    * 0.25   4      0.7   2        2.5     R    74.5   77.5    Sirve para curvas, oscila mucho al final de recta
+    * 0.18   4      0.7   2        2.5     R    74.5   77.5    No sirve para curvas
+    * 0.18   4      0.75  2        2.5     R    74.5   77.5    No sirve para curvas, oscila
+    * 0.18   4      0.77  2        2.5     R    74.5   77.5    Sirve para curvas, oscila
+    * 0.2    4      0.8   2        2.5     R    74.5   77.5    Similar
+    * 0.2    5      0.75  2        2.5     R    74.5   77.5    Similar
+    * 0.2    4      0.75  2        2.5     R    73.5   77.5    Bueno
+    * 0.2    4      0.75  2        1.5     R    73.5   77.5    Bueno
+    * 0.2    4      0.75  2        1.8     R    73.5   77.5    Bueno
+    * 0.2    4      0.75  2        1.7     R    73.5   77.5    ***Mejor
+    * 0.2    4      0.9   2        1.7     R    73.5   77.5    Oscila
+    * 0.2    4      0.82  2        1.7     R    73.5   77.5    Oscila
+    * 0.2    4      0.8   2        1.7     R    73.5   77.5    Oscila
+    * 0.2    4      0.8   2        1.6     R    73.5   77.5    Similar
+    * 0.2    4      0.74  2        1.6     R    73.5   77.5    Similiar
+    *
+    * Curvas medias (prueba en 180 mm de radio)
+    * 0.15   1.3    1.6   0.666    1.2     C    73.5   77.5    Oscila en curva
+    * 0.2    4      0.9   2        1       C    73.5   77.5    Bien
+    * 0.2    4      1     2        1       C    73.5   77.5    bien
+    * 0.2    4      1     2        1       C    71     76      bien
+    * 0.2    4      1     2        1       C    71     74      mal, se sale, muy rápido
+    * 0.2    4      1     2        1       C    72     75      ***mejor
