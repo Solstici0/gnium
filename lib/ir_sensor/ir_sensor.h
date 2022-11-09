@@ -27,11 +27,11 @@ namespace ir_sensor
     unsigned int threshold;
 
     /**
-     * @brief time that it has to pass without detecting the other side to assume it as
-     * a valid measurement
+     * @brief time (in microseconds) that it has to pass without detecting the other side to assume it as
+     * a valid measurement 
      * 
      */
-    unsigned long side_time_threshold = 50;
+    unsigned long side_time_threshold = 200000;
 
     /**
      * @brief state of the side_sensor measurements.
@@ -157,14 +157,55 @@ namespace ir_sensor
         }
         return sideSensors;
     }
-
-    unsigned char start_or_end_detected(void){
-        read_sides()
-        return (sideSensors == 2);
+    unsigned long side_timer;
+    unsigned char start_or_end_detected(void){ 
+        read_sides();
+        if (side_sensor_state==0){
+            if (sideSensors == 2){
+                side_timer = micros();
+                side_sensor_state=2;
+                return 0;
+            }
+            else if (sideSensors==1){
+                side_timer = micros();
+                side_sensor_state=1;
+                return 0;
+            }
+            else{
+                return 0;
+            }
+        }
+        else if (side_sensor_state=2){
+            if (sideSensors & _BV(1)){
+                side_sensor_state=0;
+                return 0;
+            }
+            else if (micros()-side_timer>side_time_threshold){
+                side_sensor_state=0;
+                return 1;
+            }
+            else{
+                return 0;
+            }
+        }
+        else if (side_sensor_state=1){
+            if (sideSensors & _BV(2)){
+                side_sensor_state=0;
+                return 0;
+            }
+            else if (micros()-side_timer>side_time_threshold){
+                side_sensor_state=0;
+                return 0;
+            }
+            else{
+                return 0;
+            }
+        }
+        return 0;
     }
 
     unsigned char mark_detected(void){
-        read_sides()
+        read_sides();
         return(sideSensors == 1);
     }
     

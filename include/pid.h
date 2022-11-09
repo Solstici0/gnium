@@ -78,7 +78,6 @@ class pid::Pid {
     /*! @class Pid
     * creates pid object
     */
-    */
     public:
         // Constructor
         Pid(float k_p = 0.15, float k_i = 1.3, float k_d = 1.6,
