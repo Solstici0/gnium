@@ -25,7 +25,7 @@
 
 #define debug 0 // enable debug
 int ANGLE_SERVO = -1;
-float OFFSET_ANGLE = 90; //87;  // angle when moving straight
+float OFFSET_ANGLE = 92.5; //90 //87;  // angle when moving straight
 float MIN_ANGLE = -34;
 float MAX_ANGLE = 32;
 

@@ -59,7 +59,7 @@ float OFFSET_DIST = -1.875;
 float BETWEEN_SENSOR_DIST = 8.75;
 float MUSCLE_TO_SENSOR_DIST = 70;
 float MINIMUM_ANGLE = 5; //
-float MAX_VEL_IN_DEG = 74;
+float MAX_VEL_IN_DEG = 77.6;
 float MIN_VEL_IN_DEG = 80.8;
 float MEM_TRIGER_DEG = 24;
 
