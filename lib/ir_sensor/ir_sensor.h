@@ -175,7 +175,7 @@ namespace ir_sensor
                 return 0;
             }
         }
-        else if (side_sensor_state=2){
+        else if (side_sensor_state==2){
             if (sideSensors & _BV(1)){
                 side_sensor_state=0;
                 return 0;
@@ -188,7 +188,7 @@ namespace ir_sensor
                 return 0;
             }
         }
-        else if (side_sensor_state=1){
+        else if (side_sensor_state==1){
             if (sideSensors & _BV(2)){
                 side_sensor_state=0;
                 return 0;
