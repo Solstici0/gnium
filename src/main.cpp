@@ -31,7 +31,7 @@ int main() {
             gnium.run_lap(gnium.Lap_n);
             ++gnium.Lap_n;
 
-            // third lap finished
+            // last lap finished
             if (gnium.Lap_n == last_lap) {
                 break;
             }
