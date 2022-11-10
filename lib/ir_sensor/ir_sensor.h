@@ -38,7 +38,7 @@ namespace ir_sensor
      * 0: no mark is waiting confirmation
      * 1: left mark is waiting confirmation
      * 2: right mark is waiting confirmation
-     * 
+     * 3: a right mark was previously detected
      */
     unsigned char side_sensor_state = 0;
 
@@ -183,7 +183,8 @@ namespace ir_sensor
                 return 0;
             }
             else if (micros()-side_timer>side_time_threshold){
-                side_sensor_state=0;
+                side_sensor_state=3;
+                side_timer = micros();
                 return 1;
             }
             else{
@@ -202,6 +203,12 @@ namespace ir_sensor
             else{
                 return 0;
             }
+        }
+        else if (side_sensor_state==3){
+            if ((micros()-side_timer)>4*side_time_threshold){
+                side_sensor_state=0;
+            }
+            return 0;
         }
         return 0;
     }
