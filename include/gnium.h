@@ -223,7 +223,8 @@ class gnium::Gnium {
 
         //int start_or_end_detected = 0; // just to pass tests
                                           // should not be like this
-        int start_or_end_detected = ir_sensor::start_or_end_detected();
+        //int start_or_end_detected = ir_sensor::start_or_end_detected();
+        int start_or_end_detected = ir_sensor::start_or_end_detected_w_mem();
 
         if (start_or_end_detected) {
             return true;

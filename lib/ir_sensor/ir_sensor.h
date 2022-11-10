@@ -56,13 +56,15 @@ namespace ir_sensor
     unsigned int sideSensorsRaw[2];
 
     /**
-     * @brief binary representation of the frontSensorRaw compared against the threshold
+     * @brief binary representation of the frontSensorRaw compared against
+     * the threshold
      *
      */
     unsigned char frontSensor;
 
     /**
-     * @brief binary representation of the sideSensorRaw compared against the threshold
+     * @brief binary representation of the sideSensorRaw compared
+     * against the threshold
      *
      */
     unsigned char sideSensors;
@@ -96,6 +98,15 @@ namespace ir_sensor
      */
     unsigned char start_or_end_detected(void);
 
+    /**
+     * @brief return if start or end mark is detected using memory
+     */
+    const int numReadings = 4;
+    int readings[numReadings];      // the readings from the analog input
+    int readIndex = 0;              // the index of the current reading
+    unsigned char orMemory;         // logical or between previous readings
+    unsigned char start_or_end_detected_w_mem(void);
+
     unsigned char mark_detected(void);
 #include <Arduino.h>
 
@@ -113,6 +124,10 @@ namespace ir_sensor
     {
         threshold = threshold_value;
         frontSensor = 0;
+        for (int thisReading = 0; thisReading < numReadings; thisReading++) {
+            readings[thisReading] = 0;
+            orMemory = 0;
+        }
     }
     unsigned char read_front(void)
     {
@@ -159,6 +174,7 @@ namespace ir_sensor
     }
     unsigned long side_timer;
     unsigned char valid = true;
+
 
     unsigned char start_or_end_detected(void){ 
         read_sides();
@@ -216,6 +232,34 @@ namespace ir_sensor
         }
         return 0;
     }
+
+    unsigned char start_or_end_detected_w_mem(void){
+        read_sides();
+        //sideSensors
+        //0->00
+        //1->01
+        //2->10
+        //3->11
+        // read from the sensor:
+        readings[readIndex] = sideSensors;
+        // advance to the next position in the array:
+        readIndex = readIndex + 1;
+        // if we're at the end of the array...
+        if (readIndex >= numReadings) {
+            // ...wrap around to the beginning:
+            readIndex = 0;
+        }
+        for (int thisReading = 0; thisReading < numReadings; thisReading++) {
+            orMemory = readings[thisReading] | orMemory;
+        }
+        if (orMemory == 2){
+            return 1;
+        }
+        else {
+            return 0;
+        }
+        //delay(1);        // delay in between reads for stability
+        }
 
     unsigned char mark_detected(void){
         read_sides();
