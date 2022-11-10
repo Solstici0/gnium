@@ -158,9 +158,11 @@ namespace ir_sensor
         return sideSensors;
     }
     unsigned long side_timer;
+
     unsigned char start_or_end_detected(void){ 
         read_sides();
         if (side_sensor_state==0){
+            Serial.println('me vuelvo loco');
             if (sideSensors == 2){
                 side_timer = micros();
                 side_sensor_state=2;
