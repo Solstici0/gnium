@@ -109,6 +109,7 @@ namespace ir_sensor
                                       // previous readings
     unsigned char rightMemory;         // logical or between right
                                        // previous readings
+    int startEndMemory;
     unsigned char start_or_end_detected_w_mem(void);
 
     unsigned char mark_detected(void);
@@ -133,6 +134,7 @@ namespace ir_sensor
             //orMemory = 0;
             leftMemory = 0;
             rightMemory = 0;
+            startEndMemory = 0;
         }
     }
     unsigned char read_front(void)
@@ -262,18 +264,26 @@ namespace ir_sensor
             rightMemory |= (readings[thisReading] & _BV(1));
             //orMemory |= readings[thisReading];
         }
-        // XOR between right and left memories
-        // shift rightMemory to have a one or zero
-        if (leftMemory ^ (rightMemory >> 1)){
-            return 0;
-        }
-        else if (rightMemory == 2){
+        if (startEndMemory == numReadings) {
+            startEndMemory = 0;
             return 1;
         }
-        //if (orMemory == 2){
-        //    return 1;
-        //}
         else {
+            // XOR between right and left memories
+            // shift rightMemory to have a one or zero
+            if (leftMemory ^ (rightMemory >> 1)){
+                startEndMemory = 0;
+            }
+            // only right readings so far
+            else if (rightMemory == 2){
+                startEndMemory += 1;
+            }
+            //if (orMemory == 2){
+            //    return 1;
+            //}
+            else {
+                startEndMemory = 0;
+            }
             return 0;
         }
         //delay(1);        // delay in between reads for stability
