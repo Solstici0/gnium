@@ -31,7 +31,7 @@ namespace ir_sensor
      * a valid measurement 
      * 
      */
-    unsigned long side_time_threshold = 200000;
+    unsigned long side_time_threshold = 400000;
 
     /**
      * @brief state of the side_sensor measurements.
