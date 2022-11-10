@@ -104,7 +104,11 @@ namespace ir_sensor
     const int numReadings = 4;
     int readings[numReadings];      // the readings from the analog input
     int readIndex = 0;              // the index of the current reading
-    unsigned char orMemory;         // logical or between previous readings
+    //unsigned char orMemory;         // logical or between previous readings
+    unsigned char leftMemory;         // logical or between left
+                                      // previous readings
+    unsigned char rightMemory;         // logical or between right
+                                       // previous readings
     unsigned char start_or_end_detected_w_mem(void);
 
     unsigned char mark_detected(void);
@@ -126,7 +130,9 @@ namespace ir_sensor
         frontSensor = 0;
         for (int thisReading = 0; thisReading < numReadings; thisReading++) {
             readings[thisReading] = 0;
-            orMemory = 0;
+            //orMemory = 0;
+            leftMemory = 0;
+            rightMemory = 0;
         }
     }
     unsigned char read_front(void)
@@ -250,11 +256,23 @@ namespace ir_sensor
             readIndex = 0;
         }
         for (int thisReading = 0; thisReading < numReadings; thisReading++) {
-            orMemory = readings[thisReading] | orMemory;
+            // or between lefts
+            leftMemory |= (readings[thisReading] & _BV(0));
+            // or between rights
+            rightMemory |= (readings[thisReading] & _BV(1));
+            //orMemory |= readings[thisReading];
         }
-        if (orMemory == 2){
+        // XOR between right and left memories
+        // shift rightMemory to have a one or zero
+        if (leftMemory ^ (rightMemory >> 1)){
+            return 0;
+        }
+        else if (rightMemory == 2){
             return 1;
         }
+        //if (orMemory == 2){
+        //    return 1;
+        //}
         else {
             return 0;
         }
