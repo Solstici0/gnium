@@ -191,6 +191,7 @@ namespace ir_sensor
                 return 0;
             }
             if (micros()-side_timer>side_time_threshold){
+                Serial.print("reset timer");
                 side_sensor_state=0;
                 return valid;
             }
