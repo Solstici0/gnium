@@ -184,6 +184,8 @@ namespace ir_sensor
         else if (side_sensor_state==2){
             if (sideSensors & _BV(1)){
                 Serial.println("canceled right");
+                Serial.print("sideSensors = ");
+                Serial.println(sideSensors,BIN);
                 side_sensor_state=0;
                 return 0;
             }
