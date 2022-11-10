@@ -104,7 +104,6 @@ namespace ir_sensor
     const int numReadings = 4;
     int readings[numReadings];      // the readings from the analog input
     int readIndex = 0;              // the index of the current reading
-    //unsigned char orMemory;         // logical or between previous readings
     unsigned char leftMemory;         // logical or between left
                                       // previous readings
     unsigned char rightMemory;         // logical or between right
@@ -131,7 +130,6 @@ namespace ir_sensor
         frontSensor = 0;
         for (int thisReading = 0; thisReading < numReadings; thisReading++) {
             readings[thisReading] = 0;
-            //orMemory = 0;
             leftMemory = 0;
             rightMemory = 0;
             startEndMemory = 0;
@@ -262,8 +260,8 @@ namespace ir_sensor
             leftMemory |= (readings[thisReading] & _BV(0));
             // or between rights
             rightMemory |= (readings[thisReading] & _BV(1));
-            //orMemory |= readings[thisReading];
         }
+        // if we *only* have right measurements in our memory
         if (startEndMemory == numReadings) {
             startEndMemory = 0;
             return 1;
@@ -278,9 +276,6 @@ namespace ir_sensor
             else if (rightMemory == 2){
                 startEndMemory += 1;
             }
-            //if (orMemory == 2){
-            //    return 1;
-            //}
             else {
                 startEndMemory = 0;
             }
