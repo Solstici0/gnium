@@ -167,7 +167,6 @@ namespace ir_sensor
                 side_timer = micros();
                 valid = true;
                 side_sensor_state=2;
-                Serial.println("entering state 2");
                 return 0;
             }
             else if (sideSensors==1){
@@ -183,15 +182,10 @@ namespace ir_sensor
         else if (side_sensor_state==2){
             if (valid){
                 if (sideSensors & _BV(0)){
-                    Serial.print("not valid, sideSensors = ");
-                    Serial.println(sideSensors,BIN);
                     valid = false;
-                    return 0;
                 }
-                return 0;
             }
-            if (micros()-side_timer>side_time_threshold){
-                Serial.print("reset timer");
+            if ((micros()-side_timer)>side_time_threshold){
                 side_sensor_state=0;
                 return valid;
             }
@@ -203,10 +197,9 @@ namespace ir_sensor
             if (valid){
                 if (sideSensors & _BV(1)){
                     valid = false;
-                    return 0;
                 }
             }
-            if (micros()-side_timer>side_time_threshold){
+            if ((micros()-side_timer)>side_time_threshold){
                 side_sensor_state=0;
                 return 0;
             }
@@ -251,14 +244,16 @@ namespace ir_sensor
         Serial.print(sideSensorsRaw[0]);
         Serial.print(" right = ");
         Serial.println(sideSensorsRaw[1]);
-        Serial.print("took = ");
-        Serial.println(timer_test_sides);
+        Serial.print("state = ");
+        Serial.println(side_sensor_state);
+        Serial.print("timer = ");
+        Serial.println(side_timer);
         Serial.print("start_or_end_detected = ");
         Serial.print(start_or_end_detected());
         Serial.print(" mark_detected = ");
         Serial.println(mark_detected());
         Serial.println("------------------------");
-        delay(100);
+        delay(200);
     }
 };
 #endif // IR_SENSORS_H_
