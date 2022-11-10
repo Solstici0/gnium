@@ -23,7 +23,7 @@
 // - min_width = 0.88 ms = 880 us (MIN MICROS)
 #define MUSCLE_PIN_ANGLE PB14  // TODO: check!
 
-#define debug 1 // enable debug
+#define debug 0 // enable debug
 int MUSCLE_MOTOR = -1;
 
 #elif TEENSY35
