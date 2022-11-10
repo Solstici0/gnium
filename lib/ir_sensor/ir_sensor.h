@@ -161,7 +161,6 @@ namespace ir_sensor
 
     unsigned char start_or_end_detected(void){ 
         read_sides();
-        Serial.println("me vuelvo loco");
         if (side_sensor_state==0){
             if (sideSensors == 2){
                 side_timer = micros();
@@ -182,7 +181,7 @@ namespace ir_sensor
             }
         }
         else if (side_sensor_state==2){
-            if (sideSensors & _BV(1)){
+            if (sideSensors & _BV(0)){
                 Serial.println("canceled right");
                 Serial.print("sideSensors = ");
                 Serial.println(sideSensors,BIN);
@@ -199,7 +198,7 @@ namespace ir_sensor
             }
         }
         else if (side_sensor_state==1){
-            if (sideSensors & _BV(2)){
+            if (sideSensors & _BV(1)){
                 side_sensor_state=0;
                 return 0;
             }
