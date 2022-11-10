@@ -200,7 +200,7 @@ namespace ir_sensor
         }
         else if (side_sensor_state==1){
             if (valid){
-                if (sideSensors & _BV(0)){
+                if (sideSensors & _BV(1)){
                     valid = false;
                     return 0;
                 }
