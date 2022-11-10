@@ -246,7 +246,7 @@ namespace ir_sensor
         Serial.print(" mark_detected = ");
         Serial.println(mark_detected());
         Serial.println("------------------------");
-        delay(100);
+        //delay(100);
     }
 };
 #endif // IR_SENSORS_H_
