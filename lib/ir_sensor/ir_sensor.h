@@ -31,7 +31,7 @@ namespace ir_sensor
      * a valid measurement 
      * 
      */
-    unsigned long side_time_threshold = 400000;
+    unsigned long side_time_threshold = 1000000;
 
     /**
      * @brief state of the side_sensor measurements.
@@ -183,7 +183,7 @@ namespace ir_sensor
                 return 0;
             }
             else if (micros()-side_timer>side_time_threshold){
-                side_sensor_state=3;
+                side_sensor_state=0;
                 side_timer = micros();
                 return 1;
             }
@@ -203,12 +203,6 @@ namespace ir_sensor
             else{
                 return 0;
             }
-        }
-        else if (side_sensor_state==3){
-            if ((micros()-side_timer)>4*side_time_threshold){
-                side_sensor_state=0;
-            }
-            return 0;
         }
         return 0;
     }
