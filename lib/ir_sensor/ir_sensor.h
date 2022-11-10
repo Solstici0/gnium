@@ -178,13 +178,11 @@ namespace ir_sensor
         }
         else if (side_sensor_state==2){
             if (sideSensors & _BV(0)){
-                Serial.println(sideSensors,BIN);
                 side_sensor_state=0;
                 return 0;
             }
             else if (micros()-side_timer>side_time_threshold){
                 side_sensor_state=0;
-                side_timer = micros();
                 return 1;
             }
             else{
