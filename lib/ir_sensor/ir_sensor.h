@@ -158,17 +158,20 @@ namespace ir_sensor
         return sideSensors;
     }
     unsigned long side_timer;
+    unsigned char valid = true;
 
     unsigned char start_or_end_detected(void){ 
         read_sides();
         if (side_sensor_state==0){
             if (sideSensors == 2){
                 side_timer = micros();
+                valid = true;
                 side_sensor_state=2;
                 return 0;
             }
             else if (sideSensors==1){
                 side_timer = micros();
+                valid = true;
                 side_sensor_state=1;
                 return 0;
             }
@@ -177,24 +180,29 @@ namespace ir_sensor
             }
         }
         else if (side_sensor_state==2){
-            if (sideSensors & _BV(0)){
-                side_sensor_state=0;
+            if (valid){
+                if (sideSensors & _BV(0)){
+                    valid = false;
+                    return 0;
+                }
                 return 0;
             }
-            else if (micros()-side_timer>side_time_threshold){
+            if (micros()-side_timer>side_time_threshold){
                 side_sensor_state=0;
-                return 1;
+                return valid;
             }
             else{
                 return 0;
             }
         }
         else if (side_sensor_state==1){
-            if (sideSensors & _BV(1)){
-                side_sensor_state=0;
-                return 0;
+            if (valid){
+                if (sideSensors & _BV(0)){
+                    valid = false;
+                    return 0;
+                }
             }
-            else if (micros()-side_timer>side_time_threshold){
+            if (micros()-side_timer>side_time_threshold){
                 side_sensor_state=0;
                 return 0;
             }
