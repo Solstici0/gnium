@@ -120,9 +120,9 @@ class gnium::Gnium {
         }
         else if (lap_n > 0 and lap_n < 3) {
             // run train for now..
-            fail = gnium::Gnium::train();
+            //fail = gnium::Gnium::train();
             // second and third lap --> run as a motherfucker
-            //fail = gnium::Gnium::run_trained();
+            fail = gnium::Gnium::run_trained();
         }
         else {
             // more than 3 laps?!

@@ -26,7 +26,6 @@ int main() {
     // TODO (wis) gnium.setup()
     while(1) {
         // run repetedly here
-        // Serial.print("Gniiiium!i \n");
         if (mode == gnium::race) {  // compite
             gnium.run_lap(gnium.Lap_n);
             ++gnium.Lap_n;
