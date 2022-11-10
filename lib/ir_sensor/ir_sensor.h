@@ -167,6 +167,7 @@ namespace ir_sensor
                 side_timer = micros();
                 valid = true;
                 side_sensor_state=2;
+                Serial.println("entering state 2");
                 return 0;
             }
             else if (sideSensors==1){
@@ -182,6 +183,8 @@ namespace ir_sensor
         else if (side_sensor_state==2){
             if (valid){
                 if (sideSensors & _BV(0)){
+                    Serial.print("not valid, sideSensors = ");
+                    Serial.println(sideSensors,BIN);
                     valid = false;
                     return 0;
                 }
