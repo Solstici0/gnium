@@ -18,6 +18,9 @@ Team:
 ## PCBs
 Here you can find our [pcb designs](https://github.com/Solstici0/pcbs_gnium)
 
+## Mechanical design
+
+Here you can find our [CAD files](https://grabcad.com/library/gnium-1)
 ## Goal
 The follower should learn the road and improve through iterating.
 
