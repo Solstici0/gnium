@@ -15,6 +15,9 @@ Team:
 
 ### V3
 ![]( img/gnium_v3.png)
+## PCBs
+Here you can find our [pcb designs](https://github.com/Solstici0/pcbs_gnium)
+
 ## Goal
 The follower should learn the road and improve through iterating.
 
