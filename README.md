@@ -2,15 +2,17 @@
 Lets do this motherfucker run as he was scaping from a crazy and evil god (and at the same time needs to shit)
 
 ## Evolution
-Lets track Ñium's evolution
+    Lets track Ñium's evolution
 
 ### V1
 
 ![](img/gnium_v1.png)
 
 ### V2
-![](img/gnium_v2.png)
+![](    img/gnium_v2.png)
 
+### V3
+![]( img/gnium_v3.png)
 ## Goal
 The follower should learn the road and improve through iterating.
 
