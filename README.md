@@ -1,5 +1,7 @@
 # Ñium
 Lets do this motherfucker run as he was scaping from a crazy and evil god (and at the same time needs to shit)
+Team:  
+![](img/team.jpg)
 
 ## Evolution
     Lets track Ñium's evolution
