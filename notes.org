@@ -130,8 +130,13 @@ Here I will put all relevant ideas, references and discussion
 - What do we want measure in the vehicle?
   + accelerometer
 - Important points
+<<<<<<< HEAD
   + Curvature = f(servo_angle, encoder_points) (or servo_angle only?)
     - We can set constant velocity and use servo_angle to estimate curve length (amount of points)
+=======
+  + Curvature = f(servo_angle, encoder_points) (or servo_angle olny?)
+    - We can set constant velocity and use servo_angle to estimate curve lenght (amount of points)
+>>>>>>> main
   + we need a voltage regulator. Which?
   + Connection from micro..
     - encoder?
@@ -193,3 +198,19 @@ Here I will put all relevant ideas, references and discussion
   + Study Google test framework
 * Progress <2022-09-01 Do>
 - [Felipin] We need to code sensors reading for two options: analog and digital reading
+<<<<<<< HEAD
+=======
+
+* Relevant information
+** muscle motor
+- pulse width when motor is off: 1.48 ms 
+- pulse width with forward velocity = 50% (from remote control): 1.76 ms 
+- pulse width with forward velocity = 100% (from remote control): 2.12 ms
+- pulse period with forward velocity = 50% (from remote control): 14.76 ms **This should be always the same for all cases**
+- pulse width with backward velocity = 50% (from remote control): 1.20 ms 
+- pulse width with backward velocity = 100% (from remote control): 0.88 ms
+** servo
+- pulse width for a straight angle: 1.44 ms
+- pulse width for full right angle: 1.72 ms
+- pulse width for full left angle: 1.22 ms
+>>>>>>> main
