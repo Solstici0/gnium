@@ -7,8 +7,8 @@
 #include <gnium.h>
 #include <ir_sensor.h>
 
-//gnium::mode mode = gnium::race;  // 0 for test, 1 for compite
-gnium::mode mode = gnium::test_follow_trace;  // 0 for test, 1 for compite
+gnium::mode mode = gnium::race;  // 0 for test, 1 for compite
+//gnium::mode mode = gnium::test_side_sensors;  // 0 for test, 1 for compite
 
 // This options needs less memory. Why?
 // /*
@@ -18,6 +18,7 @@ int main() {
     Serial.begin(115200); // open the serial port at 115200 bps:
     int type = 0;  // 0 for 5-wheels, 1 for classic
     int n_lap = 0;  // lap number
+    int last_lap = 1;  // last lap
     //unsigned int threshold = 100;
     gnium::Gnium gnium = gnium::Gnium(mode,
                                       type,
@@ -25,13 +26,12 @@ int main() {
     // TODO (wis) gnium.setup()
     while(1) {
         // run repetedly here
-        // Serial.print("Gniiiium!i \n");
         if (mode == gnium::race) {  // compite
             gnium.run_lap(gnium.Lap_n);
             ++gnium.Lap_n;
 
-            // third lap finished
-            if (gnium.Lap_n == 2) {
+            // last lap finished
+            if (gnium.Lap_n == last_lap) {
                 break;
             }
         }

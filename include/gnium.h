@@ -119,6 +119,8 @@ class gnium::Gnium {
             fail = gnium::Gnium::train();
         }
         else if (lap_n > 0 and lap_n < 3) {
+            // run train for now..
+            //fail = gnium::Gnium::train();
             // second and third lap --> run as a motherfucker
             fail = gnium::Gnium::run_trained();
         }
@@ -219,9 +221,9 @@ class gnium::Gnium {
           muscle::set_vel(vel_pwm); //
         }
 
-        int start_or_end_detected = 0; // just to pass tests
+        //int start_or_end_detected = 0; // just to pass tests
                                           // should not be like this
-        //int start_or_end_detected = ir_sensor::start_or_end_detected();
+        int start_or_end_detected = ir_sensor::start_or_end_detected();
 
         if (start_or_end_detected) {
             return true;

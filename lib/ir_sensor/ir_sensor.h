@@ -18,13 +18,30 @@ namespace ir_sensor
      *
      * @param threshold vallue against the frontSensorRaw
      */
-    void setup(unsigned int threshold = 100);
+    void setup(unsigned int threshold = 100);  
 
     /**
      * @brief Value that the sensors are compared against in order to apss to binary
-     *
+     * 
      */
     unsigned int threshold;
+
+    /**
+     * @brief time (in microseconds) that it has to pass without detecting the other side to assume it as
+     * a valid measurement 
+     * 
+     */
+    unsigned long side_time_threshold = 1000000;
+
+    /**
+     * @brief state of the side_sensor measurements.
+     * 0: no mark is waiting confirmation
+     * 1: left mark is waiting confirmation
+     * 2: right mark is waiting confirmation
+     * 3: a right mark was previously detected
+     */
+    unsigned char side_sensor_state = 0;
+
 
     /**
      * @brief array used to store the front sensor measurments
@@ -140,12 +157,62 @@ namespace ir_sensor
         }
         return sideSensors;
     }
-    unsigned char start_or_end_detected(void){
-        return (sideSensors==2);
+    unsigned long side_timer;
+    unsigned char valid = true;
+
+    unsigned char start_or_end_detected(void){ 
+        read_sides();
+        if (side_sensor_state==0){
+            if (sideSensors == 2){
+                side_timer = micros();
+                valid = true;
+                side_sensor_state=2;
+                return 0;
+            }
+            else if (sideSensors==1){
+                side_timer = micros();
+                valid = true;
+                side_sensor_state=1;
+                return 0;
+            }
+            else{
+                return 0;
+            }
+        }
+        else if (side_sensor_state==2){
+            if (valid){
+                if (sideSensors & _BV(0)){
+                    valid = false;
+                }
+            }
+            if ((micros()-side_timer)>side_time_threshold){
+                side_sensor_state=0;
+                return valid;
+            }
+            else{
+                return 0;
+            }
+        }
+        else if (side_sensor_state==1){
+            if (valid){
+                if (sideSensors & _BV(1)){
+                    valid = false;
+                }
+            }
+            if ((micros()-side_timer)>side_time_threshold){
+                side_sensor_state=0;
+                return 0;
+            }
+            else{
+                return 0;
+            }
+        }
+        return 0;
     }
 
     unsigned char mark_detected(void){
-        return(sideSensors==1);
+        read_sides();
+        return(sideSensors == 1);
     }
     
     void test_routine(void)
@@ -177,14 +244,16 @@ namespace ir_sensor
         Serial.print(sideSensorsRaw[0]);
         Serial.print(" right = ");
         Serial.println(sideSensorsRaw[1]);
-        Serial.print("took = ");
-        Serial.println(timer_test_sides);
+        Serial.print("state = ");
+        Serial.println(side_sensor_state);
+        Serial.print("timer = ");
+        Serial.println(side_timer);
         Serial.print("start_or_end_detected = ");
         Serial.print(start_or_end_detected());
         Serial.print(" mark_detected = ");
         Serial.println(mark_detected());
         Serial.println("------------------------");
-        delay(100);
+        delay(200);
     }
 };
 #endif // IR_SENSORS_H_
